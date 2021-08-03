@@ -14,6 +14,18 @@ namespace ft {
 	public:
 
 	// !!! MEMBER TYPES !!!
+	typedef T					value_type;
+	typedef Alloc				allocator_type;
+	typedef value_type&			reference;
+	typedef const value_type&	const_reference;
+	typedef value_type*			pointer;
+	typedef const value_type*	const_pointer;
+	// iterator
+	// const_iterator
+	// reverse_iterator
+	// const_reverse_iterator
+	typedef ptrdiff_t			difference_type;
+	typedef size_t				size_type;
 
 	// !!! MEMBER FUNCTIONS !!!
 
