@@ -5,6 +5,7 @@
 
 namespace ft {
 
+	// !!! TEMPLATE PARAMETERS !!!
 	class vector {
 
 	public:
