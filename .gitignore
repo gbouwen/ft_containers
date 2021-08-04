@@ -1,1 +1,7 @@
 *.swp
+tests/vector/executables/*
+tests/vector/output/*
+tests/map/executables/*
+tests/map/output/*
+tests/stack/executables/*
+tests/stack/output/*
