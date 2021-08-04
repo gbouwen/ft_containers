@@ -6,16 +6,15 @@
 # include <stddef.h>
 # include <memory>
 # include <limits>
+# include <stdexcept>
 
 namespace ft {
 
-	// !!! TEMPLATE PARAMETERS !!!
 	template < class T, class Alloc = std::allocator<T> >
 	class vector {
 
 	public:
 
-	// !!! MEMBER TYPES !!!
 		typedef T					value_type;
 		typedef Alloc				allocator_type;
 		typedef value_type&			reference;
@@ -36,27 +35,13 @@ namespace ft {
 		size_type		_capacity;
 		allocator_type	_allocator;
 
-	public:
 
-	// !!! MEMBER FUNCTIONS !!!
+	public:
 
 	// --- CONSTRUCTORS/DESTRUCTOR/OPERATOR= ---
 
-	// --- empty vector
+		// constructs empty vector
 		explicit vector(const allocator_type& alloc = allocator_type()) : _array(NULL), _size(0), _capacity(0), _allocator(alloc) { };
-
-		//explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) {
-
-		//}
-
-		//template <class InputIterator>
-		//vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {
-
-		//}
-
-		//vector(const vector& x) {
-
-		/*}*/
 
 	// --- ITERATORS ---
 
@@ -68,26 +53,67 @@ namespace ft {
 		// returns maximum number of elements vector can hold
 		size_type	max_size() const { return (_allocator.max_size()); };
 
+		// resizes container so it contains n elements
+		/*void		resize(size_type n, value_type val = value_type()) {*/
+
+		/*};*/
+
 		// returns number of elements vector can hold
 		size_type	capacity() const { return (_capacity); };
 
 		// returns true if container size == 0, false otherwise
 		bool		empty() const { return (!_size); };
 
+		// requests that vector capacity is at least enough to contain n elements
+		// if n < _capacity, nothing happens
+		/*void		reserve(size_type n) {*/
+
+		/*};*/
+
 	// --- ELEMENT ACCESS ---
 
-	// --- MODIFIERS ---
-		/*template <class InputIterator>*/
-  		/*void assign (InputIterator first, InputIterator last) { };*/
+		reference operator[](size_type n) { return (_array[n]); };
 
-		/*void assign (size_type n, const value_type& val) { };*/
+		const_reference operator[](size_type n) const { return (_array[n]); };
+
+		reference at(size_type n) {
+			if (n >= _size)
+				throw (std::out_of_range("out of range"));
+			return (_array[n]);
+		};
+
+		const_reference at(size_type n) const {
+			if (n >= _size)
+				throw (std::out_of_range("out of range"));
+			return (_array[n]);
+		};
+
+		reference front() { return (_array[0]); };
+
+		const_reference front() const { return (_array[0]); };
+
+		reference back() { return (_array[_size - 1]); };
+
+		const_reference back() const { return (_array[_size - 1]); };
+
+	// --- MODIFIERS ---
+
+		/*template <class InputIterator>*/
+  		/*void assign (InputIterator first, InputIterator last);*/
+
+		void assign (size_type n, const value_type& val) {
+			if (n > _capacity) {
+				_array = _allocator.allocate(n);
+				_capacity = n;
+			}
+			for (size_type i = 0; i < n; i++)
+				_allocator.construct(&_array[i], val);
+			_size = n;
+		};
 
 	// --- ALLOCATOR ---
-		allocator_type get_allocator() const {
-			return (_allocator);
-		}
 
-	// !!! NON MEMBER FUNCTION OVERLOADS !!!
+		allocator_type get_allocator() const { return (_allocator); };
 
 	// --- RELATIONAL OPERATORS ---
 
