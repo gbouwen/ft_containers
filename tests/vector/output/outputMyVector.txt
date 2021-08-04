@@ -1,0 +1,5 @@
+myVector test
+vector_one.size() = 0
+vector_one.max_size() = 2305843009213693951
+vector_one.capacity() = 0
+vector_one.empty() = 1
