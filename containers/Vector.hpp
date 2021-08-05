@@ -35,6 +35,12 @@ namespace ft {
 		size_type		_capacity;
 		allocator_type	_allocator;
 
+		void reallocate(size_type n) {
+			if (_array)
+				_allocator.deallocate(_array, _capacity);
+			_array = _allocator.allocate(n);
+			_capacity = n;
+		};
 
 	public:
 
@@ -101,13 +107,14 @@ namespace ft {
 		/*template <class InputIterator>*/
   		/*void assign (InputIterator first, InputIterator last);*/
 
-		void assign (size_type n, const value_type& val) {
-			if (n > _capacity) {
-				_array = _allocator.allocate(n);
-				_capacity = n;
-			}
+		void assign(size_type n, const value_type& val) {
+			if (n > _capacity)
+				reallocate(n);
 			for (size_type i = 0; i < n; i++)
+			{
+				_allocator.destroy(&_array[i]);
 				_allocator.construct(&_array[i], val);
+			}
 			_size = n;
 		};
 
