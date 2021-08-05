@@ -35,7 +35,7 @@ namespace ft {
 		size_type		_capacity;
 		allocator_type	_allocator;
 
-		void reallocate(size_type n) {
+		void reallocate(size_type n, bool increase_capacity) {
 			pointer	temp;
 
 			temp = _array;
@@ -43,7 +43,8 @@ namespace ft {
 			for (size_type i = 0; i < _size; i++)
 				_array[i] = temp[i];
 			_allocator.deallocate(temp, _capacity);
-			_capacity = n;
+			if (increase_capacity)
+				_capacity = n;
 		};
 
 	public:
@@ -64,9 +65,22 @@ namespace ft {
 		size_type	max_size() const { return (_allocator.max_size()); };
 
 		// resizes container so it contains n elements
-		/*void		resize(size_type n, value_type val = value_type()) {*/
-
-		/*};*/
+		void		resize(size_type n, value_type val = value_type()) {
+			if (n < _size) {
+				for (size_type i = n; i < _size; i++)
+					_allocator.destroy(&_array[i]);
+			}
+			else if (n > _size && n <= _capacity) {
+				for (size_type i = _size; i < n; i++)
+					_allocator.construct(&_array[i], val);
+			}
+			else if (n > _capacity) {
+				reallocate(n, true);
+				for (size_type i = _size; i < n; i++)
+					_allocator.construct(&_array[i], val);
+			}
+			_size = n;
+		};
 
 		// returns number of elements vector can hold
 		size_type	capacity() const { return (_capacity); };
@@ -119,7 +133,7 @@ namespace ft {
 		// assigns new contents to vector, replaces its current contents, and modifies its size
 		void	assign(size_type n, const value_type& val) {
 			if (n > _capacity)
-				reallocate(n);
+				reallocate(n, true);
 			for (size_type i = 0; i < n; i++) {
 				_allocator.destroy(&_array[i]);
 				_allocator.construct(&_array[i], val);
@@ -130,20 +144,20 @@ namespace ft {
 		// adds element at the end of vector
 		void	push_back(const value_type& val) {
 			if (_size + 1 > _capacity && _capacity > 0)
-				reallocate(_capacity * 2);
+				reallocate(_capacity * 2, true);
 			else
-				reallocate(1);
+				reallocate(1, true);
 			_allocator.construct(&_array[_size], val);
 			_size++;
 		};
 
-		// deletes last element
+		// deletes last element of vector
 		void	pop_back() {
 			_allocator.destroy(&_array[_size - 1]);
 			_size--;
 		};
 
-		// removes all elements from the vector
+		// removes all elements from vector
 		void	clear() {
 			for (size_type i = 0; i < _size; i++)
 				_allocator.destroy(&_array[i]);
