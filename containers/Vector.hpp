@@ -135,6 +135,12 @@ namespace ft {
 			_size--;
 		};
 
+		void	clear() {
+			for (size_type i = 0; i < _size; i++)
+				_allocator.destroy(&_array[i]);
+			_size = 0;
+		};
+
 	// --- ALLOCATOR ---
 
 		allocator_type get_allocator() const { return (_allocator); };
