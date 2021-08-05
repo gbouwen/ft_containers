@@ -3,11 +3,15 @@
 #include <iostream>
 #include "../../../containers/Vector.hpp"
 
+// CONSTRUCTORS/DESTRUCTOR/OPERATOR
+
 void constructors_destructor_operator() {
 
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
+
+// ITERATORS
 
 void iterators() {
 
@@ -15,26 +19,35 @@ void iterators() {
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
 
+// CAPACITY
+
+void resize_test_1() {
+	ft::vector<int>	vector_one;
+
+	vector_one.assign(10, 100);
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+	vector_one.resize(5, 20);
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+	vector_one.resize(8, 10);
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+	vector_one.resize(16, 1);
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+}
+
 void capacity() {
 	std::cout << "------------------------------- TESTING CAPACITY -------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
-	ft::vector<int>	vector_one;
 
-	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
-	std::cout << "vector_one.max_size() = " << vector_one.max_size() << std::endl;
-	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
-	std::cout << "vector_one.empty() = " << vector_one.empty() << std::endl;
-
-	std::cout << "vector_one.assign(5, 100)" << std::endl;;
-
-	vector_one.assign(5, 100);
-	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
-	std::cout << "vector_one.max_size() = " << vector_one.max_size() << std::endl;
-	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
-	std::cout << "vector_one.empty() = " << vector_one.empty() << std::endl;
+	resize_test_1();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
+
+// ELEMENT ACCESS
 
 void element_access() {
 	std::cout << "------------------------------- TESTING ELEMENT ACCESS -------------------" << std::endl;
@@ -60,40 +73,44 @@ void element_access() {
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
 
+// MODIFIERS
+
+void assign_test_1() {
+	ft::vector<int>	vector_one;
+
+	std::cout << "vector_one.assign(3, 100)" << std::endl;
+	vector_one.assign(3, 100);
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+	std::cout << "vector_one.assign(15, 200)" << std::endl;
+	vector_one.assign(15, 200);
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+}
+
+void assign_test_2() {
+	ft::vector<int>	vector_one;
+
+	std::cout << "vector_one.assign(3, 100)" << std::endl;
+	vector_one.assign(3, 100);
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+	std::cout << "vector_one.assign(4, 200)" << std::endl;
+	vector_one.assign(4, 200);
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+}
+
 void modifiers() {
 	std::cout << "------------------------------- TESTING MODIFIERS ------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
-	ft::vector<int>	vector_one;
-
-	std::cout << "vector_one.push_back(100)" << std::endl;
-	vector_one.push_back(100);
-	std::cout << "vector_one.front() = " << vector_one.front() << std::endl;
-	vector_one.assign(5, 5);
-	std::cout << "vector_one.assign(5, 5)" << std::endl;
-	vector_one.push_back(6);
-	std::cout << "vector_one.push_back(6)" << std::endl;
-	for (size_t i = 0; i < vector_one.size(); i++)
-		std::cout << vector_one[i] << std::endl;
-	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
-	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
-	std::cout << "vector_one.pop_back()" << std::endl;
-	vector_one.pop_back();
-	for (size_t i = 0; i < vector_one.size(); i++)
-		std::cout << vector_one[i] << std::endl;
-	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
-	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
-	std::cout << "vector_one.clear()" << std::endl;
-	vector_one.clear();
-	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
-	try {
-		vector_one.at(0);
-	}
-	catch (std::exception &e) {
-		std::cout << e.what() << std::endl;
-	}
+	assign_test_1();
+	assign_test_2();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
+
+// ALLOCATOR
 
 void allocator() {
 
@@ -101,11 +118,15 @@ void allocator() {
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
 
+// RELATIONAL OPERATORS
+
 void relational_operators() {
 
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
+
+// SWAP
 
 void swap() {
 
@@ -115,22 +136,10 @@ void swap() {
 
 int	main(void) {
 	std::cout << "myVector test" << std::endl;
-	//CONSTRUCTORS/DESTRUCTOR/OPERATOR=
-	ft::vector<int>	vector_one;
 
-	//ITERATORS
 
-	//CAPACITY
+//	modifiers();
 	capacity();
-	//ELEMENT ACCESS
-	element_access();
-	//MODIFIERS
-	modifiers();
-	//ALLOCATOR
-
-	//RELATIONAL OPERATORS
-
-	//SWAP
 
 	return (0);
 }
