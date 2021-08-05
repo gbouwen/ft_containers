@@ -5,8 +5,32 @@
 
 // CONSTRUCTORS/DESTRUCTOR/OPERATOR
 
-void constructors_destructor_operator() {
+void test_fill_constructor_1() {
+	std::cout << "std::vector_one<int>	vector_one(10, 100)" << std::endl;
+	std::vector<int>	vector_one(10, 100);
 
+	for (size_t i = 0; i < vector_one.size(); i++)
+		std::cout << vector_one[i] << std::endl;
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+}
+
+void test_fill_constructor_2() {
+	std::cout << "ft::vector_one<int>	vector_one(10, 100)" << std::endl;
+	std::vector<int>	vector_one(2, 3);
+
+	for (size_t i = 0; i < vector_one.size(); i++)
+		std::cout << vector_one[i] << std::endl;
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+}
+
+void constructors_destructor_operator() {
+	std::cout << "------------------------------- TESTING CAPACITY -------------------------" << std::endl;
+	std::cout << "--------------------------------------------------------------------------" << std::endl;
+
+	test_fill_constructor_1();
+	test_fill_constructor_2();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
@@ -57,7 +81,7 @@ void capacity() {
 	std::cout << "------------------------------- TESTING CAPACITY -------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 
-//	resize_test_1();
+	resize_test_1();
 	reserve_test_1();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
@@ -153,9 +177,9 @@ void swap() {
 int	main(void) {
 	std::cout << "vector test" << std::endl;
 
-
+	constructors_destructor_operator();
 //	modifiers();
-	capacity();
+//	capacity();
 
 	return (0);
 }

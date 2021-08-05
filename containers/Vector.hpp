@@ -43,8 +43,7 @@ namespace ft {
 			for (size_type i = 0; i < _size; i++)
 				_array[i] = temp[i];
 			_allocator.deallocate(temp, _capacity);
-			if (increase_capacity)
-				_capacity = n;
+			_capacity = n;
 		};
 
 	public:
@@ -53,6 +52,14 @@ namespace ft {
 
 		// constructs empty vector
 		explicit vector(const allocator_type& alloc = allocator_type()) : _array(NULL), _size(0), _capacity(0), _allocator(alloc) { };
+
+		// constructs vector with n elements, each element is a copy of val
+		explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+		: _size(n), _capacity(n), _allocator(alloc) {
+			_array = _allocator.allocate(_capacity);
+			for (size_type i = 0; i < _size; i++)
+				_allocator.construct(&_array[i], val);
+		};
 
 		// destroys and deallocates vector
 		~vector() {
