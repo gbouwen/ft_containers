@@ -35,7 +35,7 @@ namespace ft {
 		size_type		_capacity;
 		allocator_type	_allocator;
 
-		void reallocate(size_type n, bool increase_capacity) {
+		void reallocate(size_type n) {
 			pointer	temp;
 
 			temp = _array;
@@ -53,6 +53,13 @@ namespace ft {
 
 		// constructs empty vector
 		explicit vector(const allocator_type& alloc = allocator_type()) : _array(NULL), _size(0), _capacity(0), _allocator(alloc) { };
+
+		// destroys and deallocates vector
+		~vector() {
+			for (size_type i = 0; i < _size; i++)
+				_allocator.destroy(&_array[i]);
+			_allocator.deallocate(_array, _capacity);
+		};
 
 	// --- ITERATORS ---
 
@@ -75,7 +82,7 @@ namespace ft {
 					_allocator.construct(&_array[i], val);
 			}
 			else if (n > _capacity) {
-				reallocate(n, true);
+				reallocate(n);
 				for (size_type i = _size; i < n; i++)
 					_allocator.construct(&_array[i], val);
 			}
@@ -92,7 +99,7 @@ namespace ft {
 		// if n <= _capacity, nothing happens
 	  	void		reserve(size_type n) {
 			if (n > _capacity) {
-				reallocate(n, true);
+				reallocate(n);
 			}
 		};
 
@@ -135,7 +142,7 @@ namespace ft {
 		// assigns new contents to vector, replaces its current contents, and modifies its size
 		void	assign(size_type n, const value_type& val) {
 			if (n > _capacity)
-				reallocate(n, true);
+				reallocate(n);
 			for (size_type i = 0; i < n; i++) {
 				_allocator.destroy(&_array[i]);
 				_allocator.construct(&_array[i], val);
@@ -146,9 +153,9 @@ namespace ft {
 		// adds element at the end of vector
 		void	push_back(const value_type& val) {
 			if (_size + 1 > _capacity && _capacity > 0)
-				reallocate(_capacity * 2, true);
+				reallocate(_capacity * 2);
 			else
-				reallocate(1, true);
+				reallocate(1);
 			_allocator.construct(&_array[_size], val);
 			_size++;
 		};
