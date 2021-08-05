@@ -111,7 +111,7 @@ namespace ft {
 		/*template <class InputIterator>*/
   		/*void assign (InputIterator first, InputIterator last);*/
 
-		void assign(size_type n, const value_type& val) {
+		void	assign(size_type n, const value_type& val) {
 			if (n > _capacity)
 				reallocate(n);
 			for (size_type i = 0; i < n; i++) {
@@ -121,13 +121,18 @@ namespace ft {
 			_size = n;
 		};
 
-		void push_back(const value_type& val) {
+		void	push_back(const value_type& val) {
 			if (_size + 1 > _capacity && _capacity > 0)
 				reallocate(_capacity * 2);
 			else
 				reallocate(1);
 			_allocator.construct(&_array[_size], val);
 			_size++;
+		};
+
+		void	pop_back() {
+			_allocator.destroy(&_array[_size - 1]);
+			_size--;
 		};
 
 	// --- ALLOCATOR ---

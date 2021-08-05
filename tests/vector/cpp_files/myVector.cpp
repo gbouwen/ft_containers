@@ -76,6 +76,12 @@ void modifiers() {
 		std::cout << vector_one[i] << std::endl;
 	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
 	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+	std::cout << "vector_one.pop_back()" << std::endl;
+	vector_one.pop_back();
+	for (size_t i = 0; i < vector_one.size(); i++)
+		std::cout << vector_one[i] << std::endl;
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
