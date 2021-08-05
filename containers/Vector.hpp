@@ -36,9 +36,13 @@ namespace ft {
 		allocator_type	_allocator;
 
 		void reallocate(size_type n) {
-			if (_array)
-				_allocator.deallocate(_array, _capacity);
+			pointer	temp;
+
+			temp = _array;
 			_array = _allocator.allocate(n);
+			for (size_type i = 0; i < _size; i++)
+				_array[i] = temp[i];
+			_allocator.deallocate(temp, _capacity);
 			_capacity = n;
 		};
 
@@ -110,12 +114,20 @@ namespace ft {
 		void assign(size_type n, const value_type& val) {
 			if (n > _capacity)
 				reallocate(n);
-			for (size_type i = 0; i < n; i++)
-			{
+			for (size_type i = 0; i < n; i++) {
 				_allocator.destroy(&_array[i]);
 				_allocator.construct(&_array[i], val);
 			}
 			_size = n;
+		};
+
+		void push_back(const value_type& val) {
+			if (_size + 1 > _capacity && _capacity > 0)
+				reallocate(_capacity * 2);
+			else
+				reallocate(1);
+			_allocator.construct(&_array[_size], val);
+			_size++;
 		};
 
 	// --- ALLOCATOR ---
