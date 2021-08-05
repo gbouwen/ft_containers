@@ -38,11 +38,27 @@ void resize_test_1() {
 	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
 }
 
+void reserve_test_1() {
+	ft::vector<int>	vector_one;
+
+	std::cout << "vector_one.reserve(5)" << std::endl;
+	vector_one.reserve(5);
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+	std::cout << "vector_one.push_back(12)" << std::endl;
+	vector_one.push_back(12);
+	std::cout << "vector_one.front() = " << vector_one.front() << std::endl;
+	std::cout << "vector_one.reserve(10)" << std::endl;
+	vector_one.reserve(10);
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+	std::cout << "vector_one.front() = " << vector_one.front() << std::endl;
+}
+
 void capacity() {
 	std::cout << "------------------------------- TESTING CAPACITY -------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 
-	resize_test_1();
+//	resize_test_1();
+	reserve_test_1();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
