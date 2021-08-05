@@ -82,35 +82,41 @@ namespace ft {
 
 	// --- ELEMENT ACCESS ---
 
+		// accesses element at position n
 		reference operator[](size_type n) { return (_array[n]); };
 
+		// accesses element at position n
 		const_reference operator[](size_type n) const { return (_array[n]); };
 
+		// accesses element at position n, throws exception when out of bounds
 		reference at(size_type n) {
 			if (n >= _size)
 				throw (std::out_of_range("out of range"));
 			return (_array[n]);
 		};
 
+		// accesses element at position n, throws exception when out of bounds
 		const_reference at(size_type n) const {
 			if (n >= _size)
 				throw (std::out_of_range("out of range"));
 			return (_array[n]);
 		};
 
+		// accesses first element of vector
 		reference front() { return (_array[0]); };
 
+		// accesses first element of vector
 		const_reference front() const { return (_array[0]); };
 
+		// accesses last element of vector
 		reference back() { return (_array[_size - 1]); };
 
+		// accesses last element of vector
 		const_reference back() const { return (_array[_size - 1]); };
 
 	// --- MODIFIERS ---
 
-		/*template <class InputIterator>*/
-  		/*void assign (InputIterator first, InputIterator last);*/
-
+		// assigns new contents to vector, replaces its current contents, and modifies its size
 		void	assign(size_type n, const value_type& val) {
 			if (n > _capacity)
 				reallocate(n);
@@ -121,6 +127,7 @@ namespace ft {
 			_size = n;
 		};
 
+		// adds element at the end of vector
 		void	push_back(const value_type& val) {
 			if (_size + 1 > _capacity && _capacity > 0)
 				reallocate(_capacity * 2);
@@ -130,11 +137,13 @@ namespace ft {
 			_size++;
 		};
 
+		// deletes last element
 		void	pop_back() {
 			_allocator.destroy(&_array[_size - 1]);
 			_size--;
 		};
 
+		// removes all elements from the vector
 		void	clear() {
 			for (size_type i = 0; i < _size; i++)
 				_allocator.destroy(&_array[i]);
