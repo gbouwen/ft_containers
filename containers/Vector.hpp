@@ -61,6 +61,15 @@ namespace ft {
 				_allocator.construct(&_array[i], val);
 		};
 
+		// constructs vector with a copy of each of the elements in x
+		vector(const vector& x) {
+			_array = _allocator.allocate(x.capacity());
+			for (size_type i = 0; i < x.size(); i++)
+				_allocator.construct(&_array[i], x[i]);
+			_size = x.size();
+			_capacity = x.capacity();
+		};
+
 		// destroys and deallocates vector
 		~vector() {
 			for (size_type i = 0; i < _size; i++)
