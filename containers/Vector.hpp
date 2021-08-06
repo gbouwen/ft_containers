@@ -222,11 +222,15 @@ namespace ft {
 
 		allocator_type get_allocator() const { return (_allocator); };
 
+	};
+
 	// --- RELATIONAL OPERATORS ---
 
 	// --- SWAP ---
 
-	};
+	template <class T, class Alloc>
+	void swap(vector<T,Alloc>& x, vector<T,Alloc>& y) { x.swap(y); };
+
 };
 
 #endif

@@ -227,7 +227,8 @@ void allocator() {
 // RELATIONAL OPERATORS
 
 void relational_operators() {
-
+	std::cout << "------------------------------- TESTING RELATIONAL OPERATORS -------------" << std::endl;
+	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
@@ -244,8 +245,8 @@ int	main(void) {
 	std::cout << "myVector test" << std::endl;
 
 //	constructors_destructor_operator();
-	modifiers();
+//	modifiers();
 //	capacity();
-
+	relational_operators();
 	return (0);
 }
