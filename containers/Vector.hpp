@@ -77,6 +77,17 @@ namespace ft {
 			_allocator.deallocate(_array, _capacity);
 		};
 
+		// assigns new contents to vector, replaces its current contents, and modifies its size
+		vector& operator= (const vector& x) {
+			this->~vector();
+			this->_array = _allocator.allocate(x.capacity());
+			for (size_type i = 0; i < x.size(); i++)
+				_allocator.construct(&_array[i], x[i]);
+			this->_size = x.size();
+			this->_capacity = x.capacity();
+			return (*this);
+		};
+
 	// --- ITERATORS ---
 
 	// --- CAPACITY ---
