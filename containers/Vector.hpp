@@ -203,6 +203,14 @@ namespace ft {
 			_size--;
 		};
 
+		// exchanges contents of vector with the contents of x
+		void swap (vector& x) {
+			vector	temp(*this);
+
+			*this = x;
+			x = temp;
+		};
+
 		// removes all elements from vector
 		void	clear() {
 			for (size_type i = 0; i < _size; i++)
