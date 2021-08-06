@@ -54,6 +54,21 @@ void test_overload_1() {
 		std::cout << vector_two[i] << std::endl;
 }
 
+void test_overload_2() {
+	ft::vector<int>	vector_one(10, 25);
+	ft::vector<int>	vector_two(20, 100);
+
+	vector_two = vector_one;
+	std::cout << "vector_one.size() = " << vector_one.size() << std::endl;
+	std::cout << "vector_one.capacity() = " << vector_one.capacity() << std::endl;
+	for (size_t i = 0; i < vector_one.size(); i++)
+		std::cout << vector_one[i] << std::endl;
+	std::cout << "vector_two.size() = " << vector_two.size() << std::endl;
+	std::cout << "vector_two.capacity() = " << vector_two.capacity() << std::endl;
+	for (size_t i = 0; i < vector_two.size(); i++)
+		std::cout << vector_two[i] << std::endl;
+}
+
 void constructors_destructor_operator() {
 	std::cout << "------------------------------- TESTING CAPACITY -------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
@@ -62,6 +77,7 @@ void constructors_destructor_operator() {
 //	test_fill_constructor_2();
 //	test_copy_constructor_1();
 	test_overload_1();
+	test_overload_2();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
