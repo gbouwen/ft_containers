@@ -8,6 +8,8 @@
 # include <limits>
 # include <stdexcept>
 
+# include "utils/RandomAccessIterator.hpp"
+
 namespace ft {
 
 	template < class T, class Alloc = std::allocator<T> >
@@ -15,18 +17,18 @@ namespace ft {
 
 	public:
 
-		typedef T					value_type;
-		typedef Alloc				allocator_type;
-		typedef value_type&			reference;
-		typedef const value_type&	const_reference;
-		typedef value_type*			pointer;
-		typedef const value_type*	const_pointer;
-		// iterator
+		typedef T									value_type;
+		typedef Alloc								allocator_type;
+		typedef value_type&							reference;
+		typedef const value_type&					const_reference;
+		typedef value_type*							pointer;
+		typedef const value_type*					const_pointer;
+		typedef randomAccessIterator<value_type>	iterator;
 		// const_iterator
 		// reverse_iterator
 		// const_reverse_iterator
-		typedef ptrdiff_t			difference_type;
-		typedef size_t				size_type;
+		typedef ptrdiff_t							difference_type;
+		typedef size_t								size_type;
 
 	private:
 
@@ -222,7 +224,7 @@ namespace ft {
 
 		allocator_type get_allocator() const { return (_allocator); };
 
-	};
+	}; // class vector
 
 	// --- RELATIONAL OPERATORS ---
 
@@ -231,6 +233,6 @@ namespace ft {
 	template <class T, class Alloc>
 	void swap(vector<T,Alloc>& x, vector<T,Alloc>& y) { x.swap(y); };
 
-};
+}; // namespace ft
 
 #endif
