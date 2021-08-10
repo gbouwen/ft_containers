@@ -101,12 +101,22 @@ void test_for_loop_1()
 		std::cout << "*it = " << *it << std::endl;
 }
 
+void test_add_to_it_1()
+{
+	ft::vector<int>				vector_one(10, 100);
+	ft::vector<int>::iterator	it_one = vector_one.begin();
+
+	ft::vector<int>::iterator it_two = it_one + 5;
+	std::cout << *it_two << std::endl;
+}
+
 void iterators() {
 	std::cout << "------------------------------- TESTING ITERATORS ------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 
 //	test_begin_1();
-	test_for_loop_1();
+//	test_for_loop_1();
+	test_add_to_it_1();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }

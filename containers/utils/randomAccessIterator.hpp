@@ -41,6 +41,10 @@ namespace ft {
 			return (*this);
 		};
 
+		friend bool				operator==(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr == b._ptr); };
+
+		friend bool				operator!=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr != b._ptr); };
+
 		reference				operator*() const { return (*_ptr); };
 
 		pointer					operator->() { return (_ptr); };
@@ -52,16 +56,63 @@ namespace ft {
 		};
 
 		// postfix
-		randomAccessIterator&	operator++(int) {
-			randomAccessIterator& temp = *this;
+		randomAccessIterator	operator++(int) {
+			randomAccessIterator temp = *this;
 
 			++(*this);
 			return (temp);
-		}
+		};
 
-		friend bool operator== (const randomAccessIterator& a, const randomAccessIterator& b) { return a._ptr == b._ptr; };
+		// prefix
+		randomAccessIterator&	operator--() {
+			_ptr--;
+			return (*this);
+		};
 
-		friend bool operator!= (const randomAccessIterator& a, const randomAccessIterator& b) { return a._ptr != b._ptr; };
+		// postfix
+		randomAccessIterator	operator--(int) {
+			randomAccessIterator temp = *this;
+
+			--(*this);
+			return (temp);
+		};
+
+		randomAccessIterator	operator+(int distance) {
+			randomAccessIterator temp = *this;
+
+			temp._ptr += distance;
+			return (temp);
+		};
+
+		// n + a
+
+		/* friend operator because integer doesn't have overload for iterator */
+
+		// a - n
+
+		/* same as operator+ */
+
+		// a - b
+
+		/* don't know about this one */
+
+		friend bool				operator<(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr < b._ptr); };
+
+		friend bool				operator>(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr > b._ptr); };
+
+		friend bool				operator<=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr <= b._ptr); };
+
+		friend bool				operator>=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr >= b._ptr); };
+
+		// a += n
+
+		/* need to check this */
+
+		// a -= n
+
+		/* need to check this */
+
+		reference				operator[](int index) { return *(_ptr + index); };
 
 	}; // class randomAccessIterator
 }; // namespace ft
