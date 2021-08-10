@@ -1,7 +1,7 @@
 // myVector.cpp
 
 #include <iostream>
-#include "../../../containers/Vector.hpp"
+#include "../../../containers/vector.hpp"
 
 // CONSTRUCTORS/DESTRUCTOR/OPERATOR
 
@@ -84,8 +84,29 @@ void constructors_destructor_operator() {
 
 // ITERATORS
 
-void iterators() {
+void test_begin_1()
+{
+	ft::vector<int>	vector_one(5, 100);
 
+	std::cout << "vector_one.begin()" << std::endl;
+	ft::vector<int>::iterator it = vector_one.begin();
+	std::cout << "*it = " << *it << std::endl;
+}
+
+void test_for_loop_1()
+{
+	ft::vector<int>	vector_one(5, 20);
+
+	for (ft::vector<int>::iterator it = vector_one.begin(); it != vector_one.end(); it++)
+		std::cout << "*it = " << *it << std::endl;
+}
+
+void iterators() {
+	std::cout << "------------------------------- TESTING ITERATORS ------------------------" << std::endl;
+	std::cout << "--------------------------------------------------------------------------" << std::endl;
+
+//	test_begin_1();
+	test_for_loop_1();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
@@ -247,6 +268,7 @@ int	main(void) {
 //	constructors_destructor_operator();
 //	modifiers();
 //	capacity();
-	relational_operators();
+//	relational_operators();
+	iterators();
 	return (0);
 }

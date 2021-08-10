@@ -8,7 +8,7 @@
 # include <limits>
 # include <stdexcept>
 
-# include "utils/RandomAccessIterator.hpp"
+# include "utils/randomAccessIterator.hpp"
 
 namespace ft {
 
@@ -101,6 +101,16 @@ namespace ft {
 		};
 
 	// --- ITERATORS ---
+
+		// returns iterator to beginning
+		randomAccessIterator<value_type> begin() {
+			return (randomAccessIterator<value_type>(_array));
+		};
+
+		// returns iterator to end
+		randomAccessIterator<value_type> end() {
+			return (randomAccessIterator<value_type>(_array + _size));
+		};
 
 	// --- CAPACITY ---
 

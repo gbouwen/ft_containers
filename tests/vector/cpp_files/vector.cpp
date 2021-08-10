@@ -84,8 +84,29 @@ void constructors_destructor_operator() {
 
 // ITERATORS
 
-void iterators() {
+void test_begin_1()
+{
+	std::vector<int>	vector_one(5, 100);
 
+	std::cout << "vector_one.begin()" << std::endl;
+	std::vector<int>::iterator it = vector_one.begin();
+	std::cout << "*it = " << *it << std::endl;
+}
+
+void test_for_loop_1()
+{
+	std::vector<int>	vector_one(5, 20);
+
+	for (std::vector<int>::iterator it = vector_one.begin(); it != vector_one.end(); it++)
+		std::cout << "*it = " << *it << std::endl;
+}
+
+void iterators() {
+	std::cout << "------------------------------- TESTING ITERATORS ------------------------" << std::endl;
+	std::cout << "--------------------------------------------------------------------------" << std::endl;
+
+//	test_begin_1();
+	test_for_loop_1();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
@@ -245,8 +266,8 @@ int	main(void) {
 	std::cout << "vector test" << std::endl;
 
 //	constructors_destructor_operator();
-	modifiers();
+//	modifiers();
 //	capacity();
-
+	iterators();
 	return (0);
 }
