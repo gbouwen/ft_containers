@@ -41,13 +41,13 @@ namespace ft {
 			return (*this);
 		};
 
-		friend bool				operator==(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr == b._ptr); };
+		friend bool	operator==(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr == b._ptr); };
 
-		friend bool				operator!=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr != b._ptr); };
+		friend bool	operator!=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr != b._ptr); };
 
-		reference				operator*() const { return (*_ptr); };
+		reference	operator*() const { return (*_ptr); };
 
-		pointer					operator->() { return (_ptr); };
+		pointer	operator->() { return (_ptr); };
 
 		// prefix
 		randomAccessIterator&	operator++() {
@@ -89,24 +89,24 @@ namespace ft {
 			return (it);
 		};
 
-		randomAccessIterator	operator-(int& distance) {
+		randomAccessIterator	operator-(int distance) {
 			randomAccessIterator temp = *this;
 
 			temp._ptr -= distance;
 			return (temp);
 		};
 
-		// a - b
+		friend difference_type	operator-(randomAccessIterator& a, randomAccessIterator& b) {
+			return (a._ptr - b._ptr);
+		}
 
-		/* don't know about this one */
+		friend bool	operator<(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr < b._ptr); };
 
-		friend bool				operator<(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr < b._ptr); };
+		friend bool	operator>(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr > b._ptr); };
 
-		friend bool				operator>(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr > b._ptr); };
+		friend bool	operator<=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr <= b._ptr); };
 
-		friend bool				operator<=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr <= b._ptr); };
-
-		friend bool				operator>=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr >= b._ptr); };
+		friend bool	operator>=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr >= b._ptr); };
 
 		// a += n
 

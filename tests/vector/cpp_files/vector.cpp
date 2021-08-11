@@ -105,8 +105,8 @@ void test_add_to_it_1()
 {
 	std::vector<int>			vector_one(10, 100);
 	std::vector<int>::iterator	it_one = vector_one.begin();
-
 	std::vector<int>::iterator it_two = it_one + 5;
+
 	std::cout << *it_two << std::endl;
 }
 
@@ -114,9 +114,18 @@ void test_add_it_to_int_1()
 {
 	std::vector<int>			vector_one(10, 100);
 	std::vector<int>::iterator	it_one = vector_one.begin();
-
 	std::vector<int>::iterator	it_two = 5 + it_one;
+
 	std::cout << *it_two << std::endl;
+}
+
+void test_sub_it_from_it_1()
+{
+	std::vector<int>			vector_one(10, 100);
+	std::vector<int>::iterator	it_one = vector_one.begin();
+	std::vector<int>::iterator	it_two = it_one + 5;
+
+	std::cout << it_two - it_one << std::endl;
 }
 
 void iterators() {
@@ -126,7 +135,8 @@ void iterators() {
 //	test_begin_1();
 //	test_for_loop_1();
 //	test_add_to_it_1();
-	test_add_it_to_int_1();
+//	test_add_it_to_int_1();
+	test_sub_it_from_it_1();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
