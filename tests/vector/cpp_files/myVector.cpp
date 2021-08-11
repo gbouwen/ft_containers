@@ -128,6 +128,15 @@ void test_sub_it_from_it_1()
 	std::cout << it_two - it_one << std::endl;
 }
 
+void test_plus_equals_it_1()
+{
+	ft::vector<int>				vector_one(10, 100);
+	ft::vector<int>::iterator	it_one = vector_one.begin();
+
+	it_one += 5;
+	std::cout << *it_one << std::endl;
+}
+
 void iterators() {
 	std::cout << "------------------------------- TESTING ITERATORS ------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
@@ -136,7 +145,8 @@ void iterators() {
 //	test_for_loop_1();
 //	test_add_to_it_1();
 //	test_add_it_to_int_1();
-	test_sub_it_from_it_1();
+//	test_sub_it_from_it_1();
+	test_plus_equals_it_1();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }

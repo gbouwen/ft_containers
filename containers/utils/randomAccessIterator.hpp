@@ -98,7 +98,7 @@ namespace ft {
 
 		friend difference_type	operator-(randomAccessIterator& a, randomAccessIterator& b) {
 			return (a._ptr - b._ptr);
-		}
+		};
 
 		friend bool	operator<(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr < b._ptr); };
 
@@ -108,13 +108,15 @@ namespace ft {
 
 		friend bool	operator>=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr >= b._ptr); };
 
-		// a += n
+		randomAccessIterator&	operator+=(int distance) {
+			_ptr += distance;
+			return (*this);
+		};
 
-		/* need to check this */
-
-		// a -= n
-
-		/* need to check this */
+		randomAccessIterator&	operator-=(int distance) {
+			_ptr -= distance;
+			return (*this);
+		};
 
 		reference				operator[](int index) { return *(_ptr + index); };
 
