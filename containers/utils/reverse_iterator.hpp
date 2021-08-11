@@ -36,25 +36,23 @@ namespace ft {
 
 		iterator_type base() const { return (_current); };
 
-		reference	operator*() const {
+		reference operator*() const {
 			iterator_type tmp = _current;
 
 			return (*--tmp);
 		};
 
-		pointer operator->() const { return (&(operator*())); };
+		pointer	operator->() const { return (&(operator*())); };
 
 		// prefix
 		reverse_iterator& operator++() {
 			--_current;
-
 			return (*this);
 		};
 
 		// postfix
-		reverse_iterator  operator++(int) {
+		reverse_iterator operator++(int) {
 			reverse_iterator temp = *this;
-
 			--_current;
 			return (temp);
 		};
@@ -62,17 +60,31 @@ namespace ft {
 		// prefix
 		reverse_iterator& operator--() {
 			++_current;
-
 			return (*this);
 		};
 
 		// postfix
-		reverse_iterator  operator--(int) {
+		reverse_iterator operator--(int) {
 			reverse_iterator temp = *this;
-
 			++_current;
 			return (temp);
 		};
+
+		reverse_iterator operator+(difference_type n) const { return (reverse_iterator(_current - n)); };
+
+		reverse_iterator&	operator+=(difference_type n) {
+			_current -= n;
+			return (*this);
+		};
+
+		reverse_iterator operator-(difference_type n) const { return (reverse_iterator(_current + n)); };
+
+		reverse_iterator& operator-=(difference_type n) {
+			_current += n;
+			return (*this);
+		};
+
+		reference operator[](difference_type n) const { return (*(*this + n)); };
 
 	}; // reverse_iterator
 
