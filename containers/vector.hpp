@@ -8,7 +8,7 @@
 # include <limits>
 # include <stdexcept>
 
-# include "utils/randomAccessIterator.hpp"
+# include "utils/random_access_iterator.hpp"
 
 namespace ft {
 
@@ -23,7 +23,7 @@ namespace ft {
 		typedef const value_type&					const_reference;
 		typedef value_type*							pointer;
 		typedef const value_type*					const_pointer;
-		typedef randomAccessIterator<value_type>	iterator;
+		typedef random_access_iterator<value_type>	iterator;
 		// const_iterator
 		// reverse_iterator
 		// const_reverse_iterator
@@ -103,13 +103,13 @@ namespace ft {
 	// --- ITERATORS ---
 
 		// returns iterator to beginning
-		randomAccessIterator<value_type> begin() {
-			return (randomAccessIterator<value_type>(_array));
+		random_access_iterator<value_type> begin() {
+			return (random_access_iterator<value_type>(_array));
 		};
 
 		// returns iterator to end
-		randomAccessIterator<value_type> end() {
-			return (randomAccessIterator<value_type>(_array + _size));
+		random_access_iterator<value_type> end() {
+			return (random_access_iterator<value_type>(_array + _size));
 		};
 
 	// --- CAPACITY ---

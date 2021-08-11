@@ -6,7 +6,7 @@
 namespace ft {
 
 	template <typename T>
-	class randomAccessIterator {
+	class random_access_iterator {
 
 	public:
 
@@ -23,104 +23,104 @@ namespace ft {
 
 	// --- CONSTRUCTORS/DESTRUCTOR ---
 
-		randomAccessIterator(): _ptr(NULL) { };
+		random_access_iterator(): _ptr(NULL) { };
 
-		randomAccessIterator(pointer x): _ptr(x) { };
+		random_access_iterator(pointer x): _ptr(x) { };
 
-		randomAccessIterator(const randomAccessIterator &x) {
+		random_access_iterator(const randomAccessIterator &x) {
 			*this = x;
 		};
 
-		~randomAccessIterator() { };
+		~random_access_iterator() { };
 
 	// --- OPERATOR OVERLOADS ---
 
-		randomAccessIterator&	operator=(const randomAccessIterator &rhs) {
+		random_access_iterator&	operator=(const randomAccessIterator &rhs) {
 			if (this != &rhs)
 				_ptr = rhs._ptr;
 			return (*this);
 		};
 
-		friend bool	operator==(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr == b._ptr); };
+		friend bool	operator==(const random_access_iterator& a, const randomAccessIterator& b) { return (a._ptr == b._ptr); };
 
-		friend bool	operator!=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr != b._ptr); };
+		friend bool	operator!=(const random_access_iterator& a, const randomAccessIterator& b) { return (a._ptr != b._ptr); };
 
 		reference	operator*() const { return (*_ptr); };
 
 		pointer	operator->() { return (_ptr); };
 
 		// prefix
-		randomAccessIterator&	operator++() {
+		random_access_iterator&	operator++() {
 			_ptr++;
 			return (*this);
 		};
 
 		// postfix
-		randomAccessIterator	operator++(int) {
-			randomAccessIterator temp = *this;
+		random_access_iterator	operator++(int) {
+			random_access_iterator temp = *this;
 
 			++(*this);
 			return (temp);
 		};
 
 		// prefix
-		randomAccessIterator&	operator--() {
+		random_access_iterator&	operator--() {
 			_ptr--;
 			return (*this);
 		};
 
 		// postfix
-		randomAccessIterator	operator--(int) {
-			randomAccessIterator temp = *this;
+		random_access_iterator	operator--(int) {
+			random_access_iterator temp = *this;
 
 			--(*this);
 			return (temp);
 		};
 
-		randomAccessIterator	operator+(int distance) {
-			randomAccessIterator temp = *this;
+		random_access_iterator	operator+(int distance) {
+			random_access_iterator temp = *this;
 
 			temp._ptr += distance;
 			return (temp);
 		};
 
-		friend randomAccessIterator	operator+(int distance, randomAccessIterator& it) {
+		friend random_access_iterator	operator+(int distance, randomAccessIterator& it) {
 			it._ptr += distance;
 			return (it);
 		};
 
-		randomAccessIterator	operator-(int distance) {
-			randomAccessIterator temp = *this;
+		random_access_iterator	operator-(int distance) {
+			random_access_iterator temp = *this;
 
 			temp._ptr -= distance;
 			return (temp);
 		};
 
-		friend difference_type	operator-(randomAccessIterator& a, randomAccessIterator& b) {
+		friend difference_type	operator-(random_access_iterator& a, randomAccessIterator& b) {
 			return (a._ptr - b._ptr);
 		};
 
-		friend bool	operator<(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr < b._ptr); };
+		friend bool	operator<(const random_access_iterator& a, const randomAccessIterator& b) { return (a._ptr < b._ptr); };
 
-		friend bool	operator>(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr > b._ptr); };
+		friend bool	operator>(const random_access_iterator& a, const randomAccessIterator& b) { return (a._ptr > b._ptr); };
 
-		friend bool	operator<=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr <= b._ptr); };
+		friend bool	operator<=(const random_access_iterator& a, const randomAccessIterator& b) { return (a._ptr <= b._ptr); };
 
-		friend bool	operator>=(const randomAccessIterator& a, const randomAccessIterator& b) { return (a._ptr >= b._ptr); };
+		friend bool	operator>=(const random_access_iterator& a, const randomAccessIterator& b) { return (a._ptr >= b._ptr); };
 
-		randomAccessIterator&	operator+=(int distance) {
+		random_access_iterator&	operator+=(int distance) {
 			_ptr += distance;
 			return (*this);
 		};
 
-		randomAccessIterator&	operator-=(int distance) {
+		random_access_iterator&	operator-=(int distance) {
 			_ptr -= distance;
 			return (*this);
 		};
 
 		reference				operator[](int index) { return *(_ptr + index); };
 
-	}; // class randomAccessIterator
+	}; // class random_access_iterator
 }; // namespace ft
 
 #endif
