@@ -84,13 +84,17 @@ namespace ft {
 			return (temp);
 		};
 
-		// n + a
+		friend randomAccessIterator	operator+(int distance, randomAccessIterator& it) {
+			it._ptr += distance;
+			return (it);
+		};
 
-		/* friend operator because integer doesn't have overload for iterator */
+		randomAccessIterator	operator-(int& distance) {
+			randomAccessIterator temp = *this;
 
-		// a - n
-
-		/* same as operator+ */
+			temp._ptr -= distance;
+			return (temp);
+		};
 
 		// a - b
 
