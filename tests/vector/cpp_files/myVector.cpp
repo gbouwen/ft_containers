@@ -137,6 +137,22 @@ void test_plus_equals_it_1()
 	std::cout << *it_one << std::endl;
 }
 
+void test_rev_it_1()
+{
+	ft::vector<int>	vector_one;
+
+	for (size_t i = 0; i < 10; i++)
+		vector_one.push_back(i);
+
+	std::cout << "--- iterator ---" << std::endl;
+	for (ft::vector<int>::iterator it_one = vector_one.begin(); it_one != vector_one.end(); it_one++)
+		std::cout << *it_one << std::endl;
+
+	std::cout << "--- reverse_iterator ---" << std::endl;
+	for (ft::vector<int>::reverse_iterator it_two = vector_one.rbegin(); it_two != vector_one.rend(); it_two++)
+		std::cout << *it_two << std::endl;
+}
+
 void iterators() {
 	std::cout << "------------------------------- TESTING ITERATORS ------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
@@ -146,7 +162,8 @@ void iterators() {
 //	test_add_to_it_1();
 //	test_add_it_to_int_1();
 //	test_sub_it_from_it_1();
-	test_plus_equals_it_1();
+//	test_plus_equals_it_1();
+	test_rev_it_1();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }

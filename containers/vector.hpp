@@ -9,6 +9,7 @@
 # include <stdexcept>
 
 # include "utils/random_access_iterator.hpp"
+# include "utils/reverse_iterator.hpp"
 
 namespace ft {
 
@@ -25,7 +26,7 @@ namespace ft {
 		typedef const value_type*					const_pointer;
 		typedef random_access_iterator<value_type>	iterator;
 		// const_iterator
-		// reverse_iterator
+		typedef reverse_iterator<iterator>			reverse_iterator;
 		// const_reverse_iterator
 		typedef ptrdiff_t							difference_type;
 		typedef size_t								size_type;
@@ -102,15 +103,17 @@ namespace ft {
 
 	// --- ITERATORS ---
 
-		// returns iterator to beginning
-		random_access_iterator<value_type> begin() {
-			return (random_access_iterator<value_type>(_array));
-		};
+		// returns iterator to first element
+		iterator begin() { return (iterator(_array)); };
 
-		// returns iterator to end
-		random_access_iterator<value_type> end() {
-			return (random_access_iterator<value_type>(_array + _size));
-		};
+		// returns iterator to last element
+		iterator end() { return (iterator(_array + _size)); };
+
+		// returns reverse_iterator to last element
+		reverse_iterator rbegin() { return (reverse_iterator(end())); };
+
+		// returns reverse_iterator to first element
+		reverse_iterator rend() { return (reverse_iterator(begin())); };
 
 	// --- CAPACITY ---
 
@@ -201,10 +204,10 @@ namespace ft {
 
 		// adds element at the end of vector
 		void	push_back(const value_type& val) {
-			if (_size + 1 > _capacity && _capacity > 0)
-				reallocate(_capacity * 2);
-			else
+			if (_capacity == 0)
 				reallocate(1);
+			else if (_size + 1 > _capacity)
+				reallocate(_capacity * 2);
 			_allocator.construct(&_array[_size], val);
 			_size++;
 		};
