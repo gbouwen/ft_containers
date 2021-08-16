@@ -18,18 +18,18 @@ namespace ft {
 
 	public:
 
-		typedef T									value_type;
-		typedef Alloc								allocator_type;
-		typedef value_type&							reference;
-		typedef const value_type&					const_reference;
-		typedef value_type*							pointer;
-		typedef const value_type*					const_pointer;
-		typedef random_access_iterator<value_type>	iterator;
+		typedef T											value_type;
+		typedef Alloc										allocator_type;
+		typedef value_type&									reference;
+		typedef const value_type&							const_reference;
+		typedef value_type*									pointer;
+		typedef const value_type*							const_pointer;
+		typedef random_access_iterator<value_type>			iterator;
 		// const_iterator
-		typedef reverse_iterator<iterator>			reverse_iterator;
+		typedef reverse_iterator<iterator>					reverse_iterator;
 		// const_reverse_iterator
-		typedef ptrdiff_t							difference_type;
-		typedef size_t								size_type;
+		typedef ptrdiff_t									difference_type;
+		typedef size_t										size_type;
 
 	private:
 
@@ -106,7 +106,7 @@ namespace ft {
 		// returns iterator to first element
 		iterator begin() { return (iterator(_array)); };
 
-		// returns iterator to last element
+		// returns iterator to element after last
 		iterator end() { return (iterator(_array + _size)); };
 
 		// returns reverse_iterator to last element
