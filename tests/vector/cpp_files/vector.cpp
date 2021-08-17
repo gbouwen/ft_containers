@@ -160,7 +160,7 @@ void test_const_it_1()
 	for (size_t i = 0; i < 10; i++)
 		vector_one.push_back(i);
 
-	for (std::vector<int>::iterator it_one = vector_one.begin(); it_one != vector_one.end(); it_one++)
+	for (std::vector<int>::const_iterator it_one = vector_one.begin(); it_one != vector_one.end(); it_one++)
 		std::cout << *it_one << std::endl;
 }
 
@@ -446,8 +446,8 @@ int	main(void) {
 
 //	constructors_destructor_operator();
 //	modifiers();
-	capacity_all();
+//	capacity_all();
 //	relational_operators();
-//	iterators();
+	iterators();
 	return (0);
 }

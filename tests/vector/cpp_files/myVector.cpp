@@ -1,7 +1,7 @@
 // myVector.cpp
 
 #include <iostream>
-#include "../../../containers/vector.hpp"
+#include "../../../srcs/vector.hpp"
 
 // CONSTRUCTORS/DESTRUCTOR/OPERATOR
 
@@ -84,85 +84,86 @@ void constructors_destructor_operator() {
 
 // ITERATORS
 
-//void test_begin_1()
-//{
-	//ft::vector<int>	vector_one(5, 100);
+void test_begin_1()
+{
+	ft::vector<int>	vector_one(5, 100);
 
-	//std::cout << "vector_one.begin()" << std::endl;
-	//ft::vector<int>::iterator it = vector_one.begin();
-	//std::cout << "*it = " << *it << std::endl;
-//}
+	std::cout << "vector_one.begin()" << std::endl;
+	ft::vector<int>::iterator it = vector_one.begin();
+	std::cout << "*it = " << *it << std::endl;
+}
 
-//void test_for_loop_1()
-//{
-	//ft::vector<int>	vector_one(5, 20);
+void test_for_loop_1()
+{
+	ft::vector<int>	vector_one(5, 20);
 
-	//for (ft::vector<int>::iterator it = vector_one.begin(); it != vector_one.end(); it++)
-		//std::cout << "*it = " << *it << std::endl;
-//}
+	for (ft::vector<int>::iterator it = vector_one.begin(); it != vector_one.end(); it++)
+		std::cout << "*it = " << *it << std::endl;
+}
 
-//void test_add_to_it_1()
-//{
-	//ft::vector<int>				vector_one(10, 100);
-	//ft::vector<int>::iterator	it_one = vector_one.begin();
-	//ft::vector<int>::iterator it_two = it_one + 5;
+void test_add_to_it_1()
+{
+	ft::vector<int>				vector_one(10, 100);
+	ft::vector<int>::iterator	it_one = vector_one.begin();
+	ft::vector<int>::iterator it_two = it_one + 5;
 
-	//std::cout << *it_two << std::endl;
-//}
+	std::cout << *it_two << std::endl;
+}
 
-//void test_add_it_to_int_1()
-//{
-	//ft::vector<int>				vector_one(10, 100);
-	//ft::vector<int>::iterator	it_one = vector_one.begin();
-	//ft::vector<int>::iterator	it_two = 5 + it_one;
+void test_add_it_to_int_1()
+{
+	ft::vector<int>				vector_one(10, 100);
+	ft::vector<int>::iterator	it_one = vector_one.begin();
+	ft::vector<int>::iterator	it_two = 5 + it_one;
 
-	//std::cout << *it_two << std::endl;
-//}
+	std::cout << *it_two << std::endl;
+}
 
-//void test_sub_it_from_it_1()
-//{
-	//ft::vector<int>				vector_one(10, 100);
-	//ft::vector<int>::iterator	it_one = vector_one.begin();
-	//ft::vector<int>::iterator	it_two = it_one + 5;
+void test_sub_it_from_it_1()
+{
+	ft::vector<int>				vector_one(10, 100);
+	ft::vector<int>::iterator	it_one = vector_one.begin();
+	ft::vector<int>::iterator	it_two = it_one + 5;
 
-	//std::cout << it_two - it_one << std::endl;
-//}
+	std::cout << it_two - it_one << std::endl;
+}
 
-//void test_plus_equals_it_1()
-//{
-	//ft::vector<int>				vector_one(10, 100);
-	//ft::vector<int>::iterator	it_one = vector_one.begin();
+void test_plus_equals_it_1()
+{
+	ft::vector<int>				vector_one(10, 100);
+	ft::vector<int>::iterator	it_one = vector_one.begin();
 
-	//it_one += 5;
-	//std::cout << *it_one << std::endl;
-//}
+	it_one += 5;
+	std::cout << *it_one << std::endl;
+}
 
-//void test_rev_it_1()
-//{
-	//ft::vector<int>	vector_one;
+void test_rev_it_1()
+{
+	ft::vector<int>	vector_one;
 
-	//for (size_t i = 0; i < 10; i++)
-		//vector_one.push_back(i);
+	for (size_t i = 0; i < 10; i++)
+		vector_one.push_back(i);
 
-	//std::cout << "--- iterator ---" << std::endl;
-	//for (ft::vector<int>::iterator it_one = vector_one.begin(); it_one != vector_one.end(); it_one++)
-		//std::cout << *it_one << std::endl;
+	std::cout << "--- iterator ---" << std::endl;
+	for (ft::vector<int>::iterator it_one = vector_one.begin(); it_one != vector_one.end(); it_one++)
+		std::cout << *it_one << std::endl;
 
-	//std::cout << "--- reverse_iterator ---" << std::endl;
-	//for (ft::vector<int>::reverse_iterator it_two = vector_one.rbegin(); it_two != vector_one.rend(); it_two++)
-		//std::cout << *it_two << std::endl;
-//}
+	std::cout << "--- reverse_iterator ---" << std::endl;
+	for (ft::vector<int>::reverse_iterator it_two = vector_one.rbegin(); it_two != vector_one.rend(); it_two++)
+		std::cout << *it_two << std::endl;
+}
 
-//void test_const_it_1()
-//{
-	//ft::vector<int> vector_one;
+void test_const_it_1()
+{
+	ft::vector<int> vector_one;
 
-	//for (size_t i = 0; i < 10; i++)
-		//vector_one.push_back(i);
+	for (size_t i = 0; i < 10; i++)
+		vector_one.push_back(i);
 
-	//for (ft::vector<int>::const_iterator it_one = vector_one.begin(); it_one != vector_one.end(); it_one++)
-		//std::cout << *it_one << std::endl;
-//}
+	for (ft::vector<int>::const_iterator it_one = vector_one.begin(); it_one != vector_one.end(); it_one++)
+		std::cout << *it_one << std::endl;
+
+}
 
 void iterators() {
 	std::cout << "------------------------------- TESTING ITERATORS ------------------------" << std::endl;
@@ -175,7 +176,7 @@ void iterators() {
 //	test_sub_it_from_it_1();
 //	test_plus_equals_it_1();
 //	test_rev_it_1();
-//	test_const_it_1();
+	test_const_it_1();
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 	std::cout << "--------------------------------------------------------------------------" << std::endl;
 }
@@ -446,8 +447,8 @@ int	main(void) {
 
 //	constructors_destructor_operator();
 //	modifiers();
-	capacity_all();
+//	capacity_all();
 //	relational_operators();
-//	iterators();
+	iterators();
 	return (0);
 }
