@@ -215,8 +215,21 @@ namespace ft {
 
 	// --- MODIFIERS ---
 
+		// assigns new contents to vector, based on values between [first, last]
+		template <class InputIterator>
+		void assign(InputIterator first, InputIterator last,
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type* = NULL) {
+			_size = last - first;
+			if (_size > _capacity)
+				reallocate(_size);
+			for (size_type i = 0; i < _size; i++) {
+				_allocator.destroy(&_array[i]);
+				_allocator.construct(&_array[i], *(first + i));
+			}
+		};
+
 		// assigns new contents to vector, replaces its current contents, and modifies its size
-		void	assign(size_type n, const value_type& val) {
+		void assign(size_type n, const value_type& val) {
 			if (n > _capacity)
 				reallocate(n);
 			for (size_type i = 0; i < n; i++) {
@@ -227,7 +240,7 @@ namespace ft {
 		};
 
 		// adds element at the end of vector
-		void	push_back(const value_type& val) {
+		void push_back(const value_type& val) {
 			if (_capacity == 0)
 				reallocate(1);
 			else if (_size + 1 > _capacity)
@@ -237,13 +250,76 @@ namespace ft {
 		};
 
 		// deletes last element of vector
-		void	pop_back() {
+		void pop_back() {
 			_allocator.destroy(&_array[_size - 1]);
 			_size--;
 		};
 
+		// inserts element before position
+		iterator insert(iterator position, const value_type& val) {
+			size_type new_element_index = position - begin();
+
+			_size += 1;
+			if (_size >= _capacity)
+				reallocate(_capacity * 2);
+			for (size_type i = _size - 1; i > new_element_index; i--)
+				_array[i] = _array[i - 1];
+			_array[new_element_index] = val;
+			return (iterator(begin() + new_element_index));
+		};
+
+		// inserts n elements before position
+		void insert(iterator position, size_type n, const value_type& val) {
+			size_type start_index = position - begin();
+
+			_size += n;
+			if (_size >= _capacity)
+				reallocate(_capacity * 2);
+			for (size_type i = _size - 1; i > start_index + n - 1; i--)
+				_array[i] = _array[i - 1];
+			for (size_type i = start_index; i < n; i++)
+				_array[i] = val;
+		};
+
+		// inserts elements from first to last starting at position
+		template <class InputIterator>
+		void insert(iterator position, InputIterator first, InputIterator last,
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type* = NULL) {
+			size_type start_index = position - begin();
+			size_type range = first - last;
+
+			_size += range;
+			if (_size >= _capacity)
+				reallocate(_capacity * 2);
+			for (size_type i = _size - 1; i > start_index + range - 1; i--)
+				_array[i] = _array[i - 1];
+			for (size_type i = start_index; i < range; i++)
+				_array[i] = *(first + 1);
+		};
+
+		// removes a single element at position
+		iterator erase(iterator position) {
+			size_type start_index = position - begin();
+
+			_size -= 1;
+			for (size_type i = start_index; i < _size; i++)
+				_array[i] = _array[i + 1];
+			return (iterator(begin() + start_index));
+		};
+
+		// removes a range of elements from first to last
+		iterator erase(iterator first, iterator last) {
+			size_type start_index = first - begin();
+			size_type range = first - last;
+
+			_size -= range;
+			for (size_type i = start_index; i < _size; i++)
+				_array[i] = _array[i + 1];
+			return (iterator(begin() + start_index));
+		};
+
 		// exchanges contents of vector with the contents of x
-		void swap (vector& x) {
+		void swap(vector& x) {
 			vector	temp(*this);
 
 			*this = x;
@@ -251,7 +327,7 @@ namespace ft {
 		};
 
 		// removes all elements from vector
-		void	clear() {
+		void clear() {
 			for (size_type i = 0; i < _size; i++)
 				_allocator.destroy(&_array[i]);
 			_size = 0;
