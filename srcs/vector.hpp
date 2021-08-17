@@ -10,6 +10,8 @@
 
 # include "utils/random_access_iterator.hpp"
 # include "utils/reverse_iterator.hpp"
+# include "utils/enable_if.hpp"
+# include "utils/is_integral.hpp"
 
 namespace ft {
 
@@ -26,8 +28,8 @@ namespace ft {
 		typedef const value_type*								const_pointer;
 		typedef random_access_iterator<T, T*, T&>				iterator;
 		typedef random_access_iterator<T, const T*, const T&>	const_iterator;
+		typedef reverse_iterator<const_iterator>				const_reverse_iterator;
 		typedef reverse_iterator<iterator>						reverse_iterator;
-		// const_reverse_iterator
 		typedef ptrdiff_t										difference_type;
 		typedef size_t											size_type;
 
@@ -62,6 +64,16 @@ namespace ft {
 			_array = _allocator.allocate(_capacity);
 			for (size_type i = 0; i < _size; i++)
 				_allocator.construct(&_array[i], val);
+		};
+
+		// constructs vector with as many elements in range [first, last]
+		template <class InputIterator>
+		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type* = NULL): _allocator(alloc)  {
+			_size = first - last;
+			_capacity = first - last;
+			for (size_type i = 0; i < _size; i++)
+				_array[i] = *(first + i);
 		};
 
 		// constructs vector with a copy of each of the elements in x
@@ -106,14 +118,26 @@ namespace ft {
 		// returns iterator to first element
 		iterator begin() { return (iterator(_array)); };
 
+		// returns const_iterator to first element
+		const_iterator begin() const { return (const_iterator(_array)); };
+
 		// returns iterator to element after last
 		iterator end() { return (iterator(_array + _size)); };
+
+		// returns const_iterator to last_element
+		const_iterator end() const { return (const_iterator(_array + _size)); };
 
 		// returns reverse_iterator to last element
 		reverse_iterator rbegin() { return (reverse_iterator(end())); };
 
+		// returns const_reverse_iterator to last element
+		const_reverse_iterator rbegin() const { return (const_reverse_iterator(end())); };
+
 		// returns reverse_iterator to first element
 		reverse_iterator rend() { return (reverse_iterator(begin())); };
+
+		// returns const_reverse_iterator to first element
+		const_reverse_iterator rend() const { return (reverse_iterator(begin())); };
 
 	// --- CAPACITY ---
 

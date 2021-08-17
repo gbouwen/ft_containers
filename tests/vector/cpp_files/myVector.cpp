@@ -162,7 +162,6 @@ void test_const_it_1()
 
 	for (ft::vector<int>::const_iterator it_one = vector_one.begin(); it_one != vector_one.end(); it_one++)
 		std::cout << *it_one << std::endl;
-
 }
 
 void iterators() {
