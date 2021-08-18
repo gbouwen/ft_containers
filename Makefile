@@ -11,10 +11,20 @@ MY_VECTOR_CPP = tests/vector/cpp_files/myVector.cpp
 MY_VECTOR_EXECUTABLE = tests/vector/executables/testMyVector
 MY_VECTOR_OUTPUT = tests/vector/output/outputMyVector.txt
 
+STACK_CPP = tests/stack/cpp_files/stack.cpp
+STACK_EXECUTABLE = tests/stack/executables/testStack
+STACK_OUTPUT = tests/stack/output/outputStack.txt
+
+MY_STACK_CPP = tests/stack/cpp_files/myStack.cpp
+MY_STACK_EXECUTABLE = tests/stack/executables/testMyStack
+MY_STACK_OUTPUT = tests/stack/output/outputMyStack.txt
+
 GREEN = \033[0;38;5;114m
 RED = \033[38;5;124m
 BLUE = \033[38;5;153m
 NORMAL = \033[38;5;255m
+
+all: vector stack
 
 vector:
 	@echo "$(GREEN)Creating executable: $(NORMAL)$(VECTOR_EXECUTABLE)\n"
@@ -31,9 +41,20 @@ vector:
 	@echo "----------------------------------------------------"
 	@cat $(MY_VECTOR_OUTPUT)
 
-vector_diff:
-	@echo "$(BLUE)Diff results...$(NORMAL)\n"
-	diff $(VECTOR_OUTPUT) $(MY_VECTOR_OUTPUT); [ $$? -eq 1 ]
+stack:
+	@echo "$(GREEN)Creating executable: $(NORMAL)$(STACK_EXECUTABLE)\n"
+	$(CC) $(FLAGS) $(STACK_CPP) -o $(STACK_EXECUTABLE)
+	@echo "----------------------------------------------------"
+	@echo "$(GREEN)Creating executable: $(NORMAL)$(MY_STACK_EXECUTABLE)\n"
+	$(CC) $(FLAGS) $(MY_STACK_CPP) -o $(MY_STACK_EXECUTABLE)
+	@echo "----------------------------------------------------"
+	@echo "$(BLUE)Outputting to files...$(NORMAL)\n"
+	./$(STACK_EXECUTABLE) > $(STACK_OUTPUT)
+	./$(MY_STACK_EXECUTABLE) > $(MY_STACK_OUTPUT)
+	@echo "----------------------------------------------------"
+	@cat $(STACK_OUTPUT)
+	@echo "----------------------------------------------------"
+	@cat $(MY_STACK_OUTPUT)
 
 clean:
 	@echo "$(RED)Removing executables:$(NORMAL) $(VECTOR_EXECUTABLE) $(MY_VECTOR_EXECUTABLE)\n"
