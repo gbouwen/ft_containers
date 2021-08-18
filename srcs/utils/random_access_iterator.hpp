@@ -124,6 +124,7 @@ namespace ft {
 		reference	operator[](int index) { return *(_ptr + index); }
 
 	}; // class random_access_iterator
+
 }; // namespace ft
 
 #endif

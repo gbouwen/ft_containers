@@ -5,7 +5,7 @@
 
 namespace ft {
 
-	// !!! TEMPLATE PARAMETERS !!!
+	template < class Key, class T, class Compare = less<Key>, class Alloc = allocator< ft::pair<const Key, T> > >
 	class map {
 
 	public:
@@ -32,7 +32,8 @@ namespace ft {
 
 	private:
 
-	};
-};
+	}; // class map
+
+}; // namespace ft
 
 #endif
