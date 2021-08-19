@@ -19,12 +19,20 @@ MY_STACK_CPP = tests/stack/cpp_files/myStack.cpp
 MY_STACK_EXECUTABLE = tests/stack/executables/testMyStack
 MY_STACK_OUTPUT = tests/stack/output/outputMyStack.txt
 
+MAP_CPP = tests/map/cpp_files/map.cpp
+MAP_EXECUTABLE = tests/map/executables/testMap
+MAP_OUTPUT = tests/map/output/outputMap.txt
+
+MY_MAP_CPP = tests/map/cpp_files/myMap.cpp
+MY_MAP_EXECUTABLE = tests/map/executables/testMyMap
+MY_MAP_OUTPUT = tests/map/output/outputMyMap.txt
+
 GREEN = \033[0;38;5;114m
 RED = \033[38;5;124m
 BLUE = \033[38;5;153m
 NORMAL = \033[38;5;255m
 
-all: vector stack
+all: vector stack map
 
 vector:
 	@echo "$(GREEN)Creating executable: $(NORMAL)$(VECTOR_EXECUTABLE)\n"
@@ -55,6 +63,21 @@ stack:
 	@cat $(STACK_OUTPUT)
 	@echo "----------------------------------------------------"
 	@cat $(MY_STACK_OUTPUT)
+
+map:
+	@echo "$(GREEN)Creating executable: $(NORMAL)$(MAP_EXECUTABLE)\n"
+	$(CC) $(FLAGS) $(MAP_CPP) -o $(MAP_EXECUTABLE)
+	@echo "----------------------------------------------------"
+	@echo "$(GREEN)Creating executable: $(NORMAL)$(MY_MAP_EXECUTABLE)\n"
+	$(CC) $(FLAGS) $(MY_MAP_CPP) -o $(MY_MAP_EXECUTABLE)
+	@echo "----------------------------------------------------"
+	@echo "$(BLUE)Outputting to files...$(NORMAL)\n"
+	./$(MAP_EXECUTABLE) > $(MAP_OUTPUT)
+	./$(MY_MAP_EXECUTABLE) > $(MY_MAP_OUTPUT)
+	@echo "----------------------------------------------------"
+	@cat $(MAP_OUTPUT)
+	@echo "----------------------------------------------------"
+	@cat $(MY_MAP_OUTPUT)
 
 clean:
 	@echo "$(RED)Removing executables:$(NORMAL) $(VECTOR_EXECUTABLE) $(MY_VECTOR_EXECUTABLE)\n"
