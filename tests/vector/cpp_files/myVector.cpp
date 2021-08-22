@@ -446,8 +446,8 @@ int	main(void) {
 
 //	constructors_destructor_operator();
 //	modifiers();
-//	capacity_all();
+	capacity_all();
 //	relational_operators();
-	iterators();
+//	iterators();
 	return (0);
 }

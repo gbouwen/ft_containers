@@ -1,6 +1,7 @@
 // map.cpp
 
 #include <utility>
+#include <map>
 #include <iostream>
 
 void pair_test_1()
@@ -55,10 +56,47 @@ void pair()
 	std::cout << "------------" << std::endl;
 }
 
+void test_empty_1()
+{
+	std::map<int, int>	map;
+
+	std::cout << "map.empty() = " << map.empty() << std::endl;
+}
+
+void test_size_1()
+{
+	std::map<int, int>	map;
+
+	std::cout << "map.size() = " << map.size() << std::endl;
+}
+
+void test_max_size_1()
+{
+
+}
+
+void capacity()
+{
+	test_empty_1();
+	test_size_1();
+//	test_max_size_1();
+}
+
+void observers()
+{
+	std::map<char, int>					map;
+	std::map<char, int>::key_compare	comp_one = map.key_comp();
+	std::map<char, int>::value_compare	comp_two = map.value_comp();
+	(void)comp_one;
+	(void)comp_two;
+}
+
 int	main(void)
 {
 	std::cout << "--- test map ---" << std::endl;
-	pair();
+//	pair();
+//	capacity();
+//	observers();
 	std::cout << "----------------" << std::endl;
 	return (0);
 }

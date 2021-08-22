@@ -1,7 +1,9 @@
 // myMap.cpp
 
+#include "../../../srcs/map.hpp"
 #include "../../../srcs/utils/pair.hpp"
 #include "../../../srcs/utils/make_pair.hpp"
+#include "../../../srcs/utils/node.hpp"
 #include <string>
 #include <iostream>
 
@@ -57,10 +59,82 @@ void pair()
 	std::cout << "------------" << std::endl;
 }
 
+void test_empty_1()
+{
+	ft::map<int, int>	map;
+
+	std::cout << "map.empty() = " << map.empty() << std::endl;
+}
+
+void test_size_1()
+{
+	ft::map<int, int>	map;
+
+	std::cout << "map.size() = " << map.size() << std::endl;
+}
+
+void test_max_size_1()
+{
+
+}
+
+void capacity()
+{
+	test_empty_1();
+	test_size_1();
+//	test_max_size_1();
+}
+
+void observers()
+{
+	ft::map<char, int>					map;
+	ft::map<char, int>::key_compare		comp_one = map.key_comp();
+	ft::map<char, int>::value_compare	comp_two = map.value_comp();
+	(void)comp_one;
+	(void)comp_two;
+}
+
+//void node()
+//{
+	//ft::node	*node = new ft::node;
+	//ft::node	*node_two = new ft::node;
+	//ft::node	*node_three = new ft::node;
+	//ft::node	*temp = new ft::node;
+
+	//node->data = 100;
+	//node_two->data = 200;
+	//node_three->data = 300;
+	//node->root = NULL;
+	//node->left = node_two;
+	//node->right = node_three;
+	//node_two->root = node;
+	//node_two->left = NULL;
+	//node_two->right = NULL;
+	//node_three->root = node;
+	//node_three->left = NULL;
+	//node_three->right = NULL;
+
+	//temp = node;
+	//while (temp)
+	//{
+		//std::cout << temp->data << std::endl;
+		//temp = temp->left;
+	//}
+	//temp = node;
+	//while (temp)
+	//{
+		//std::cout << temp->data << std::endl;
+		//temp = temp->right;
+	//}
+//}
+
 int	main(void)
 {
-	std::cout << "--- test map ---" << std::endl;
-	pair();
+	std::cout << "--- test myMap ---" << std::endl;
+//	pair();
+//	capacity();
+//	observers();
+//	node();
 	std::cout << "----------------" << std::endl;
 	return (0);
 }
