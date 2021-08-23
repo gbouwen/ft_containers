@@ -10,6 +10,7 @@
 # include "utils/make_pair.hpp"
 # include "utils/less_binary_function.hpp"
 # include "utils/node.hpp"
+# include "utils/bidirectional_iterator.hpp"
 
 namespace ft {
 
@@ -18,22 +19,24 @@ namespace ft {
 
 		public:
 
-		typedef Key										key_type;
-		typedef T										mapped_type;
-		typedef ft::pair<const key_type, mapped_type>	value_type;
-		typedef Compare									key_compare;
-		typedef Alloc									allocator_type;
-		typedef value_type&								reference;
-		typedef const value_type&						const_reference;
-		typedef value_type*								pointer;
-		typedef const value_type*						const_pointer;
-		// bidirectional_iterator
-		// const bidirectional_iterator
+		typedef Key																			key_type;
+		typedef T																			mapped_type;
+		typedef ft::pair<const key_type, mapped_type>										value_type;
+		typedef Compare																		key_compare;
+		typedef Alloc																		allocator_type;
+		typedef value_type&																	reference;
+		typedef const value_type&															const_reference;
+		typedef value_type*																	pointer;
+		typedef const value_type*															const_pointer;
+		typedef bidirectional_iterator<value_type, value_type*, value_type&>				iterator;
+		typedef bidirectional_iterator<value_type, const value_type*, const value_type&>	const_iterator;
 		// reverse_iterator
 		// const_reverse_iterator
-		typedef ptrdiff_t								difference_type;
-		typedef size_t									size_type;
-		typedef ft::node<T>*							node_pointer;
+		typedef ptrdiff_t																	difference_type;
+		typedef size_t																		size_type;
+
+		typedef ft::node<value_type>														node;
+		typedef ft::node<value_type>*														node_pointer;
 
 		class value_compare: ft::binary_function<value_type, value_type, bool> {
 
@@ -59,7 +62,7 @@ namespace ft {
 		private:
 
 			size_type		_size;
-			node_pointer	_root;
+			node_pointer	_node;
 			Compare			_comp;
 			allocator_type	_allocator;
 
@@ -67,9 +70,15 @@ namespace ft {
 
 		// --- CONSTRUCTOR/DESTRUCTOR/OPERATOR= ---
 			explicit map(const key_compare& comp = key_compare(),
-						const allocator_type& alloc = allocator_type()): _size(0), _root(), _comp(comp), _allocator(alloc) { }
+						const allocator_type& alloc = allocator_type()): _size(0), _comp(comp), _allocator(alloc) {
+				_node = new node();
+			}
 
 		// --- ITERATORS ---
+
+			iterator begin() { return (iterator(_node->get_begin())); }
+
+			const_iterator begin() const { return (const_iterator(_node->get_begin())); }
 
 		// --- CAPACITY ---
 
@@ -84,6 +93,15 @@ namespace ft {
 		// --- ELEMENT ACCESS ---
 
 		// --- MODIFIERS ---
+		//
+			ft::pair<iterator, bool> insert(const value_type& val) {
+				if (empty()) {
+					_node = new node(val);
+					_size++;
+					return (ft::pair<iterator, bool>(begin(), true));
+				}
+				return (ft::pair<iterator, bool>(begin(), true));
+			}
 
 		// --- OBSERVERS ---
 

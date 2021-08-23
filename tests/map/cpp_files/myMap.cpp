@@ -4,8 +4,11 @@
 #include "../../../srcs/utils/pair.hpp"
 #include "../../../srcs/utils/make_pair.hpp"
 #include "../../../srcs/utils/node.hpp"
+
 #include <string>
 #include <iostream>
+
+// --- PAIR ---
 
 void pair_test_1()
 {
@@ -59,6 +62,8 @@ void pair()
 	std::cout << "------------" << std::endl;
 }
 
+// -- CAPACITY ---
+
 void test_empty_1()
 {
 	ft::map<int, int>	map;
@@ -85,6 +90,8 @@ void capacity()
 //	test_max_size_1();
 }
 
+// --- OBSERVERS ---
+
 void observers()
 {
 	ft::map<char, int>					map;
@@ -94,39 +101,45 @@ void observers()
 	(void)comp_two;
 }
 
-//void node()
+// --- ITERATORS ---
+
+void test_begin_1()
+{
+	ft::map<char, int>	map;
+
+	ft::map<char, int>::iterator it = map.begin();
+	std::cout << it->first << std::endl;
+}
+
+//void test_end_1()
 //{
-	//ft::node	*node = new ft::node;
-	//ft::node	*node_two = new ft::node;
-	//ft::node	*node_three = new ft::node;
-	//ft::node	*temp = new ft::node;
+	//std::map<char, int>	map;
 
-	//node->data = 100;
-	//node_two->data = 200;
-	//node_three->data = 300;
-	//node->root = NULL;
-	//node->left = node_two;
-	//node->right = node_three;
-	//node_two->root = node;
-	//node_two->left = NULL;
-	//node_two->right = NULL;
-	//node_three->root = node;
-	//node_three->left = NULL;
-	//node_three->right = NULL;
+	//map.insert(std::pair<char, int>('a', 100));
 
-	//temp = node;
-	//while (temp)
-	//{
-		//std::cout << temp->data << std::endl;
-		//temp = temp->left;
-	//}
-	//temp = node;
-	//while (temp)
-	//{
-		//std::cout << temp->data << std::endl;
-		//temp = temp->right;
-	//}
+	//std::map<char, int>::iterator it = map.end();
+	//it--;
+	//std::cout << it->second << std::endl;
+	//(void)it;
 //}
+
+void iterators()
+{
+	test_begin_1();
+//	test_end_1();
+}
+
+// --- MODIFIERS ---
+
+void modifiers()
+{
+	ft::map<char, int>	map;
+
+	map.insert(ft::pair<char, int>('a', 100));
+	ft::map<char, int>::iterator it = map.begin();
+	std::cout << "it->first = " << it->first << std::endl;
+	std::cout << "it->second = " << it->second << std::endl;
+}
 
 int	main(void)
 {
@@ -134,7 +147,8 @@ int	main(void)
 //	pair();
 //	capacity();
 //	observers();
-//	node();
+//	iterators();
+	modifiers();
 	std::cout << "----------------" << std::endl;
 	return (0);
 }

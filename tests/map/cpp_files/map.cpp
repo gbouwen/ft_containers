@@ -4,6 +4,8 @@
 #include <map>
 #include <iostream>
 
+// --- PAIR ---
+
 void pair_test_1()
 {
 	std::pair<std::string, int>	pair_one;
@@ -56,6 +58,8 @@ void pair()
 	std::cout << "------------" << std::endl;
 }
 
+// -- CAPACITY ---
+
 void test_empty_1()
 {
 	std::map<int, int>	map;
@@ -82,6 +86,8 @@ void capacity()
 //	test_max_size_1();
 }
 
+// --- OBSERVERS ---
+
 void observers()
 {
 	std::map<char, int>					map;
@@ -91,12 +97,54 @@ void observers()
 	(void)comp_two;
 }
 
+// --- ITERATORS ---
+
+void test_begin_1()
+{
+	std::map<char, int>	map;
+
+	std::map<char, int>::iterator it = map.begin();
+	std::cout << it->first << std::endl;
+}
+
+//void test_end_1()
+//{
+	//std::map<char, int>	map;
+
+	//map.insert(std::pair<char, int>('a', 100));
+
+	//std::map<char, int>::iterator it = map.end();
+	//it--;
+	//std::cout << it->second << std::endl;
+	//(void)it;
+//}
+
+void iterators()
+{
+	test_begin_1();
+//	test_end_1();
+}
+
+// --- MODIFIERS ---
+
+void modifiers()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('a', 100));
+	std::map<char, int>::iterator it = map.begin();
+	std::cout << "it->first = " << it->first << std::endl;
+	std::cout << "it->second = " << it->second << std::endl;
+}
+
 int	main(void)
 {
 	std::cout << "--- test map ---" << std::endl;
 //	pair();
 //	capacity();
 //	observers();
+//	iterators();
+	modifiers();
 	std::cout << "----------------" << std::endl;
 	return (0);
 }
