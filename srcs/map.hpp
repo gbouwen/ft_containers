@@ -69,18 +69,29 @@ namespace ft {
 		public:
 
 		// --- CONSTRUCTOR/DESTRUCTOR/OPERATOR= ---
+
+			// default constructor
 			explicit map(const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type()): _size(0), _comp(comp), _allocator(alloc) {
 				_root = new node();
 			}
 
+			// destructor
+			~map() { clear(); }
+
 		// --- ITERATORS ---
 
-			// returns iterator to first element of map
-			iterator begin() { return (iterator(_root->get_begin())); }
+			// returns iterator to first element
+			iterator begin() { return (iterator(_root->get_begin(_root))); }
 
-			// returns const_iterator to first element of map
-			const_iterator begin() const { return (const_iterator(_root->get_begin())); }
+			// returns const_iterator to first element
+			const_iterator begin() const { return (const_iterator(_root->get_begin(_root))); }
+
+			// returns iterator to element after last
+			iterator end() { return (iterator(_root->get_end(_root)->_right)); }
+
+			// returns const_iterator to element after last
+			const_iterator end() const { return (const_iterator(_root->get_end(_root)->_right)); }
 
 		// --- CAPACITY ---
 
@@ -93,6 +104,10 @@ namespace ft {
 			// size_type max_size() const;
 
 		// --- ELEMENT ACCESS ---
+
+			mapped_type& operator[](const key_type& k) {
+				return ((*((insert(ft::make_pair(k, mapped_type()))).first)).second);
+			}
 
 		// --- MODIFIERS ---
 
@@ -112,6 +127,12 @@ namespace ft {
 				else
 					temp = insert_right_leaf(temp, val);
 				return (ft::pair<iterator, bool>(iterator(temp), true));
+			}
+
+			// deletes map content + deallocates
+			void clear() {
+				if (!empty())
+					delete_tree(_root);
 			}
 
 		// --- OBSERVERS ---
@@ -138,6 +159,7 @@ namespace ft {
 				_size++;
 			}
 
+			// returns newly inserted left leaf
 			node_pointer insert_left_leaf(node_pointer parent, const value_type& val) {
 				node_pointer child = new node(val);
 
@@ -147,6 +169,7 @@ namespace ft {
 				return (child);
 			}
 
+			// returns newly inserted right leaf
 			node_pointer insert_right_leaf(node_pointer parent, const value_type& val) {
 				node_pointer child = new node(val);
 
@@ -180,7 +203,17 @@ namespace ft {
 				return (true);
 			}
 
-			// remove this
+			// deletes the tree recursively
+			void delete_tree(node_pointer node) {
+				if (!node)
+					return ;
+				delete_tree(node->_left);
+				delete_tree(node->_right);
+				_size--;
+				delete (node);
+			}
+
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
 			void	print_tree_utils(node_pointer root, int space) const
 			{
 			   int count = 5;
@@ -195,7 +228,7 @@ namespace ft {
 				print_tree_utils(root->_left, space);
 			}
 
-			// remove this
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
 			void	print_tree(node_pointer root) const
 			{
 				print_tree_utils(root, 0);

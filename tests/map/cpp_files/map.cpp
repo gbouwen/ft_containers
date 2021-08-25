@@ -107,6 +107,24 @@ void test_begin_1()
 	std::cout << it->first << std::endl;
 }
 
+void test_it_plus_1()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	map.insert(std::pair<char, int>('l', 500));
+	map.insert(std::pair<char, int>('d', 500));
+	map.insert(std::pair<char, int>('v', 500));
+	map.insert(std::pair<char, int>('q', 500));
+	map.insert(std::pair<char, int>('a', 500));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('x', 500));
+	for (std::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+		std::cout << "it->first = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+	}
+}
+
 //void test_end_1()
 //{
 	//std::map<char, int>	map;
@@ -122,12 +140,13 @@ void test_begin_1()
 void iterators()
 {
 	test_begin_1();
+	test_it_plus_1();
 //	test_end_1();
 }
 
 // --- MODIFIERS ---
 
-void modifiers()
+void insert_test_1()
 {
 	std::map<char, int>	map;
 
@@ -143,14 +162,60 @@ void modifiers()
 	std::cout << "it->second = " << it->second << std::endl;
 }
 
+void clear_test_1()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	map.insert(std::pair<char, int>('l', 500));
+	map.insert(std::pair<char, int>('d', 500));
+	map.insert(std::pair<char, int>('v', 500));
+	map.insert(std::pair<char, int>('q', 500));
+	map.insert(std::pair<char, int>('a', 500));
+	map.insert(std::pair<char, int>('e', 500));
+
+	std::cout << map.size() << std::endl;
+	std::cout << "map.clear();" << std::endl;
+	map.clear();
+	std::cout << map.size() << std::endl;
+}
+
+void modifiers()
+{
+	insert_test_1();
+	clear_test_1();
+}
+
+void element_access()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('a', 100));
+	map.insert(std::pair<char, int>('b', 200));
+	map.insert(std::pair<char, int>('c', 300));
+	map.insert(std::pair<char, int>('d', 400));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('f', 600));
+	map.insert(std::pair<char, int>('g', 700));
+
+	std::cout << "map[a] = " << map['a'] << std::endl;
+	std::cout << "map[b] = " << map['b'] << std::endl;
+	std::cout << "map[c] = " << map['c'] << std::endl;
+	std::cout << "map[d] = " << map['d'] << std::endl;
+	std::cout << "map[e] = " << map['e'] << std::endl;
+	std::cout << "map[f] = " << map['f'] << std::endl;
+	std::cout << "map[g] = " << map['g'] << std::endl;
+}
+
 int	main(void)
 {
 	std::cout << "--- test map ---" << std::endl;
 //	pair();
 //	capacity();
 //	observers();
-//	iterators();
-	modifiers();
+	iterators();
+//	modifiers();
+//	element_access();
 	std::cout << "----------------" << std::endl;
 	return (0);
 }

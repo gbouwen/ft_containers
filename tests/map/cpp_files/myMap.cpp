@@ -34,12 +34,12 @@ void pair_test_1()
 
 void pair_test_2()
 {
-	std::pair<std::string, int>	pair_one;
-	std::pair<std::string, int>	pair_two("hi", 1);
-	std::pair<std::string, int>	pair_three(pair_two);
-	std::pair<std::string, int>	pair_four = pair_three;
+	ft::pair<std::string, int>	pair_one;
+	ft::pair<std::string, int>	pair_two("hi", 1);
+	ft::pair<std::string, int>	pair_three(pair_two);
+	ft::pair<std::string, int>	pair_four = pair_three;
 
-	pair_one = std::make_pair<std::string, int>("eyo", 0);
+	pair_one = ft::make_pair<std::string, int>("eyo", 0);
 
 	pair_two.first = "hey";
 	pair_two.second = 5;
@@ -111,13 +111,32 @@ void test_begin_1()
 	std::cout << it->first << std::endl;
 }
 
+void test_it_plus_1()
+{
+	ft::map<char, int>	map;
+
+	map.insert(ft::pair<char, int>('g', 100));
+	map.insert(ft::pair<char, int>('l', 500));
+	map.insert(ft::pair<char, int>('d', 500));
+	map.insert(ft::pair<char, int>('v', 500));
+	map.insert(ft::pair<char, int>('q', 500));
+	map.insert(ft::pair<char, int>('a', 500));
+	map.insert(ft::pair<char, int>('e', 500));
+	map.insert(ft::pair<char, int>('x', 500));
+	ft::map<char, int>::iterator it = map.begin();
+	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+		std::cout << "it->first = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+	}
+}
+
 //void test_end_1()
 //{
-	//std::map<char, int>	map;
+	//ft::map<char, int>	map;
 
-	//map.insert(std::pair<char, int>('a', 100));
+	//map.insert(ft::pair<char, int>('a', 100));
 
-	//std::map<char, int>::iterator it = map.end();
+	//ft::map<char, int>::iterator it = map.end();
 	//it--;
 	//std::cout << it->second << std::endl;
 	//(void)it;
@@ -126,12 +145,13 @@ void test_begin_1()
 void iterators()
 {
 	test_begin_1();
+	test_it_plus_1();
 //	test_end_1();
 }
 
 // --- MODIFIERS ---
 
-void modifiers()
+void insert_test_1()
 {
 	ft::map<char, int>	map;
 
@@ -147,14 +167,60 @@ void modifiers()
 	std::cout << "it->second = " << it->second << std::endl;
 }
 
+void clear_test_1()
+{
+	ft::map<char, int>	map;
+
+	map.insert(ft::pair<char, int>('g', 100));
+	map.insert(ft::pair<char, int>('l', 500));
+	map.insert(ft::pair<char, int>('d', 500));
+	map.insert(ft::pair<char, int>('v', 500));
+	map.insert(ft::pair<char, int>('q', 500));
+	map.insert(ft::pair<char, int>('a', 500));
+	map.insert(ft::pair<char, int>('e', 500));
+
+	std::cout << map.size() << std::endl;
+	std::cout << "map.clear();" << std::endl;
+	map.clear();
+	std::cout << map.size() << std::endl;
+}
+
+void modifiers()
+{
+	insert_test_1();
+	clear_test_1();
+}
+
+void element_access()
+{
+	ft::map<char, int>	map;
+
+	map.insert(ft::pair<char, int>('a', 100));
+	map.insert(ft::pair<char, int>('b', 200));
+	map.insert(ft::pair<char, int>('c', 300));
+	map.insert(ft::pair<char, int>('d', 400));
+	map.insert(ft::pair<char, int>('e', 500));
+	map.insert(ft::pair<char, int>('f', 600));
+	map.insert(ft::pair<char, int>('g', 700));
+
+	std::cout << "map[a] = " << map['a'] << std::endl;
+	std::cout << "map[b] = " << map['b'] << std::endl;
+	std::cout << "map[c] = " << map['c'] << std::endl;
+	std::cout << "map[d] = " << map['d'] << std::endl;
+	std::cout << "map[e] = " << map['e'] << std::endl;
+	std::cout << "map[f] = " << map['f'] << std::endl;
+	std::cout << "map[g] = " << map['g'] << std::endl;
+}
+
 int	main(void)
 {
 	std::cout << "--- test myMap ---" << std::endl;
 //	pair();
 //	capacity();
 //	observers();
-//	iterators();
-	modifiers();
+	iterators();
+//	modifiers();
+//	element_access();
 	std::cout << "----------------" << std::endl;
 	return (0);
 }

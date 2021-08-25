@@ -50,10 +50,11 @@ namespace ft {
 
 			bool operator!=(const node& rhs) { return (!(*this == rhs)); }
 
-		// ---
+		// helper functions
 
-			node_pointer get_begin() {
-				node_pointer temp = this;
+			// returns first element
+			node_pointer get_begin(node_pointer node) {
+				node_pointer temp = node;
 
 				while (temp->_left) {
 					temp = temp->_left;
@@ -61,8 +62,30 @@ namespace ft {
 				return (temp);
 			}
 
-	}; // class node
+			// returns last element
+			node_pointer get_end(node_pointer node) {
+				node_pointer temp = node;
 
+				while (temp->_right) {
+					temp = temp->_right;
+				}
+				return (temp);
+			}
+
+			// returns next element
+			node_pointer get_next_node(node_pointer node) {
+				node_pointer temp = node;
+
+				if (temp->_right)
+					return (get_begin(temp->_right));
+				while (temp->_parent && temp->_parent->_data.first < node->_data.first)
+					temp = temp->_parent;
+				return (temp->_parent);
+			}
+
+			// returns previous element
+
+	}; // class node
 }; // namespace ft
 
 #endif

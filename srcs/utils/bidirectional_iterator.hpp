@@ -57,33 +57,33 @@ namespace ft {
 
 			pointer		operator->() { return (&(_node->_data)); }
 
-   /*         // prefix*/
-			//iterator&	operator++() {
-				//_node = _node->get_next();
+			// prefix
+			iterator&	operator++() {
+				_node = _node->get_next_node(_node);
 
-				//return (*this);
-			//}
+				return (*this);
+			}
 
-			//// postfix
-			//iterator	operator++(int) {
-				//random_access_iterator temp = *this;
+			// postfix
+			iterator	operator++(int) {
+				iterator temp = *this;
 
-				//_node = _node->get_next();
-				//return (temp);
-			//}
+				_node = _node->get_next_node(_node);
+				return (temp);
+			}
 
 			//// prefix
 			//iterator&	operator--() {
-				//_node = _node->get_previous();
+				//_node = _node->get_previous_node();
 
 				//return (*this);
 			//}
 
 			//// postfix
 			//iterator	operator--(int) {
-				//random_access_iterator temp = *this;
+				//iterator temp = *this;
 
-				//_node = _node->get_previous();
+				//_node = _node->get_previous_node();
 				//return (temp);
 			//}
 
