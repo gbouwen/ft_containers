@@ -132,6 +132,7 @@ void modifiers()
 	std::map<char, int>	map;
 
 	map.insert(std::pair<char, int>('a', 100));
+	map.insert(std::pair<char, int>('b', 500));
 	std::map<char, int>::iterator it = map.begin();
 	std::cout << "it->first = " << it->first << std::endl;
 	std::cout << "it->second = " << it->second << std::endl;

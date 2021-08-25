@@ -22,13 +22,13 @@ namespace ft {
 
 		// constructors/destructor/operator=
 
-			node(): _parent(NULL), _left(NULL), _right(NULL), _data() { }
+			node(): _parent(), _left(), _right(), _data() { }
 
 			node(const node &src): _parent(src._parent), _left(src._left), _right(src._right), _data(src._data) { }
 
-			node(value_type x): _parent(NULL), _left(NULL), _right(NULL), _data(x) { }
+			node(value_type x): _parent(), _left(), _right(), _data(x) { }
 
-			node(node parent, value_type x): _parent(parent), _left(NULL), _right(NULL), _data(x) { }
+			node(node_pointer parent, value_type x): _parent(parent), _left(), _right(), _data(x) { }
 
 			node& operator=(const node& rhs) {
 				if (this != rhs) {

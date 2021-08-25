@@ -62,7 +62,7 @@ namespace ft {
 		private:
 
 			size_type		_size;
-			node_pointer	_node;
+			node_pointer	_root;
 			Compare			_comp;
 			allocator_type	_allocator;
 
@@ -71,14 +71,16 @@ namespace ft {
 		// --- CONSTRUCTOR/DESTRUCTOR/OPERATOR= ---
 			explicit map(const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type()): _size(0), _comp(comp), _allocator(alloc) {
-				_node = new node();
+				_root = new node();
 			}
 
 		// --- ITERATORS ---
 
-			iterator begin() { return (iterator(_node->get_begin())); }
+			// returns iterator to first element of map
+			iterator begin() { return (iterator(_root->get_begin())); }
 
-			const_iterator begin() const { return (const_iterator(_node->get_begin())); }
+			// returns const_iterator to first element of map
+			const_iterator begin() const { return (const_iterator(_root->get_begin())); }
 
 		// --- CAPACITY ---
 
@@ -93,14 +95,38 @@ namespace ft {
 		// --- ELEMENT ACCESS ---
 
 		// --- MODIFIERS ---
-		//
+
+			// inserts new pair, returns pair with iterator to new element as first
+			// returns bool as second: true if succeeded, false if key already exists
 			ft::pair<iterator, bool> insert(const value_type& val) {
 				if (empty()) {
-					_node = new node(val);
-					_size++;
+					create_new_root(val);
 					return (ft::pair<iterator, bool>(begin(), true));
 				}
-				return (ft::pair<iterator, bool>(begin(), true));
+				node_pointer temp = _root;
+				while (temp->_left || temp->_right) {
+					if (temp->_data.first == val.first)
+						return (ft::pair<iterator, bool>(iterator(temp), false));
+					if (val.first < temp->_data.first) {
+						if (temp->_left != NULL)
+							temp = temp->_left;
+						else
+							break ;
+					}
+					else {
+						if (temp->_right != NULL)
+							temp = temp->_right;
+						else
+							break ;
+					}
+				}
+				if (temp->_data.first == val.first)
+					return (ft::pair<iterator, bool>(iterator(temp), false));
+				if (val.first < temp->_data.first)
+					temp = insert_left_leaf(temp, val);
+				else
+					temp = insert_right_leaf(temp, val);
+				return (ft::pair<iterator, bool>(iterator(temp), true));
 			}
 
 		// --- OBSERVERS ---
@@ -118,8 +144,65 @@ namespace ft {
 			// returns allocator
 			allocator_type get_allocator() const { return (_allocator); }
 
-	}; // class map
+		private:
 
+			void create_new_root(const value_type& val) {
+				delete (_root);
+				_root = new node(val);
+				_size++;
+			}
+
+			node_pointer insert_left_leaf(node_pointer parent, const value_type& val) {
+				node_pointer child = new node(val);
+
+				parent->_left = child;
+				child->_parent = parent;
+				_size++;
+				return (child);
+			}
+
+			node_pointer insert_right_leaf(node_pointer parent, const value_type& val) {
+				node_pointer child = new node(val);
+
+				parent->_right = child;
+				child->_parent = parent;
+				_size++;
+				return (child);
+			}
+
+			// Function to print binary tree in 2D
+			// It does reverse inorder traversal
+			void print2DUtil(node_pointer root, int space)
+			{
+				// Base case
+				if (root == NULL)
+					return;
+
+				// Increase distance between levels
+				space += 7;
+
+				// Process right child first
+				print2DUtil(root->_right, space);
+
+				// Print current node after space
+				// count
+				std::cout<<std::endl;
+				for (int i = 10; i < space; i++)
+					std::cout<<" ";
+				std::cout<<root->_data.first<<"\n";
+
+				// Process left child
+				print2DUtil(root->_left, space);
+			}
+
+			// Wrapper over print2DUtil()
+			void print_tree(node_pointer root)
+			{
+				// Pass initial space count as 0
+				print2DUtil(root, 0);
+			}
+
+	}; // class map
 }; // namespace ft
 
 #endif
