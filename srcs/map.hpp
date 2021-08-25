@@ -103,26 +103,11 @@ namespace ft {
 					create_new_root(val);
 					return (ft::pair<iterator, bool>(begin(), true));
 				}
+
 				node_pointer temp = _root;
-				while (temp->_left || temp->_right) {
-					if (temp->_data.first == val.first)
-						return (ft::pair<iterator, bool>(iterator(temp), false));
-					if (val.first < temp->_data.first) {
-						if (temp->_left != NULL)
-							temp = temp->_left;
-						else
-							break ;
-					}
-					else {
-						if (temp->_right != NULL)
-							temp = temp->_right;
-						else
-							break ;
-					}
-				}
-				if (temp->_data.first == val.first)
+				if (!find_unique_last_node(temp, val))
 					return (ft::pair<iterator, bool>(iterator(temp), false));
-				if (val.first < temp->_data.first)
+				else if (val.first < temp->_data.first)
 					temp = insert_left_leaf(temp, val);
 				else
 					temp = insert_right_leaf(temp, val);
@@ -146,6 +131,7 @@ namespace ft {
 
 		private:
 
+			// if map is empty, set root to val
 			void create_new_root(const value_type& val) {
 				delete (_root);
 				_root = new node(val);
@@ -170,36 +156,49 @@ namespace ft {
 				return (child);
 			}
 
-			// Function to print binary tree in 2D
-			// It does reverse inorder traversal
-			void print2DUtil(node_pointer root, int space)
-			{
-				// Base case
-				if (root == NULL)
-					return;
-
-				// Increase distance between levels
-				space += 7;
-
-				// Process right child first
-				print2DUtil(root->_right, space);
-
-				// Print current node after space
-				// count
-				std::cout<<std::endl;
-				for (int i = 10; i < space; i++)
-					std::cout<<" ";
-				std::cout<<root->_data.first<<"\n";
-
-				// Process left child
-				print2DUtil(root->_left, space);
+			// returns true if successfully found last unique node,
+			// returns false if the key already exists within the map
+			bool find_unique_last_node(node_pointer& temp, const value_type& val) {
+				while (temp->_left || temp->_right) {
+					if (temp->_data.first == val.first)
+						return (false);
+					if (val.first < temp->_data.first) {
+						if (temp->_left != NULL)
+							temp = temp->_left;
+						else
+							break ;
+					}
+					else if (val.first > temp->_data.first) {
+						if (temp->_right != NULL)
+							temp = temp->_right;
+						else
+							break ;
+					}
+				}
+				if (temp->_data.first == val.first)
+					return (false);
+				return (true);
 			}
 
-			// Wrapper over print2DUtil()
-			void print_tree(node_pointer root)
+			// remove this
+			void	print_tree_utils(node_pointer root, int space) const
 			{
-				// Pass initial space count as 0
-				print2DUtil(root, 0);
+			   int count = 5;
+				if (root == NULL)
+					return;
+				space += count;
+				print_tree_utils(root->_right, space);
+				std::cout << std::endl;
+				for (int i = count; i < space; i++)
+					std::cout << " ";
+				std::cout << root->_data.first << ", " << root->_data.second << std::endl;
+				print_tree_utils(root->_left, space);
+			}
+
+			// remove this
+			void	print_tree(node_pointer root) const
+			{
+				print_tree_utils(root, 0);
 			}
 
 	}; // class map

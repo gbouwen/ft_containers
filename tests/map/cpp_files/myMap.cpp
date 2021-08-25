@@ -135,8 +135,13 @@ void modifiers()
 {
 	ft::map<char, int>	map;
 
-	map.insert(ft::pair<char, int>('a', 100));
-	map.insert(ft::pair<char, int>('b', 500));
+	map.insert(ft::pair<char, int>('g', 100));
+	map.insert(ft::pair<char, int>('l', 500));
+	map.insert(ft::pair<char, int>('d', 500));
+	map.insert(ft::pair<char, int>('v', 500));
+	map.insert(ft::pair<char, int>('q', 500));
+	map.insert(ft::pair<char, int>('a', 500));
+	map.insert(ft::pair<char, int>('e', 500));
 	ft::map<char, int>::iterator it = map.begin();
 	std::cout << "it->first = " << it->first << std::endl;
 	std::cout << "it->second = " << it->second << std::endl;
