@@ -300,11 +300,52 @@ void test_count_1()
 	std::cout << "map.count('x') = " << map.count('x') << std::endl;
 }
 
+void test_lower_bound_1()
+{
+	std::map<char, int> map;
+
+	map.insert(std::pair<char, int>('a', 100));
+	map.insert(std::pair<char, int>('b', 200));
+	map.insert(std::pair<char, int>('c', 300));
+	map.insert(std::pair<char, int>('d', 400));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('f', 600));
+	map.insert(std::pair<char, int>('g', 700));
+
+	std::map<char, int>::iterator it = map.lower_bound('c');
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+	it++;
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+}
+
+void test_lower_bound_2()
+{
+	std::map<char, int> map;
+
+	map.insert(std::pair<char, int>('a', 100));
+	map.insert(std::pair<char, int>('b', 200));
+	map.insert(std::pair<char, int>('d', 400));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('f', 600));
+	map.insert(std::pair<char, int>('g', 700));
+
+	std::map<char, int>::iterator it = map.lower_bound('c');
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+	it++;
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+}
+
 void operations()
 {
 	test_find_1();
 	test_find_2();
 	test_count_1();
+	test_lower_bound_1();
+	test_lower_bound_2();
 }
 
 int	main(void)
