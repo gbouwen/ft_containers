@@ -383,15 +383,50 @@ void test_upper_bound_2()
 	std::cout << it->second << std::endl;
 }
 
+void test_equal_range_1()
+{
+	ft::map<char, int> map;
+
+	map.insert(ft::pair<char, int>('a', 100));
+	map.insert(ft::pair<char, int>('b', 200));
+	map.insert(ft::pair<char, int>('c', 300));
+	map.insert(ft::pair<char, int>('d', 400));
+	map.insert(ft::pair<char, int>('e', 500));
+	map.insert(ft::pair<char, int>('f', 600));
+	map.insert(ft::pair<char, int>('g', 700));
+
+	ft::pair<ft::map<char, int>::iterator, ft::map<char, int>::iterator> pair = map.equal_range('c');
+	std::cout << pair.first->first << std::endl;
+	std::cout << pair.second->second << std::endl;
+}
+
+void test_equal_range_2()
+{
+	ft::map<char, int> map;
+
+	map.insert(ft::pair<char, int>('a', 100));
+	map.insert(ft::pair<char, int>('b', 200));
+	map.insert(ft::pair<char, int>('d', 400));
+	map.insert(ft::pair<char, int>('e', 500));
+	map.insert(ft::pair<char, int>('f', 600));
+	map.insert(ft::pair<char, int>('g', 700));
+
+	ft::pair<ft::map<char, int>::iterator, ft::map<char, int>::iterator> pair = map.equal_range('c');
+	std::cout << pair.first->first << std::endl;
+	std::cout << pair.second->second << std::endl;
+}
+
 void operations()
 {
    /* test_find_1();*/
 	//test_find_2();
 	//test_count_1();
-	test_lower_bound_1();
-	test_lower_bound_2();
-	test_upper_bound_1();
-	test_upper_bound_2();
+   /* test_lower_bound_1();*/
+	//test_lower_bound_2();
+	//test_upper_bound_1();
+	/*test_upper_bound_2();*/
+	test_equal_range_1();
+	test_equal_range_2();
 }
 
 int	main(void)

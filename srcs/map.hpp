@@ -226,6 +226,22 @@ namespace ft {
 				return (it);
 			}
 
+			// returns pair of iterators, first is lower_bound, second is upper_bound
+			pair<iterator, iterator> equal_range(const key_type& k) {
+				iterator first = lower_bound(k);
+				iterator second = upper_bound(k);
+
+				return (pair<iterator, iterator>(first, second));
+			};
+
+			// returns pair of const_iterators, first is lower_bound, second is upper_bound
+			pair<const_iterator, const_iterator> equal_range(const key_type& k) const {
+				const_iterator first = lower_bound(k);
+				const_iterator second = upper_bound(k);
+
+				return (pair<const_iterator, const_iterator>(first, second));
+			};
+
 		// --- ALLOCATOR ---
 
 			// returns allocator
