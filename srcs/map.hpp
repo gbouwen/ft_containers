@@ -181,9 +181,6 @@ namespace ft {
 			// if k is a key, returns const_iterator to k
 			// if k is not a key, returns const_iterator after where k is supposed to go
 			iterator lower_bound(const key_type& k) {
-				if (count(k))
-					return (find(k));
-
 				iterator 	it = begin();
 				key_compare	comp = key_comp();
 				for (; it != end(); it++) {
@@ -196,13 +193,34 @@ namespace ft {
 			// if k is a key, returns const_iterator to k
 			// if k is not a key, returns const_iterator after where k is supposed to go
 			const_iterator lower_bound(const key_type& k) const {
-				if (count(k))
-					return (find(k));
-
 				const_iterator	it = begin();
 				key_compare		comp = key_comp();
 				for (; it != end(); it++) {
 					if (!comp(it->first, k))
+						break ;
+				}
+				return (it);
+			}
+
+			// if k is a key, returns const_iterator to k
+			// if k is not a key, returns const_iterator after where k is supposed to go
+			iterator upper_bound(const key_type& k) {
+				iterator 	it = begin();
+				key_compare	comp = key_comp();
+				for (; it != end(); it++) {
+					if (comp(k, it->first))
+						break ;
+				}
+				return (it);
+			}
+
+			// if k is a key, returns const_iterator to k
+			// if k is not a key, returns const_iterator after where k is supposed to go
+			const_iterator upper_bound(const key_type& k) const {
+				const_iterator	it = begin();
+				key_compare		comp = key_comp();
+				for (; it != end(); it++) {
+					if (comp(k, it->first))
 						break ;
 				}
 				return (it);
