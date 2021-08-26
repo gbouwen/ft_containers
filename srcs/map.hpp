@@ -160,6 +160,14 @@ namespace ft {
 				return (end());
 			}
 
+			const_iterator find(const key_type& k) const {
+				for (const_iterator it = begin(); it != end(); it++) {
+					if (it->first == k)
+						return (it);
+				}
+				return (end());
+			}
+
 		// --- ALLOCATOR ---
 
 			// returns allocator
