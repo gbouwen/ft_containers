@@ -152,6 +152,8 @@ namespace ft {
 
 		// --- OPERATIONS ---
 
+			// returns iterator to k if k is in map
+			// returns end if k is not in map
 			iterator find(const key_type& k) {
 				for (iterator it = begin(); it != end(); it++) {
 					if (it->first == k)
@@ -160,12 +162,24 @@ namespace ft {
 				return (end());
 			}
 
+			// returns iterator to k if k is in map
+			// returns end if k is not in map
 			const_iterator find(const key_type& k) const {
 				for (const_iterator it = begin(); it != end(); it++) {
 					if (it->first == k)
 						return (it);
 				}
 				return (end());
+			}
+
+			// counts elements with k as key
+			// returns 1 if found
+			// returns 0 if not found
+			// (keys can only occur once in a map)
+			size_type count(const key_type& k) const {
+				if (find(k) != end())
+					return (1);
+				return (0);
 			}
 
 		// --- ALLOCATOR ---

@@ -287,10 +287,29 @@ void test_find_2()
 	std::cout << it->second << std::endl;
 }
 
+void test_count_1()
+{
+	ft::map<char, int> map;
+
+	map.insert(ft::pair<char, int>('a', 100));
+	map.insert(ft::pair<char, int>('b', 200));
+	map.insert(ft::pair<char, int>('c', 300));
+	map.insert(ft::pair<char, int>('d', 400));
+	map.insert(ft::pair<char, int>('e', 500));
+	map.insert(ft::pair<char, int>('f', 600));
+	map.insert(ft::pair<char, int>('g', 700));
+
+	std::cout << "map.count('a') = " << map.count('a') << std::endl;
+	std::cout << "map.count('b') = " << map.count('b') << std::endl;
+	std::cout << "map.count('c') = " << map.count('c') << std::endl;
+	std::cout << "map.count('x') = " << map.count('x') << std::endl;
+}
+
 void operations()
 {
 	test_find_1();
 	test_find_2();
+	test_count_1();
 }
 
 int	main(void)
