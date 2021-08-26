@@ -152,11 +152,19 @@ namespace ft {
 
 		// --- OPERATIONS ---
 
+			iterator find(const key_type& k) {
+				for (iterator it = begin(); it != end(); it++) {
+					if (it->first == k)
+						return (it);
+				}
+				return (end());
+			}
+
 		// --- ALLOCATOR ---
 
 			// returns allocator
 			allocator_type get_allocator() const {
-				print_tree(_root);
+				print_tree(_root); // REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
 				return (_allocator);
 			}
 

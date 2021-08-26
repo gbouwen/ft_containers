@@ -242,15 +242,62 @@ void element_access()
 	std::cout << "map[g] = " << map['g'] << std::endl;
 }
 
+void test_find_1()
+{
+	std::map<char, int> map;
+
+	map.insert(std::pair<char, int>('a', 100));
+	map.insert(std::pair<char, int>('b', 200));
+	map.insert(std::pair<char, int>('c', 300));
+	map.insert(std::pair<char, int>('d', 400));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('f', 600));
+	map.insert(std::pair<char, int>('g', 700));
+
+	std::map<char, int>::iterator it = map.find('c');
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+	it++;
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+}
+
+void test_find_2()
+{
+	std::map<char, int> map;
+
+	map.insert(std::pair<char, int>('a', 100));
+	map.insert(std::pair<char, int>('b', 200));
+	map.insert(std::pair<char, int>('c', 300));
+	map.insert(std::pair<char, int>('d', 400));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('f', 600));
+	map.insert(std::pair<char, int>('g', 700));
+
+	std::map<char, int>::iterator it = map.find('x');
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+	it--;
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+}
+
+void operations()
+{
+	test_find_1();
+	test_find_2();
+}
+
 int	main(void)
 {
 	std::cout << "--- test map ---" << std::endl;
 //	pair();
 //	capacity();
 //	observers();
-	iterators();
+//	iterators();
 //	modifiers();
 //	element_access();
+	operations();
 	std::cout << "----------------" << std::endl;
 	return (0);
 }
