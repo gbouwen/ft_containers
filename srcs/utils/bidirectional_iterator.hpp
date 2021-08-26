@@ -72,20 +72,20 @@ namespace ft {
 				return (temp);
 			}
 
-			//// prefix
-			//iterator&	operator--() {
-				//_node = _node->get_previous_node();
+			// prefix
+			iterator&	operator--() {
+				_node = _node->get_previous_node(_node);
 
-				//return (*this);
-			//}
+				return (*this);
+			}
 
-			//// postfix
-			//iterator	operator--(int) {
-				//iterator temp = *this;
+			// postfix
+			iterator	operator--(int) {
+				iterator temp = *this;
 
-				//_node = _node->get_previous_node();
-				//return (temp);
-			//}
+				_node = _node->get_previous_node(_node);
+				return (temp);
+			}
 
 	}; // class bidirectional_iterator
 

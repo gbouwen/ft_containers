@@ -1,7 +1,7 @@
 # Makefile
 
 CC = clang++
-FLAGS = -Wall -Wextra -Werror -std=c++98
+FLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
 
 VECTOR_CPP = tests/vector/cpp_files/vector.cpp
 VECTOR_EXECUTABLE = tests/vector/executables/testVector

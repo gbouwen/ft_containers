@@ -103,8 +103,10 @@ void test_begin_1()
 {
 	std::map<char, int>	map;
 
+	map.insert(std::pair<char, int>('g', 100));
 	std::map<char, int>::iterator it = map.begin();
 	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
 }
 
 void test_it_plus_1()
@@ -125,23 +127,56 @@ void test_it_plus_1()
 	}
 }
 
-//void test_end_1()
-//{
-	//std::map<char, int>	map;
+void test_end_1()
+{
+	std::map<char, int>	map;
 
-	//map.insert(std::pair<char, int>('a', 100));
+	map.insert(std::pair<char, int>('a', 100));
 
-	//std::map<char, int>::iterator it = map.end();
-	//it--;
-	//std::cout << it->second << std::endl;
-	//(void)it;
-//}
+	std::map<char, int>::iterator it = map.end();
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+}
+
+void test_it_minus_1()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	map.insert(std::pair<char, int>('l', 500));
+	map.insert(std::pair<char, int>('d', 500));
+	map.insert(std::pair<char, int>('v', 500));
+	map.insert(std::pair<char, int>('q', 500));
+	map.insert(std::pair<char, int>('a', 500));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('x', 500));
+	std::map<char, int>::iterator it = map.end();
+	for (; it != map.begin(); it--) {
+		std::cout << "it->first = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+	}
+	std::cout << "it->first = " << it->first << std::endl;
+	std::cout << "it->second = " << it->second << std::endl;
+	it--;
+	std::cout << "it->first = " << it->first << std::endl;
+	std::cout << "it->second = " << it->second << std::endl;
+}
 
 void iterators()
 {
 	test_begin_1();
 	test_it_plus_1();
-//	test_end_1();
+	test_end_1();
+	test_it_minus_1();
 }
 
 // --- MODIFIERS ---

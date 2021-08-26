@@ -107,8 +107,10 @@ void test_begin_1()
 {
 	ft::map<char, int>	map;
 
+	map.insert(ft::pair<char, int>('g', 100));
 	ft::map<char, int>::iterator it = map.begin();
 	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
 }
 
 void test_it_plus_1()
@@ -123,30 +125,63 @@ void test_it_plus_1()
 	map.insert(ft::pair<char, int>('a', 500));
 	map.insert(ft::pair<char, int>('e', 500));
 	map.insert(ft::pair<char, int>('x', 500));
-	ft::map<char, int>::iterator it = map.begin();
 	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
 		std::cout << "it->first = " << it->first << std::endl;
 		std::cout << "it->second = " << it->second << std::endl;
 	}
 }
 
-//void test_end_1()
-//{
-	//ft::map<char, int>	map;
+void test_end_1()
+{
+	ft::map<char, int>	map;
 
-	//map.insert(ft::pair<char, int>('a', 100));
+	map.insert(ft::pair<char, int>('a', 100));
 
-	//ft::map<char, int>::iterator it = map.end();
-	//it--;
-	//std::cout << it->second << std::endl;
-	//(void)it;
-//}
+	ft::map<char, int>::iterator it = map.end();
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+}
+
+void test_it_minus_1()
+{
+	ft::map<char, int>	map;
+
+	map.insert(ft::pair<char, int>('g', 100));
+	map.insert(ft::pair<char, int>('l', 500));
+	map.insert(ft::pair<char, int>('d', 500));
+	map.insert(ft::pair<char, int>('v', 500));
+	map.insert(ft::pair<char, int>('q', 500));
+	map.insert(ft::pair<char, int>('a', 500));
+	map.insert(ft::pair<char, int>('e', 500));
+	map.insert(ft::pair<char, int>('x', 500));
+	ft::map<char, int>::iterator it = map.end();
+//	map.get_allocator();
+	for (; it != map.begin(); it--) {
+		std::cout << "it->first = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+	}
+	std::cout << "it->first = " << it->first << std::endl;
+	std::cout << "it->second = " << it->second << std::endl;
+	it--;
+	std::cout << "it->first = " << it->first << std::endl;
+	std::cout << "it->second = " << it->second << std::endl;
+}
 
 void iterators()
 {
 	test_begin_1();
 	test_it_plus_1();
-//	test_end_1();
+	test_end_1();
+	test_it_minus_1();
 }
 
 // --- MODIFIERS ---

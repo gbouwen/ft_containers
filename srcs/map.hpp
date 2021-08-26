@@ -3,6 +3,8 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
+# include <stdio.h> ///////////////////
+
 # include <cstddef>
 # include <memory>
 
@@ -63,6 +65,7 @@ namespace ft {
 
 			size_type		_size;
 			node_pointer	_root;
+			node_pointer	_end;
 			Compare			_comp;
 			allocator_type	_allocator;
 
@@ -71,13 +74,15 @@ namespace ft {
 		// --- CONSTRUCTOR/DESTRUCTOR/OPERATOR= ---
 
 			// default constructor
-			explicit map(const key_compare& comp = key_compare(),
-						const allocator_type& alloc = allocator_type()): _size(0), _comp(comp), _allocator(alloc) {
-				_root = new node();
+			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+					: _size(0), _root(), _comp(comp), _allocator(alloc) {
+				_end = new node();
 			}
 
 			// destructor
-			~map() { clear(); }
+			~map() {
+				clear();
+			}
 
 		// --- ITERATORS ---
 
@@ -88,10 +93,10 @@ namespace ft {
 			const_iterator begin() const { return (const_iterator(_root->get_begin(_root))); }
 
 			// returns iterator to element after last
-			iterator end() { return (iterator(_root->get_end(_root)->_right)); }
+			iterator end() { return (iterator(_end)); }
 
 			// returns const_iterator to element after last
-			const_iterator end() const { return (const_iterator(_root->get_end(_root)->_right)); }
+			const_iterator end() const { return (const_iterator(_end)); }
 
 		// --- CAPACITY ---
 
@@ -116,6 +121,7 @@ namespace ft {
 			ft::pair<iterator, bool> insert(const value_type& val) {
 				if (empty()) {
 					create_new_root(val);
+					set_end();
 					return (ft::pair<iterator, bool>(begin(), true));
 				}
 
@@ -126,6 +132,7 @@ namespace ft {
 					temp = insert_left_leaf(temp, val);
 				else
 					temp = insert_right_leaf(temp, val);
+				set_end();
 				return (ft::pair<iterator, bool>(iterator(temp), true));
 			}
 
@@ -148,14 +155,17 @@ namespace ft {
 		// --- ALLOCATOR ---
 
 			// returns allocator
-			allocator_type get_allocator() const { return (_allocator); }
+			allocator_type get_allocator() const {
+				print_tree(_root);
+				return (_allocator);
+			}
 
 		private:
 
 			// if map is empty, set root to val
 			void create_new_root(const value_type& val) {
-				delete (_root);
 				_root = new node(val);
+				_root->_parent = _end;
 				_size++;
 			}
 
@@ -179,6 +189,14 @@ namespace ft {
 				return (child);
 			}
 
+			// sets last element to _end
+			void set_end() {
+				node_pointer last = _root->get_last_element(_root);
+
+				last->_right = _end;
+				_end->_parent = last;
+			}
+
 			// returns true if successfully found last unique node,
 			// returns false if the key already exists within the map
 			bool find_unique_last_node(node_pointer& temp, const value_type& val) {
@@ -186,13 +204,13 @@ namespace ft {
 					if (temp->_data.first == val.first)
 						return (false);
 					if (val.first < temp->_data.first) {
-						if (temp->_left != NULL)
+						if (temp->_left != NULL && !temp->_left->is_empty())
 							temp = temp->_left;
 						else
 							break ;
 					}
 					else if (val.first > temp->_data.first) {
-						if (temp->_right != NULL)
+						if (temp->_right != NULL && !temp->_right->is_empty())
 							temp = temp->_right;
 						else
 							break ;
@@ -214,6 +232,8 @@ namespace ft {
 			}
 
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
 			void	print_tree_utils(node_pointer root, int space) const
 			{
 			   int count = 5;
@@ -228,6 +248,8 @@ namespace ft {
 				print_tree_utils(root->_left, space);
 			}
 
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
 			void	print_tree(node_pointer root) const
 			{
