@@ -160,6 +160,13 @@ namespace ft {
 				return (0);
 			}
 
+			// erases range [first, last]
+			void erase(iterator first, iterator last) {
+				for (; first != last; first++) {
+					erase(first);
+				}
+			}
+
 			// deletes map content + deallocates
 			void clear() {
 				if (!empty())
@@ -384,10 +391,14 @@ namespace ft {
 			// deletes node that is the left and only child of parent
 			// changes parent pointer(left or right) to point to child of node
 			void delete_node_with_only_left_child(node_pointer node) {
-				if (node->_parent->_left == node)
+				if (node->_parent->_left == node) {
 					node->_parent->_left = node->_left;
-				else if (node->_parent->_right == node)
+					node->_left->_parent = node->_parent;
+				}
+				else if (node->_parent->_right == node) {
 					node->_parent->_right = node->_left;
+					node->_left->_parent = node->_parent;
+				}
 				_size--;
 				delete (node);
 			}
@@ -400,10 +411,14 @@ namespace ft {
 					delete (node);
 					return ;
 				}
-				if (node->_parent->_left == node)
+				if (node->_parent->_left == node) {
 					node->_parent->_left = node->_right;
-				else if (node->_parent->_right == node)
+					node->_right->_parent = node->_parent;
+				}
+				else if (node->_parent->_right == node) {
 					node->_parent->_right = node->_right;
+					node->_right->_parent = node->_parent;
+				}
 				_size--;
 				delete (node);
 			}
@@ -448,7 +463,7 @@ namespace ft {
 					return;
 				space += count;
 				print_tree_utils(root->_right, space);
-				std::cout << std::endl;
+//				std::cout << std::endl;
 				for (int i = count; i < space; i++)
 					std::cout << " ";
 				std::cout << root->_data.first << ", " << root->_data.second << std::endl;

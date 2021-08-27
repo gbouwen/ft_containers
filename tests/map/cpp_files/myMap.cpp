@@ -295,6 +295,32 @@ void erase_test_5()
 	}
 }
 
+void erase_test_6()
+{
+	ft::map<char, int>	map;
+
+	map.insert(ft::pair<char, int>('g', 100));
+	map.insert(ft::pair<char, int>('v', 100));
+	map.insert(ft::pair<char, int>('a', 100));
+	map.insert(ft::pair<char, int>('l', 100));
+	map.insert(ft::pair<char, int>('m', 100));
+	map.insert(ft::pair<char, int>('q', 100));
+	map.insert(ft::pair<char, int>('o', 100));
+	map.insert(ft::pair<char, int>('w', 100));
+	ft::map<char, int>::iterator first = map.find('l');
+	ft::map<char, int>::iterator last = map.find('m');
+	std::cout << "map.size() = " << map.size() << std::endl;;
+//	map.get_allocator();
+	std::cout << "---------" << std::endl;
+	map.erase(first, last);
+//	map.get_allocator();
+	std::cout << "map.size() = " << map.size() << std::endl;;
+	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	}
+}
+
 void clear_test_1()
 {
 	ft::map<char, int>	map;
@@ -320,7 +346,8 @@ void modifiers()
 //	erase_test_2();
 //	erase_test_3();
 //	erase_test_4();
-	erase_test_5();
+//	erase_test_5();
+	erase_test_6();
 //	clear_test_1();
 }
 
