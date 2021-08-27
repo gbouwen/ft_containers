@@ -162,8 +162,11 @@ namespace ft {
 
 			// erases range [first, last]
 			void erase(iterator first, iterator last) {
-				for (; first != last; first++) {
+				while (first != last) {
+					iterator temp = first;
+					temp++;
 					erase(first);
+					first = find(temp->first);
 				}
 			}
 
@@ -297,6 +300,8 @@ namespace ft {
 
 				parent->_left = child;
 				child->_parent = parent;
+				child->_left = NULL;
+				child->_right = NULL;
 				_size++;
 				return (child);
 			}
@@ -307,6 +312,8 @@ namespace ft {
 
 				parent->_right = child;
 				child->_parent = parent;
+				child->_left = NULL;
+				child->_right = NULL;
 				_size++;
 				return (child);
 			}
@@ -360,22 +367,15 @@ namespace ft {
 
 			// removes node from tree
 			void remove_node(node_pointer node) {
-				if (!node->_left && !node->_right) {
-				//	std::cout << "delete_leaf()" << std::endl;
+				if (!node->_left && !node->_right)
 					delete_leaf(node);
-				}
-				else if (node->_left && !node->_right) {
-				//	std::cout << "only_left_child()" << std::endl;
+				else if (node->_left && !node->_right)
 					delete_node_with_only_left_child(node);
-				}
-				else if (node->_right && !node->_left) {
-				//	std::cout << "only_right_child()" << std::endl;
+				else if (node->_right && !node->_left)
 					delete_node_with_only_right_child(node);
-				}
-				else {
-				//	std::cout << "two_children()" << std::endl;
+				else
 					delete_node_with_two_children(node);
-				}
+				std::cout << _root->_right->_data.first << std::endl;
 			}
 
 			// deletes leaf node and changes parent pointer
@@ -425,18 +425,24 @@ namespace ft {
 
 			// deletes node with two children and changes parent pointer
 			void delete_node_with_two_children(node_pointer node) {
-				node_pointer temp = node->get_end(node->_left);
+				node_pointer temp = node->get_last_element(node->_left);
 
+				if (node == _root)
+					_root = temp;
 				if (node->_parent->_right == node)
 					node->_parent->_right = temp;
 				else if (node->_parent->_left == node)
 					node->_parent->_left = temp;
+				if (temp->_left)
+					temp->_parent->_right = temp->_left;
 				if (node->_right != temp)
 					temp->_right = node->_right;
 				if (node->_left != temp)
 					temp->_left = node->_left;
+				temp->_parent->_right = NULL;
 				temp->_parent = node->_parent;
 				_size--;
+				std::cout << "Deleting = " << node->_data.first << std::endl;
 				delete (node);
 			}
 
