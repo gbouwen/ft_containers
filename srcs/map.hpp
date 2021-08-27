@@ -150,6 +150,16 @@ namespace ft {
 				remove_node(node);
 			}
 
+			// erases element with key k
+			size_type erase(const key_type& k) {
+				iterator it = find(k);
+				if (it != end()) {
+					erase(it);
+					return (1);
+				}
+				return (0);
+			}
+
 			// deletes map content + deallocates
 			void clear() {
 				if (!empty())
