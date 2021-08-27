@@ -87,10 +87,18 @@ namespace ft {
 		// --- ITERATORS ---
 
 			// returns iterator to first element
-			iterator begin() { return (iterator(_root->get_begin(_root))); }
+			iterator begin() {
+				if (empty())
+					return (end());
+				return (iterator(_root->get_begin(_root)));
+			}
 
 			// returns const_iterator to first element
-			const_iterator begin() const { return (const_iterator(_root->get_begin(_root))); }
+			const_iterator begin() const {
+				if (empty())
+					return (end());
+				return (const_iterator(_root->get_begin(_root)));
+			}
 
 			// returns iterator to element after last
 			iterator end() { return (iterator(_end)); }
@@ -377,6 +385,11 @@ namespace ft {
 			// deletes node that is the right and only child of parent
 			// changes parent pointer(left or right) to point to child of node
 			void delete_node_with_only_right_child(node_pointer node) {
+				if (size() == 1) {
+					_size--;
+					delete (node);
+					return ;
+				}
 				if (node->_parent->_left == node)
 					node->_parent->_left = node->_right;
 				else if (node->_parent->_right == node)

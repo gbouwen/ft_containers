@@ -242,6 +242,39 @@ void erase_test_2()
 	}
 }
 
+void erase_test_3()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	map.insert(std::pair<char, int>('v', 100));
+	std::map<char, int>::iterator it = map.find('v');
+	std::cout << "map.size() = " << map.size() << std::endl;;
+	std::cout << "map.erase('v')" << std::endl;
+	map.erase(it);
+	std::cout << "map.size() = " << map.size() << std::endl;;
+	for (std::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	}
+}
+
+void erase_test_4()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	std::map<char, int>::iterator it = map.find('g');
+	std::cout << "map.size() = " << map.size() << std::endl;;
+	std::cout << "map.erase('g')" << std::endl;
+	map.erase(it);
+	std::cout << "map.size() = " << map.size() << std::endl;;
+	for (std::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	}
+}
+
 void clear_test_1()
 {
 	std::map<char, int>	map;
@@ -264,7 +297,9 @@ void modifiers()
 {
 //	insert_test_1();
 //	erase_test_1();
-	erase_test_2();
+//	erase_test_2();
+//	erase_test_3();
+	erase_test_4();
 //	clear_test_1();
 }
 
