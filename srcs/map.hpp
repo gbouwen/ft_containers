@@ -106,8 +106,6 @@ namespace ft {
 			// returns container size
 			size_type size() const { return (_size); }
 
-			// size_type max_size() const;
-
 		// --- ELEMENT ACCESS ---
 
 			mapped_type& operator[](const key_type& k) {
@@ -136,10 +134,19 @@ namespace ft {
 				return (ft::pair<iterator, bool>(iterator(temp), true));
 			}
 
+			// erases element position
+			void erase(iterator position) {
+				if (!count(position->first))
+					return ;
+				node_pointer node = find_node(position->first);
+				remove_node(node);
+			}
+
 			// deletes map content + deallocates
 			void clear() {
 				if (!empty())
 					delete_tree(_root);
+				// DO WITH ITERATORS WHEN ERASE(3)() WORKS
 			}
 
 		// --- OBSERVERS ---
@@ -246,7 +253,7 @@ namespace ft {
 
 			// returns allocator
 			allocator_type get_allocator() const {
-				print_tree(_root); // REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+				print_tree(_root);
 				return (_allocator);
 			}
 
@@ -311,7 +318,86 @@ namespace ft {
 				return (true);
 			}
 
+			// returns node_pointer which has k as first
+			node_pointer find_node(const key_type& k) {
+				node_pointer temp = _root;
+
+				while (temp) {
+					if (temp->_data.first == k)
+						break ;
+					else if (k > temp->_data.first)
+						temp = temp->_right;
+					else if (k < temp->_data.first)
+						temp = temp->_left;
+				}
+				return (temp);
+			}
+
+			// removes node from tree
+			void remove_node(node_pointer node) {
+				if (!node->_left && !node->_right)
+					delete_leaf(node);
+				else if (node->_left && !node->_right)
+					delete_node_with_only_left_child(node);
+				else if (node->_right == node && !node->_left)
+					delete_node_with_only_right_child(node);
+				else
+					delete_node_with_two_children(node);
+			}
+
+			// deletes leaf node and changes parent pointer
+			void delete_leaf(node_pointer node) {
+				if (node->_parent->_right == node)
+					node->_parent->_right = NULL;
+				else if (node->_parent->_left == node)
+					node->_parent->_left = NULL;
+				_size--;
+				delete (node);
+			}
+
+			// deletes node that is the left and only child of parent
+			// changes parent pointer(left or right) to point to child of node
+			void delete_node_with_only_left_child(node_pointer node) {
+				if (node->_parent->_left == node)
+					node->_parent->_left = node->_left;
+				else
+					node->_parent->_right = node->_left;
+				_size--;
+				delete (node);
+			}
+
+			// deletes node that is the right and only child of parent
+			// changes parent pointer(left or right) to point to child of node
+			void delete_node_with_only_right_child(node_pointer node) {
+				if (node->_parent->_left == node)
+					node->_parent->_left = node->_right;
+				else
+					node->_parent->_right = node->_right;
+				_size--;
+				delete (node);
+			}
+
+			// deletes node with two children and changes parent pointer
+			void delete_node_with_two_children(node_pointer node) {
+				node_pointer temp = node->get_end(node->_left);
+
+				if (node->_parent->_right == node)
+					node->_parent->_right = temp;
+				else if (node->_parent->_left == node)
+					node->_parent->_left = temp;
+				if (node->_right != temp)
+					temp->_right = node->_right;
+				if (node->_left != temp)
+					temp->_left = node->_left;
+				temp->_parent = node->_parent;
+				_size--;
+				delete (node);
+			}
+
 			// deletes the tree recursively
+			// CAN BE REMOVED WHEN ERASE WORKS WITH ITERATORS
+			// CAN BE REMOVED WHEN ERASE WORKS WITH ITERATORS
+			// CAN BE REMOVED WHEN ERASE WORKS WITH ITERATORS
 			void delete_tree(node_pointer node) {
 				if (!node)
 					return ;
@@ -326,7 +412,7 @@ namespace ft {
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
 			void	print_tree_utils(node_pointer root, int space) const
 			{
-			   int count = 5;
+				int count = 5;
 				if (root == NULL)
 					return;
 				space += count;
