@@ -335,14 +335,22 @@ namespace ft {
 
 			// removes node from tree
 			void remove_node(node_pointer node) {
-				if (!node->_left && !node->_right)
+				if (!node->_left && !node->_right) {
+				//	std::cout << "delete_leaf()" << std::endl;
 					delete_leaf(node);
-				else if (node->_left && !node->_right)
+				}
+				else if (node->_left && !node->_right) {
+				//	std::cout << "only_left_child()" << std::endl;
 					delete_node_with_only_left_child(node);
-				else if (node->_right == node && !node->_left)
+				}
+				else if (node->_right && !node->_left) {
+				//	std::cout << "only_right_child()" << std::endl;
 					delete_node_with_only_right_child(node);
-				else
+				}
+				else {
+				//	std::cout << "two_children()" << std::endl;
 					delete_node_with_two_children(node);
+				}
 			}
 
 			// deletes leaf node and changes parent pointer
@@ -360,7 +368,7 @@ namespace ft {
 			void delete_node_with_only_left_child(node_pointer node) {
 				if (node->_parent->_left == node)
 					node->_parent->_left = node->_left;
-				else
+				else if (node->_parent->_right == node)
 					node->_parent->_right = node->_left;
 				_size--;
 				delete (node);
@@ -371,7 +379,7 @@ namespace ft {
 			void delete_node_with_only_right_child(node_pointer node) {
 				if (node->_parent->_left == node)
 					node->_parent->_left = node->_right;
-				else
+				else if (node->_parent->_right == node)
 					node->_parent->_right = node->_right;
 				_size--;
 				delete (node);

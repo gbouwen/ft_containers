@@ -219,6 +219,29 @@ void erase_test_1()
 	}
 }
 
+void erase_test_2()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	map.insert(std::pair<char, int>('v', 100));
+	map.insert(std::pair<char, int>('a', 100));
+	map.insert(std::pair<char, int>('l', 100));
+	map.insert(std::pair<char, int>('m', 100));
+	map.insert(std::pair<char, int>('q', 100));
+	map.insert(std::pair<char, int>('o', 100));
+	map.insert(std::pair<char, int>('w', 100));
+	std::map<char, int>::iterator it = map.find('w');
+	std::cout << "map.size() = " << map.size() << std::endl;;
+	std::cout << "map.erase('w')" << std::endl;
+	map.erase(it);
+	std::cout << "map.size() = " << map.size() << std::endl;;
+	for (std::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	}
+}
+
 void clear_test_1()
 {
 	std::map<char, int>	map;
@@ -240,7 +263,8 @@ void clear_test_1()
 void modifiers()
 {
 //	insert_test_1();
-	erase_test_1();
+//	erase_test_1();
+	erase_test_2();
 //	clear_test_1();
 }
 
