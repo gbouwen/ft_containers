@@ -142,11 +142,21 @@ namespace ft {
 				return (ft::pair<iterator, bool>(iterator(temp), true));
 			}
 
+			// inserts new pair, returns iterator to newly added element or element with same key
 			iterator insert(iterator position, const value_type& val) {
 				if (find(val->first) == position)
 					return (position);
 				ft::pair<iterator, bool> pair = insert(val);
 				return (pair->first);
+			}
+
+			// inserts range of iterators
+			template <class InputIterator>
+			void insert(InputIterator first, InputIterator last) {
+				while (first != last) {
+					insert(*first);
+					first++;
+				}
 			}
 
 			// erases element position
