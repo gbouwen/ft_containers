@@ -205,6 +205,14 @@ namespace ft {
 				}
 			}
 
+			// exchanges contents of map with the contents of x
+			void swap(map& x) {
+				map temp(*this);
+
+				*this = x;
+				x = temp;
+			}
+
 			// deletes map content + deallocates
 			void clear() {
 				if (!empty())

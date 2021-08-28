@@ -321,7 +321,7 @@ namespace ft {
 
 			// exchanges contents of vector with the contents of x
 			void swap(vector& x) {
-				vector	temp(*this);
+				vector temp(*this);
 
 				*this = x;
 				x = temp;
