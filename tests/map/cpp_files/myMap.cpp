@@ -295,8 +295,6 @@ void erase_test_5()
 	}
 }
 
-// WHY THE FUCK IS 'V' PRINTED INSTEAD OF 'M' ???
-
 void erase_test_6()
 {
 	ft::map<char, int>	map;
@@ -306,17 +304,14 @@ void erase_test_6()
 	map.insert(ft::pair<char, int>('a', 100));
 	map.insert(ft::pair<char, int>('l', 100));
 	map.insert(ft::pair<char, int>('m', 100));
-//	map.insert(ft::pair<char, int>('q', 100));
-//	map.insert(ft::pair<char, int>('o', 100));
+	map.insert(ft::pair<char, int>('q', 100));
+	map.insert(ft::pair<char, int>('o', 100));
 	map.insert(ft::pair<char, int>('w', 100));
-	ft::map<char, int>::iterator first = map.find('v');
-//	ft::map<char, int>::iterator first = map.find('o');
-//	ft::map<char, int>::iterator last = map.find('w');
+//	ft::map<char, int>::iterator first = map.find('a');
+	ft::map<char, int>::iterator first = map.find('l');
+	ft::map<char, int>::iterator last = map.find('v');
 	std::cout << "map.size() = " << map.size() << std::endl;;
-//	map.get_allocator();
-	std::cout << "---------------" << std::endl;
-	map.erase(first);
-//	map.get_allocator();
+	map.erase(first, last);
 	std::cout << "map.size() = " << map.size() << std::endl;;
 	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
 		std::cout << it->first << std::endl;

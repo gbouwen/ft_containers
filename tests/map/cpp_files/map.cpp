@@ -299,14 +299,14 @@ void erase_test_6()
 	map.insert(std::pair<char, int>('a', 100));
 	map.insert(std::pair<char, int>('l', 100));
 	map.insert(std::pair<char, int>('m', 100));
-   /* map.insert(std::pair<char, int>('q', 100));*/
-	/*map.insert(std::pair<char, int>('o', 100));*/
+	map.insert(std::pair<char, int>('q', 100));
+	map.insert(std::pair<char, int>('o', 100));
 	map.insert(std::pair<char, int>('w', 100));
-	std::map<char, int>::iterator first = map.find('v');
-   /* std::map<char, int>::iterator first = map.find('o');*/
-	/*std::map<char, int>::iterator last = map.find('w');*/
+//	std::map<char, int>::iterator first = map.find('v');
+	std::map<char, int>::iterator first = map.find('l');
+	std::map<char, int>::iterator last = map.find('v');
 	std::cout << "map.size() = " << map.size() << std::endl;;
-	map.erase(first);
+	map.erase(first, last);
 	std::cout << "map.size() = " << map.size() << std::endl;;
 	for (std::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
 		std::cout << it->first << std::endl;

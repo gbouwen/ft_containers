@@ -142,6 +142,13 @@ namespace ft {
 				return (ft::pair<iterator, bool>(iterator(temp), true));
 			}
 
+			iterator insert(iterator position, const value_type& val) {
+				if (find(val->first) == position)
+					return (position);
+				ft::pair<iterator, bool> pair = insert(val);
+				return (pair->first);
+			}
+
 			// erases element position
 			void erase(iterator position) {
 				if (!count(position->first))
@@ -375,7 +382,6 @@ namespace ft {
 					delete_node_with_only_right_child(node);
 				else
 					delete_node_with_two_children(node);
-				std::cout << _root->_right->_data.first << std::endl;
 			}
 
 			// deletes leaf node and changes parent pointer
@@ -435,14 +441,17 @@ namespace ft {
 					node->_parent->_left = temp;
 				if (temp->_left)
 					temp->_parent->_right = temp->_left;
-				if (node->_right != temp)
+				if (node->_right != temp) {
 					temp->_right = node->_right;
-				if (node->_left != temp)
+					node->_right->_parent = temp;
+				}
+				if (node->_left != temp) {
 					temp->_left = node->_left;
+					node->_left->_parent = temp;
+				}
 				temp->_parent->_right = NULL;
 				temp->_parent = node->_parent;
 				_size--;
-				std::cout << "Deleting = " << node->_data.first << std::endl;
 				delete (node);
 			}
 
