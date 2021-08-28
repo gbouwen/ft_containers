@@ -75,13 +75,31 @@ namespace ft {
 
 			// default constructor
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _size(0), _root(), _comp(comp), _allocator(alloc) {
-				_end = new node();
+					: _size(0), _root(), _end(new node()), _comp(comp), _allocator(alloc) {
+			}
+
+			// constructs map with elements between [first, last]
+			template <class InputIterator>
+			map(InputIterator first, InputIterator last,
+				const key_compare& comp = key_compare(),
+				const allocator_type& alloc = allocator_type())
+				: _size(0), _root(), _end(new node()), _comp(comp), _allocator(alloc) {
+				insert(first, last);
+			}
+
+			// copy constructor
+			map(const map& x) {
+				_comp = x._comp;
+				_allocator = x._allocator;
+				_size = 0;
+				_root = NULL;
+				_end = x._end;
+				insert(x.begin(), x.end());
 			}
 
 			// destructor
 			~map() {
-				clear();
+//				clear();
 			}
 
 		// --- ITERATORS ---
@@ -127,8 +145,8 @@ namespace ft {
 			ft::pair<iterator, bool> insert(const value_type& val) {
 				if (empty()) {
 					create_new_root(val);
-					set_end();
-					return (ft::pair<iterator, bool>(begin(), true));
+					//set_end();
+					/*return (ft::pair<iterator, bool>(begin(), true));*/
 				}
 
 				node_pointer temp = _root;

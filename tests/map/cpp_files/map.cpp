@@ -58,6 +58,54 @@ void pair()
 	std::cout << "------------" << std::endl;
 }
 
+void test_iterator_constructor_1()
+{
+	std::map<char, int> map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	map.insert(std::pair<char, int>('l', 500));
+	map.insert(std::pair<char, int>('d', 500));
+	map.insert(std::pair<char, int>('v', 500));
+	map.insert(std::pair<char, int>('q', 500));
+	map.insert(std::pair<char, int>('a', 500));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('x', 500));
+	std::map<char, int>::iterator first = map.find('a');
+	std::map<char, int>::iterator last = map.find('x');
+
+	std::map<char, int> map_two(first, last);
+	for (std::map<char, int>::iterator it = map_two.begin(); it != map_two.end(); it++) {
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	}
+}
+
+void test_copy_constructor_1()
+{
+	std::map<char, int> map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	map.insert(std::pair<char, int>('l', 500));
+	map.insert(std::pair<char, int>('d', 500));
+	map.insert(std::pair<char, int>('v', 500));
+	map.insert(std::pair<char, int>('q', 500));
+	map.insert(std::pair<char, int>('a', 500));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('x', 500));
+
+	std::map<char, int> map_two(map);
+	for (std::map<char, int>::iterator it = map_two.begin(); it != map_two.end(); it++) {
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	}
+}
+
+void constructors()
+{
+//	test_iterator_constructor_1();
+	test_copy_constructor_1();
+}
+
 // -- CAPACITY ---
 
 void test_empty_1()
@@ -573,10 +621,11 @@ int	main(void)
 {
 	std::cout << "--- test map ---" << std::endl;
 //	pair();
+	constructors();
 //	capacity();
 //	observers();
 //	iterators();
-	modifiers();
+//	modifiers();
 //	element_access();
 //	operations();
 	std::cout << "----------------" << std::endl;
