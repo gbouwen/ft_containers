@@ -102,6 +102,21 @@ namespace ft {
 //				clear();
 			}
 
+			// operator overload=
+			map& operator=(const map& x) {
+				// clear();
+				if (this != x) {
+					_allocator = x._allocator;
+					_comp = x._comp;
+					_size = 0;
+					_root = NULL;
+					_end = x._end;
+					insert(x.begin(), x.end());
+				}
+				return (*this);
+			}
+
+
 		// --- ITERATORS ---
 
 			// returns iterator to first element
