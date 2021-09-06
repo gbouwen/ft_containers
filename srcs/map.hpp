@@ -102,12 +102,14 @@ namespace ft {
 
 			// destructor
 			~map() {
-//				clear();
+				clear();
+				delete (_begin);
+				delete (_end);
 			}
 
 			// operator overload=
 			map& operator=(const map& x) {
-				// clear();
+				clear();
 				if (this != x) {
 					_allocator = x._allocator;
 					_comp = x._comp;
@@ -453,7 +455,8 @@ namespace ft {
 					remove_node_with_only_right_child(node);
 				else if (node->_left && node->_left != _begin && node->_right && node->_right != _end)
 					remove_node_with_two_children(node);
-				set_begin_end();
+				if (size() != 0)
+					set_begin_end();
 			}
 
 			void remove_root() {
