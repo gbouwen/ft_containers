@@ -13,6 +13,7 @@
 # include "utils/less_binary_function.hpp"
 # include "utils/node.hpp"
 # include "utils/bidirectional_iterator.hpp"
+# include "utils/reverse_iterator.hpp"
 
 namespace ft {
 
@@ -32,8 +33,8 @@ namespace ft {
 		typedef const value_type*															const_pointer;
 		typedef bidirectional_iterator<value_type, value_type*, value_type&>				iterator;
 		typedef bidirectional_iterator<value_type, const value_type*, const value_type&>	const_iterator;
-		// reverse_iterator
-		// const_reverse_iterator
+		typedef reverse_iterator<const_iterator>											const_reverse_iterator;
+		typedef reverse_iterator<iterator>													reverse_iterator;
 		typedef ptrdiff_t																	difference_type;
 		typedef size_t																		size_type;
 
@@ -65,6 +66,7 @@ namespace ft {
 
 			size_type		_size;
 			node_pointer	_root;
+			node_pointer	_begin;
 			node_pointer	_end;
 			Compare			_comp;
 			allocator_type	_allocator;
@@ -75,7 +77,7 @@ namespace ft {
 
 			// default constructor
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _size(0), _root(), _end(new node()), _comp(comp), _allocator(alloc) {
+					: _size(0), _root(), _begin(new node()), _end(new node()), _comp(comp), _allocator(alloc) {
 			}
 
 			// constructs map with elements between [first, last]
@@ -83,7 +85,7 @@ namespace ft {
 			map(InputIterator first, InputIterator last,
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type())
-				: _size(0), _root(), _end(new node()), _comp(comp), _allocator(alloc) {
+				: _size(0), _root(), _begin(new node()), _end(new node()), _comp(comp), _allocator(alloc) {
 				insert(first, last);
 			}
 
@@ -93,6 +95,7 @@ namespace ft {
 				_allocator = x._allocator;
 				_size = 0;
 				_root = NULL;
+				_begin = x._begin;
 				_end = x._end;
 				insert(x.begin(), x.end());
 			}
@@ -110,6 +113,7 @@ namespace ft {
 					_comp = x._comp;
 					_size = 0;
 					_root = NULL;
+					_begin = x._begin;
 					_end = x._end;
 					insert(x.begin(), x.end());
 				}
@@ -123,14 +127,14 @@ namespace ft {
 			iterator begin() {
 				if (empty())
 					return (end());
-				return (iterator(_root->get_begin(_root)));
+				return (iterator(_begin->_parent));
 			}
 
 			// returns const_iterator to first element
 			const_iterator begin() const {
 				if (empty())
 					return (end());
-				return (const_iterator(_root->get_begin(_root)));
+				return (const_iterator(_begin->_parent));
 			}
 
 			// returns iterator to element after last
@@ -138,6 +142,18 @@ namespace ft {
 
 			// returns const_iterator to element after last
 			const_iterator end() const { return (const_iterator(_end)); }
+
+			// returns reverse_iterator to reverse beginning (last element of container)
+			reverse_iterator rbegin() { return (reverse_iterator(_end->_parent)); }
+
+			// returns const_reverse_iterator to reverse beginning (last element of container)
+			const_reverse_iterator rbegin() const { return (_end->_parent); }
+
+			// returns reverse_iterator to reverse end (element before first)
+			reverse_iterator rend() { return (reverse_iterator(_begin)); }
+
+			// returns const_reverse_iterator to reverse end (element before first)
+			const_reverse_iterator rend() const { return (const_reverse_iterator(_begin)); }
 
 		// --- CAPACITY ---
 
@@ -160,8 +176,8 @@ namespace ft {
 			ft::pair<iterator, bool> insert(const value_type& val) {
 				if (empty()) {
 					create_new_root(val);
-					//set_end();
-					/*return (ft::pair<iterator, bool>(begin(), true));*/
+					set_begin_end();
+					return (ft::pair<iterator, bool>(begin(), true));
 				}
 
 				node_pointer temp = _root;
@@ -171,7 +187,7 @@ namespace ft {
 					temp = insert_left_leaf(temp, val);
 				else
 					temp = insert_right_leaf(temp, val);
-				set_end();
+				set_begin_end();
 				return (ft::pair<iterator, bool>(iterator(temp), true));
 			}
 
@@ -230,8 +246,8 @@ namespace ft {
 
 			// deletes map content + deallocates
 			void clear() {
-				if (!empty())
-					delete_tree(_root);
+			   /* if (!empty())*/
+					/*delete_tree(_root);*/
 				// DO WITH ITERATORS WHEN ERASE(3)() WORKS
 			}
 
@@ -348,7 +364,6 @@ namespace ft {
 			// if map is empty, set root to val
 			void create_new_root(const value_type& val) {
 				_root = new node(val);
-				_root->_parent = _end;
 				_size++;
 			}
 
@@ -377,9 +392,12 @@ namespace ft {
 			}
 
 			// sets last element to _end
-			void set_end() {
+			void set_begin_end() {
+				node_pointer first = _root->get_first_element(_root);
 				node_pointer last = _root->get_last_element(_root);
 
+				first->_left = _begin;
+				_begin->_parent = first;
 				last->_right = _end;
 				_end->_parent = last;
 			}

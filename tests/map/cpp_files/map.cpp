@@ -219,12 +219,86 @@ void test_it_minus_1()
 	std::cout << "it->second = " << it->second << std::endl;
 }
 
+
+void test_rbegin_1()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	std::map<char, int>::reverse_iterator it = map.rbegin();
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+}
+
+void test_rit_plus_1()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	map.insert(std::pair<char, int>('l', 500));
+	map.insert(std::pair<char, int>('d', 500));
+	map.insert(std::pair<char, int>('v', 500));
+	map.insert(std::pair<char, int>('q', 500));
+	map.insert(std::pair<char, int>('a', 500));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('x', 500));
+	for (std::map<char, int>::reverse_iterator it = map.rbegin(); it != map.rend(); it++) {
+		std::cout << "it->first = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+	}
+}
+
+void test_rend_1()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('a', 100));
+
+	std::map<char, int>::reverse_iterator it = map.rend();
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+}
+
+void test_rit_minus_1()
+{
+	std::map<char, int>	map;
+
+	map.insert(std::pair<char, int>('g', 100));
+	map.insert(std::pair<char, int>('l', 500));
+	map.insert(std::pair<char, int>('d', 500));
+	map.insert(std::pair<char, int>('v', 500));
+	map.insert(std::pair<char, int>('q', 500));
+	map.insert(std::pair<char, int>('a', 500));
+	map.insert(std::pair<char, int>('e', 500));
+	map.insert(std::pair<char, int>('x', 500));
+	std::map<char, int>::reverse_iterator it = map.rend();
+	for (; it != map.rbegin(); it--) {
+		std::cout << "it->first = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+	}
+	std::cout << "it->first = " << it->first << std::endl;
+	std::cout << "it->second = " << it->second << std::endl;
+}
+
 void iterators()
 {
-	test_begin_1();
-	test_it_plus_1();
-	test_end_1();
-	test_it_minus_1();
+   /* test_begin_1();*/
+	//test_it_plus_1();
+	//test_end_1();
+	/*test_it_minus_1();*/
+   /* test_rbegin_1();*/
+	//test_rit_plus_1();
+	/*test_rend_1();*/
+	test_rit_minus_1();
 }
 
 // --- MODIFIERS ---
@@ -621,10 +695,10 @@ int	main(void)
 {
 	std::cout << "--- test map ---" << std::endl;
 //	pair();
-	constructors();
+//	constructors();
 //	capacity();
 //	observers();
-//	iterators();
+	iterators();
 //	modifiers();
 //	element_access();
 //	operations();

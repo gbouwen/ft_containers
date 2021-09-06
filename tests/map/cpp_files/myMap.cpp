@@ -212,7 +212,6 @@ void test_it_minus_1()
 	map.insert(ft::pair<char, int>('e', 500));
 	map.insert(ft::pair<char, int>('x', 500));
 	ft::map<char, int>::iterator it = map.end();
-//	map.get_allocator();
 	for (; it != map.begin(); it--) {
 		std::cout << "it->first = " << it->first << std::endl;
 		std::cout << "it->second = " << it->second << std::endl;
@@ -224,12 +223,85 @@ void test_it_minus_1()
 	std::cout << "it->second = " << it->second << std::endl;
 }
 
+void test_rbegin_1()
+{
+	ft::map<char, int>	map;
+
+	map.insert(ft::pair<char, int>('g', 100));
+	ft::map<char, int>::reverse_iterator it = map.rbegin();
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+}
+
+void test_rit_plus_1()
+{
+	ft::map<char, int>	map;
+
+	map.insert(ft::pair<char, int>('g', 100));
+	map.insert(ft::pair<char, int>('l', 500));
+	map.insert(ft::pair<char, int>('d', 500));
+	map.insert(ft::pair<char, int>('v', 500));
+	map.insert(ft::pair<char, int>('q', 500));
+	map.insert(ft::pair<char, int>('a', 500));
+	map.insert(ft::pair<char, int>('e', 500));
+	map.insert(ft::pair<char, int>('x', 500));
+	for (ft::map<char, int>::reverse_iterator it = map.rbegin(); it != map.rend(); it++) {
+		std::cout << "it->first = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+	}
+}
+
+void test_rend_1()
+{
+	ft::map<char, int>	map;
+
+	map.insert(ft::pair<char, int>('a', 100));
+
+	ft::map<char, int>::reverse_iterator it = map.rend();
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	it--;
+	std::cout << it->first << std::endl;
+	std::cout << it->second << std::endl;
+}
+
+void test_rit_minus_1()
+{
+	ft::map<char, int>	map;
+
+	map.insert(ft::pair<char, int>('g', 100));
+	map.insert(ft::pair<char, int>('l', 500));
+	map.insert(ft::pair<char, int>('d', 500));
+	map.insert(ft::pair<char, int>('v', 500));
+	map.insert(ft::pair<char, int>('q', 500));
+	map.insert(ft::pair<char, int>('a', 500));
+	map.insert(ft::pair<char, int>('e', 500));
+	map.insert(ft::pair<char, int>('x', 500));
+	ft::map<char, int>::reverse_iterator it = map.rend();
+	for (; it != map.rbegin(); it--) {
+		std::cout << "it->first = " << it->first << std::endl;
+		std::cout << "it->second = " << it->second << std::endl;
+	}
+	std::cout << "it->first = " << it->first << std::endl;
+	std::cout << "it->second = " << it->second << std::endl;
+}
+
 void iterators()
 {
-	test_begin_1();
-	test_it_plus_1();
-	test_end_1();
-	test_it_minus_1();
+   /* test_begin_1();*/
+	//test_it_plus_1();
+	//test_end_1();
+	/*test_it_minus_1();*/
+   /* test_rbegin_1();*/
+	//test_rit_plus_1();
+	/*test_rend_1();*/
+	test_rit_minus_1();
 }
 
 // --- MODIFIERS ---
@@ -626,10 +698,10 @@ int	main(void)
 {
 	std::cout << "--- test myMap ---" << std::endl;
 //	pair();
-	constructors();
+//	constructors();
 //	capacity();
 //	observers();
-//	iterators();
+	iterators();
 //	modifiers();
 //	element_access();
 //	operations();

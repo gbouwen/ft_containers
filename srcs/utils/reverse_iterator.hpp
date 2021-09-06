@@ -41,7 +41,7 @@ namespace ft {
 		reference operator*() const {
 			iterator_type tmp = _current;
 
-			return (*--tmp);
+			return (*tmp);
 		}
 
 		pointer	operator->() const { return (&(operator*())); }

@@ -64,6 +64,15 @@ namespace ft {
 				return (temp);
 			}
 
+			node_pointer get_first_element(node_pointer node) {
+				node_pointer temp = node;
+
+				while (temp->_left && !temp->_left->is_empty()) {
+					temp = temp->_left;
+				}
+				return (temp);
+			}
+
 			// returns last element
 			node_pointer get_last_element(node_pointer node) {
 				node_pointer temp = node;
