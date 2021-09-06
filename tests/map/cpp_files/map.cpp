@@ -471,7 +471,6 @@ void clear_test_1()
 	std::cout << "map.clear();" << std::endl;
 	map.clear();
 	std::cout << map.size() << std::endl;
-	std::cout << map.max_size() << std::endl;
 	for (std::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
 		std::cout << it->first << std::endl;
 		std::cout << it->second << std::endl;
