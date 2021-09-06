@@ -448,12 +448,30 @@ void erase_test_6()
 	map.insert(ft::pair<char, int>('q', 100));
 	map.insert(ft::pair<char, int>('o', 100));
 	map.insert(ft::pair<char, int>('w', 100));
-//	ft::map<char, int>::iterator first = map.find('a');
-	ft::map<char, int>::iterator first = map.find('l');
-	ft::map<char, int>::iterator last = map.find('v');
+	ft::map<char, int>::iterator first = map.find('g');
 	std::cout << "map.size() = " << map.size() << std::endl;;
-	map.erase(first, last);
+	map.erase(first);
 	std::cout << "map.size() = " << map.size() << std::endl;;
+	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	}
+}
+
+void erase_test_no_child_1()
+{
+	ft::map<char, int> map;
+
+	map.insert(ft::pair<char, int>('x', 100));
+	map.insert(ft::pair<char, int>('z', 200));
+	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	}
+	std::cout << "-------" << std::endl;
+	std::cout << "map.erase('a')" << std::endl;
+	std::cout << "-------" << std::endl;
+	map.erase('z');
 	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
 		std::cout << it->first << std::endl;
 		std::cout << it->second << std::endl;
@@ -476,18 +494,23 @@ void clear_test_1()
 	std::cout << "map.clear();" << std::endl;
 	map.clear();
 	std::cout << map.size() << std::endl;
+	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+		std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+	}
 }
 
 void modifiers()
 {
 //	insert_test_1();
-	insert_test_2();
+//	insert_test_2();
 //	erase_test_1();
 //	erase_test_2();
 //	erase_test_3();
 //	erase_test_4();
 //	erase_test_5();
 //	erase_test_6();
+	erase_test_no_child_1();
 //	clear_test_1();
 }
 
@@ -701,8 +724,8 @@ int	main(void)
 //	constructors();
 //	capacity();
 //	observers();
-	iterators();
-//	modifiers();
+//	iterators();
+	modifiers();
 //	element_access();
 //	operations();
 	std::cout << "----------------" << std::endl;

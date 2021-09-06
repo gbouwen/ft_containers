@@ -246,9 +246,7 @@ namespace ft {
 
 			// deletes map content + deallocates
 			void clear() {
-			   /* if (!empty())*/
-					/*delete_tree(_root);*/
-				// DO WITH ITERATORS WHEN ERASE(3)() WORKS
+				erase(begin(), end());
 			}
 
 		// --- OBSERVERS ---
@@ -440,101 +438,23 @@ namespace ft {
 				}
 				return (temp);
 			}
+					//else if (node->_right == _end)
+						//std::cout << "node->_right == _end" << std::endl;
+						/*delete_node_with_only_left_child(node);*/
 
-			// removes node from tree
 			void remove_node(node_pointer node) {
-				if (!node->_left && !node->_right)
-					delete_leaf(node);
-				else if (node->_left && !node->_right)
-					delete_node_with_only_left_child(node);
-				else if (node->_right && !node->_left)
-					delete_node_with_only_right_child(node);
-				else
-					delete_node_with_two_children(node);
+				if ((!node->_left || node->_left == _begin) && (!node->_right || node->_right == _end))
+					remove_leaf(node);
+				set_begin_end();
 			}
 
-			// deletes leaf node and changes parent pointer
-			void delete_leaf(node_pointer node) {
-				if (node->_parent->_right == node)
-					node->_parent->_right = NULL;
-				else if (node->_parent->_left == node)
+			void remove_leaf(node_pointer node) {
+				if (node->_parent->_left == node)
 					node->_parent->_left = NULL;
-				_size--;
+				else if (node->_parent->_right == node)
+					node->_parent->_right = NULL;
 				delete (node);
-			}
-
-			// deletes node that is the left and only child of parent
-			// changes parent pointer(left or right) to point to child of node
-			void delete_node_with_only_left_child(node_pointer node) {
-				if (node->_parent->_left == node) {
-					node->_parent->_left = node->_left;
-					node->_left->_parent = node->_parent;
-				}
-				else if (node->_parent->_right == node) {
-					node->_parent->_right = node->_left;
-					node->_left->_parent = node->_parent;
-				}
 				_size--;
-				delete (node);
-			}
-
-			// deletes node that is the right and only child of parent
-			// changes parent pointer(left or right) to point to child of node
-			void delete_node_with_only_right_child(node_pointer node) {
-				if (size() == 1) {
-					_size--;
-					delete (node);
-					return ;
-				}
-				if (node->_parent->_left == node) {
-					node->_parent->_left = node->_right;
-					node->_right->_parent = node->_parent;
-				}
-				else if (node->_parent->_right == node) {
-					node->_parent->_right = node->_right;
-					node->_right->_parent = node->_parent;
-				}
-				_size--;
-				delete (node);
-			}
-
-			// deletes node with two children and changes parent pointer
-			void delete_node_with_two_children(node_pointer node) {
-				node_pointer temp = node->get_last_element(node->_left);
-
-				if (node == _root)
-					_root = temp;
-				if (node->_parent->_right == node)
-					node->_parent->_right = temp;
-				else if (node->_parent->_left == node)
-					node->_parent->_left = temp;
-				if (temp->_left)
-					temp->_parent->_right = temp->_left;
-				if (node->_right != temp) {
-					temp->_right = node->_right;
-					node->_right->_parent = temp;
-				}
-				if (node->_left != temp) {
-					temp->_left = node->_left;
-					node->_left->_parent = temp;
-				}
-				temp->_parent->_right = NULL;
-				temp->_parent = node->_parent;
-				_size--;
-				delete (node);
-			}
-
-			// deletes the tree recursively
-			// CAN BE REMOVED WHEN ERASE WORKS WITH ITERATORS
-			// CAN BE REMOVED WHEN ERASE WORKS WITH ITERATORS
-			// CAN BE REMOVED WHEN ERASE WORKS WITH ITERATORS
-			void delete_tree(node_pointer node) {
-				if (!node)
-					return ;
-				delete_tree(node->_left);
-				delete_tree(node->_right);
-				_size--;
-				delete (node);
 			}
 
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
