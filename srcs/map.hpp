@@ -165,6 +165,9 @@ namespace ft {
 			// returns container size
 			size_type size() const { return (_size); }
 
+			// returns max container size
+			size_type max_size() const { return (_allocator.max_size() * 2 / 10); }
+
 		// --- ELEMENT ACCESS ---
 
 			mapped_type& operator[](const key_type& k) {
@@ -556,31 +559,6 @@ namespace ft {
 					node->_parent->_right = NULL;
 				delete (node);
 				_size--;
-			}
-
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			void	print_tree_utils(node_pointer root, int space) const
-			{
-				int count = 5;
-				if (root == NULL)
-					return;
-				space += count;
-				print_tree_utils(root->_right, space);
-//				std::cout << std::endl;
-				for (int i = count; i < space; i++)
-					std::cout << " ";
-				std::cout << root->_data.first << ", " << root->_data.second << std::endl;
-				print_tree_utils(root->_left, space);
-			}
-
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			void	print_tree(node_pointer root) const
-			{
-				print_tree_utils(root, 0);
 			}
 
 	}; // class map
