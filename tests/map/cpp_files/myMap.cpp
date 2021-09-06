@@ -460,19 +460,20 @@ void erase_test_6()
 
 void erase_test_no_child_1()
 {
-	ft::map<char, int> map;
+	ft::map<int, char> map;
 
-	map.insert(ft::pair<char, int>('x', 100));
-	map.insert(ft::pair<char, int>('z', 200));
-	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+	map.insert(ft::pair<int, char>(20, 'a'));
+	map.insert(ft::pair<int, char>(10, 'a'));
+	map.insert(ft::pair<int, char>(50, 'a'));
+	for (ft::map<int, char>::iterator it = map.begin(); it != map.end(); it++) {
 		std::cout << it->first << std::endl;
 		std::cout << it->second << std::endl;
 	}
 	std::cout << "-------" << std::endl;
-	std::cout << "map.erase('a')" << std::endl;
+	std::cout << "map.erase(50)" << std::endl;
 	std::cout << "-------" << std::endl;
-	map.erase('z');
-	for (ft::map<char, int>::iterator it = map.begin(); it != map.end(); it++) {
+	map.erase(20);
+	for (ft::map<int, char>::iterator it = map.begin(); it != map.end(); it++) {
 		std::cout << it->first << std::endl;
 		std::cout << it->second << std::endl;
 	}
@@ -510,8 +511,7 @@ void modifiers()
 //	erase_test_4();
 //	erase_test_5();
 //	erase_test_6();
-	erase_test_no_child_1();
-//	clear_test_1();
+	clear_test_1();
 }
 
 void element_access()

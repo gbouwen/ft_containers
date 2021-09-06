@@ -362,6 +362,9 @@ namespace ft {
 			// if map is empty, set root to val
 			void create_new_root(const value_type& val) {
 				_root = new node(val);
+				_root->_parent = NULL;
+				_root->_right = NULL;
+				_root->_left = NULL;
 				_size++;
 			}
 
@@ -438,14 +441,109 @@ namespace ft {
 				}
 				return (temp);
 			}
-					//else if (node->_right == _end)
-						//std::cout << "node->_right == _end" << std::endl;
-						/*delete_node_with_only_left_child(node);*/
 
 			void remove_node(node_pointer node) {
-				if ((!node->_left || node->_left == _begin) && (!node->_right || node->_right == _end))
+				if (node == _root)
+					remove_root();
+				else if ((!node->_left || node->_left == _begin) && (!node->_right || node->_right == _end))
 					remove_leaf(node);
+				else if (node->_left && node->_left != _begin && (!node->_right || node->_right == _end))
+					remove_node_with_only_left_child(node);
+				else if (node->_right && node->_right != _end && (!node->_left || node->_left == _begin))
+					remove_node_with_only_right_child(node);
+				else if (node->_left && node->_left != _begin && node->_right && node->_right != _end)
+					remove_node_with_two_children(node);
 				set_begin_end();
+			}
+
+			void remove_root() {
+				if (size() == 1) {
+					delete (_root);
+					_size--;
+				}
+				else if (_root->_left && _root->_left != _begin && _root->_right == _end)
+					remove_root_only_left_child();
+				else if (_root->_right && _root->_right != _end && _root->_left == _begin)
+					remove_root_only_right_child();
+				else if (_root->_left && _root->_left != _begin && _root->_right && _root->_right != _end)
+					remove_root_with_two_children();
+			}
+
+			void remove_root_with_two_children() {
+				node_pointer max = _root->get_last_element(_root->_left);
+				node_pointer del = _root;
+
+				if (_root->_left != max) {
+					max->_left = _root->_left;
+					_root->_left->_parent = max;
+				}
+				if (_root->_right != max) {
+					max->_right = _root->_right;
+					_root->_right->_parent = max;
+				}
+				max->_parent->_right = NULL;
+				_root = max;
+				delete (del);
+				_size--;
+			}
+
+			void remove_root_only_left_child() {
+				node_pointer del = _root;
+
+				_root->_left->_parent = NULL;
+				_root = _root->_left;
+				delete (del);
+				_size--;
+			}
+
+			void remove_root_only_right_child() {
+				node_pointer del = _root;
+
+				_root->_right->_parent = NULL;
+				_root = _root->_right;
+				delete (del);
+				_size--;
+			}
+
+			void remove_node_with_two_children(node_pointer node) {
+				node_pointer max = node->get_last_element(node->_left);
+
+				if (node->_parent->_right == node)
+					node->_parent->_right = max;
+				else if (node->_parent->_left == node)
+					node->_parent->_left = max;
+				if (node->_left != max) {
+					max->_left = node->_left;
+					node->_left->_parent = max;
+				}
+				if (node->_right != max) {
+					max->_right = node->_right;
+					node->_right->_parent = max;
+				}
+				max->_parent->_right = NULL;
+				max->_parent = node->_parent;
+				delete (node);
+				_size--;
+			}
+
+			void remove_node_with_only_left_child(node_pointer node) {
+				if (node->_parent->_right == node)
+					node->_parent->_right = node->_left;
+				else if (node->_parent->_left == node)
+					node->_parent->_left = node->_left;
+				node->_left->_parent = node->_parent;
+				delete (node);
+				_size--;
+			}
+
+			void remove_node_with_only_right_child(node_pointer node) {
+				if (node->_parent->_right == node)
+					node->_parent->_right = node->_right;
+				else if (node->_parent->_left == node)
+					node->_parent->_left = node->_right;
+				node->_right->_parent = node->_parent;
+				delete (node);
+				_size--;
 			}
 
 			void remove_leaf(node_pointer node) {
