@@ -102,6 +102,8 @@ void test_equal_operator_1()
 	std::cout << "stack_one.push(5); stack_one.top() = " << stack_one.top() << std::endl;
 	std::cout << "stack_two.push(5); stack_two.top() = " << stack_two.top() << std::endl;
 	std::cout << "stack_one == stack_two : " << (stack_one == stack_two) << std::endl;
+	std::cout << "stack_one <= stack_two : " << (stack_one <= stack_two) << std::endl;
+	std::cout << "stack_one >= stack_two : " << (stack_one >= stack_two) << std::endl;
 }
 
 void test_equal_operator_2()
@@ -114,6 +116,8 @@ void test_equal_operator_2()
 	std::cout << "stack_one.push(5); stack_one.top() = " << stack_one.top() << std::endl;
 	std::cout << "stack_two.push(12); stack_two.top() = " << stack_two.top() << std::endl;
 	std::cout << "stack_one == stack_two : " << (stack_one == stack_two) << std::endl;
+	std::cout << "stack_one <= stack_two : " << (stack_one <= stack_two) << std::endl;
+	std::cout << "stack_one >= stack_two : " << (stack_one >= stack_two) << std::endl;
 }
 
 void test_not_equal_operator_1()
@@ -126,6 +130,8 @@ void test_not_equal_operator_1()
 	std::cout << "stack_one.push(5); stack_one.top() = " << stack_one.top() << std::endl;
 	std::cout << "stack_two.push(12); stack_two.top() = " << stack_two.top() << std::endl;
 	std::cout << "stack_one != stack_two : " << (stack_one != stack_two) << std::endl;
+	std::cout << "stack_one < stack_two : " << (stack_one < stack_two) << std::endl;
+	std::cout << "stack_one > stack_two : " << (stack_one > stack_two) << std::endl;
 }
 
 void test_not_equal_operator_2()
@@ -138,6 +144,8 @@ void test_not_equal_operator_2()
 	std::cout << "stack_one.push(5); stack_one.top() = " << stack_one.top() << std::endl;
 	std::cout << "stack_two.push(5); stack_two.top() = " << stack_two.top() << std::endl;
 	std::cout << "stack_one != stack_two : " << (stack_one != stack_two) << std::endl;
+	std::cout << "stack_one < stack_two : " << (stack_one < stack_two) << std::endl;
+	std::cout << "stack_one > stack_two : " << (stack_one > stack_two) << std::endl;
 }
 
 void non_member_functions()
