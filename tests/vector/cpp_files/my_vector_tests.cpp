@@ -273,12 +273,70 @@ void vector_capacity()
 	calc_time_taken(start, end, "my_vector.capacity()");
 }
 
+void vector_brackets_1()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test[i];
+	std::cout << std::endl;
+}
+
+void vector_at_1()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	try {
+		std::cout << test.at(100) << std::endl;
+	} catch (std::exception &e) {
+		std::cout << "test.at(100) throws error" << std::endl;
+	}
+}
+
+void vector_front_1()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	std::cout << test.front() << std::endl;
+}
+
+void vector_back_1()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	std::cout << test.back() << std::endl;
+}
+
+void vector_element_access()
+{
+	struct timeval	start, end;
+
+	gettimeofday(&start, NULL);
+	vector_brackets_1();
+	vector_at_1();
+	vector_front_1();
+	vector_back_1();
+	gettimeofday(&end, NULL);
+	calc_time_taken(start, end, "my_vector.capacity()");
+}
+
 void vector_main(void)
 {
-	vector_constructors();
-	vector_iterators();
-	vector_capacity();
-//	vector_element_access();
+//	vector_constructors();
+///	vector_iterators();
+//	vector_capacity();
+	vector_element_access();
 //	vector_modifiers();
 //	vector_relational_operators();
 //	vector_swap()

@@ -177,7 +177,7 @@ namespace ft {
 			// if n <= _capacity, nothing happens
 			void		reserve(size_type n) {
 				if (n > max_size())
-					throw (std::length_error("Length error"));
+					throw (std::length_error("length error"));
 				if (n > _capacity) {
 					reallocate(n);
 				}

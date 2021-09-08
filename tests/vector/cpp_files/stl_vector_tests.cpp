@@ -61,7 +61,7 @@ void vector_constructors()
 	vector_constructor_2();
 	vector_equals_overload_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "stl_vector.constructor()");
+	calc_time_taken(start, end, "std_vector.constructor()");
 }
 
 void vector_begin_1()
@@ -127,7 +127,7 @@ void vector_iterators()
 	vector_rbegin_1();
 	vector_rend_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "stl_vector.iterators()");
+	calc_time_taken(start, end, "std_vector.iterators()");
 }
 
 void vector_size_1()
@@ -270,15 +270,73 @@ void vector_capacity()
 	vector_empty_1();
 	vector_reserve_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "stl_vector.capacity()");
+	calc_time_taken(start, end, "std_vector.capacity()");
+}
+
+void vector_brackets_1()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test[i];
+	std::cout << std::endl;
+}
+
+void vector_at_1()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	try {
+		std::cout << test.at(100) << std::endl;
+	} catch (std::exception &e) {
+		std::cout << "test.at(100) throws error" << std::endl;
+	}
+}
+
+void vector_front_1()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	std::cout << test.front() << std::endl;
+}
+
+void vector_back_1()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	std::cout << test.back() << std::endl;
+}
+
+void vector_element_access()
+{
+	struct timeval	start, end;
+
+	gettimeofday(&start, NULL);
+	vector_brackets_1();
+	vector_at_1();
+	vector_front_1();
+	vector_back_1();
+	gettimeofday(&end, NULL);
+	calc_time_taken(start, end, "std_vector.capacity()");
 }
 
 void vector_main(void)
 {
-	vector_constructors();
-	vector_iterators();
-	vector_capacity();
-//	vector_element_access();
+//	vector_constructors();
+//	vector_iterators();
+//	vector_capacity();
+	vector_element_access();
 //	vector_modifiers();
 //	vector_relational_operators();
 //	vector_swap()
