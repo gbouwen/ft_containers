@@ -489,12 +489,57 @@ void vector_insert_4()
 	std::cout << "test_two.capacity() = " << test_two.capacity() << std::endl;
 }
 
+void vector_erase_1()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+	int_vector::iterator it = test.begin();
+	while (*it != 5) {
+		it++;
+	}
+	test.erase(it);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+}
+
+void vector_erase_2()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+	int_vector::iterator it = test.begin();
+	while (*it != 5)
+		it++;
+	test.erase(test.begin(), it);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+}
+
 void vector_modifiers()
 {
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-   /* vector_assign_1();*/
+	//vector_assign_1();
 	//vector_assign_2();
 	//vector_push_back_1();
 	//vector_push_back_2();
@@ -502,8 +547,10 @@ void vector_modifiers()
 	//vector_pop_back_1();
 	//vector_insert_1();
 	//vector_insert_2();
-	/*vector_insert_3();*/
-	vector_insert_4();
+	//vector_insert_3();
+	//vector_insert_4();
+	//vector_erase_1();
+	vector_erase_2();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_vector.modifiers()");
 }

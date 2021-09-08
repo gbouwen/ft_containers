@@ -295,22 +295,29 @@ namespace ft {
 
 			// removes a single element at position
 			iterator erase(iterator position) {
-				size_type start_index = position - begin();
+				iterator begin_it = begin();
+				size_type start_index = position - begin_it;
 
 				_size -= 1;
 				for (size_type i = start_index; i < _size; i++)
 					_array[i] = _array[i + 1];
+				_allocator.destroy(&_array[_size - 1]);
 				return (iterator(begin() + start_index));
 			}
 
 			// removes a range of elements from first to last
 			iterator erase(iterator first, iterator last) {
-				size_type start_index = first - begin();
-				size_type range = first - last;
+				iterator begin_it = begin();
+				size_type start_index = first - begin_it;
+				size_type last_index = last - begin_it;
+				size_type range = last - first;
+				size_type x = 0;
 
 				_size -= range;
-				for (size_type i = start_index; i < _size; i++)
-					_array[i] = _array[i + 1];
+				for (size_type i = start_index; i < _size; i++, x++)
+					_array[i] = _array[last_index + x];
+				for (size_type i = 0; i < range; i++)
+					_allocator.destroy(&_array[last_index + i]);
 				return (iterator(begin() + start_index));
 			}
 
