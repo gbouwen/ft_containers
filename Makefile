@@ -3,11 +3,11 @@
 CC = clang++
 FLAGS = -Wall -Wextra -Werror -std=c++98
 
-VECTOR_CPP = tests/vector/cpp_files/vector.cpp
+VECTOR_CPP = tests/vector/cpp_files/stl_vector_tests.cpp
 VECTOR_EXECUTABLE = tests/vector/executables/testVector
 VECTOR_OUTPUT = tests/vector/output/outputVector.txt
 
-MY_VECTOR_CPP = tests/vector/cpp_files/myVector.cpp
+MY_VECTOR_CPP = tests/vector/cpp_files/my_vector_tests.cpp
 MY_VECTOR_EXECUTABLE = tests/vector/executables/testMyVector
 MY_VECTOR_OUTPUT = tests/vector/output/outputMyVector.txt
 

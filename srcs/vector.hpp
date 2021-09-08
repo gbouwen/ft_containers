@@ -71,10 +71,11 @@ namespace ft {
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type* = NULL): _allocator(alloc)  {
-				_size = first - last;
-				_capacity = first - last;
+				_size = last - first;
+				_capacity = last - first;
+				_array = _allocator.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++)
-					_array[i] = *(first + i);
+					_allocator.construct(&_array[i], *(first + i));
 			}
 
 			// constructs vector with a copy of each of the elements in x
