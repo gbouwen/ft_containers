@@ -263,9 +263,12 @@ namespace ft {
 
 			// inserts element before position
 			iterator insert(iterator position, const value_type& val) {
-				size_type new_element_index = position - begin();
+				iterator begin_it = begin();
+				size_type new_element_index = position - begin_it;
 
 				_size += 1;
+				if (_capacity == 0)
+					reallocate(1);
 				if (_size >= _capacity)
 					reallocate(_capacity * 2);
 				for (size_type i = _size - 1; i > new_element_index; i--)
@@ -276,31 +279,18 @@ namespace ft {
 
 			// inserts n elements before position
 			void insert(iterator position, size_type n, const value_type& val) {
-				size_type start_index = position - begin();
-
-				_size += n;
-				if (_size >= _capacity)
-					reallocate(_capacity * 2);
-				for (size_type i = _size - 1; i > start_index + n - 1; i--)
-					_array[i] = _array[i - 1];
-				for (size_type i = start_index; i < n; i++)
-					_array[i] = val;
+				for (size_type i = 0; i < n; i++)
+					position = insert(position, val);
 			}
 
 			// inserts elements from first to last starting at position
 			template <class InputIterator>
 			void insert(iterator position, InputIterator first, InputIterator last,
 						typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type* = NULL) {
-				size_type start_index = position - begin();
-				size_type range = first - last;
-
-			_size += range;
-				if (_size >= _capacity)
-					reallocate(_capacity * 2);
-				for (size_type i = _size - 1; i > start_index + range - 1; i--)
-					_array[i] = _array[i - 1];
-				for (size_type i = start_index; i < range; i++)
-					_array[i] = *(first + 1);
+				while (first != last) {
+					position = insert(position, *first);
+					first++;
+				}
 			}
 
 			// removes a single element at position

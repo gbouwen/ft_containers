@@ -380,16 +380,132 @@ void vector_assign_2()
 	std::cout << std::endl;
 }
 
+void vector_push_back_1()
+{
+	int_vector test;
+
+	test.push_back(100);
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+}
+
+void vector_push_back_2()
+{
+	int_vector test;
+
+	for (int i = 0; i < 100000; i++)
+		test.push_back(i);
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+}
+
+void vector_push_back_3()
+{
+	string_vector test;
+
+	for (int i = 0; i < 100000; i++)
+		test.push_back("hoi");
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+}
+
+void vector_pop_back_1()
+{
+	string_vector test;
+
+	for (int i = 0; i < 100000; i++)
+		test.push_back("hoi");
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+	test.pop_back();
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+	test.pop_back();
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+}
+
+void vector_insert_1()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	test.insert(test.end(), 50);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+}
+
+void vector_insert_2()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	test.insert(test.end(), 5, 5);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+}
+
+void vector_insert_3()
+{
+	int_vector test;
+
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	test.insert(test.end(), 20, 5);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+}
+
+void vector_insert_4()
+{
+	int_vector test_one(5, 100);
+	int_vector test_two;
+
+	for (size_t i = 0; i < test_one.size(); i++)
+		std::cout << test_one.at(i);
+	std::cout << std::endl;
+	std::cout << "test_one.size() = " << test_one.size() << std::endl;
+	std::cout << "test_one.capacity() = " << test_one.capacity() << std::endl;
+	test_two.insert(test_two.end(), test_one.begin(), test_one.end());
+	for (size_t i = 0; i < test_two.size(); i++)
+		std::cout << test_two.at(i);
+	std::cout << std::endl;
+	std::cout << "test_two.size() = " << test_two.size() << std::endl;
+	std::cout << "test_two.capacity() = " << test_two.capacity() << std::endl;
+}
 
 void vector_modifiers()
 {
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	vector_assign_1();
-	vector_assign_2();
+   /* vector_assign_1();*/
+	//vector_assign_2();
+	//vector_push_back_1();
+	//vector_push_back_2();
+	//vector_push_back_3();
+	//vector_pop_back_1();
+	//vector_insert_1();
+	//vector_insert_2();
+	/*vector_insert_3();*/
+	vector_insert_4();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_vector.capacity()");
+	calc_time_taken(start, end, "my_vector.modifiers()");
 }
 
 void vector_main(void)
