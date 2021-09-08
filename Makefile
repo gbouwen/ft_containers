@@ -11,11 +11,11 @@ MY_VECTOR_CPP = tests/vector/cpp_files/myVector.cpp
 MY_VECTOR_EXECUTABLE = tests/vector/executables/testMyVector
 MY_VECTOR_OUTPUT = tests/vector/output/outputMyVector.txt
 
-STACK_CPP = tests/stack/cpp_files/stack.cpp
+STACK_CPP = tests/stack/cpp_files/stl_stack_tests.cpp
 STACK_EXECUTABLE = tests/stack/executables/testStack
 STACK_OUTPUT = tests/stack/output/outputStack.txt
 
-MY_STACK_CPP = tests/stack/cpp_files/myStack.cpp
+MY_STACK_CPP = tests/stack/cpp_files/my_stack_tests.cpp
 MY_STACK_EXECUTABLE = tests/stack/executables/testMyStack
 MY_STACK_OUTPUT = tests/stack/output/outputMyStack.txt
 

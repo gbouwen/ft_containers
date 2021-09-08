@@ -445,9 +445,9 @@ int	main(void) {
 	std::cout << "myVector test" << std::endl;
 
 //	constructors_destructor_operator();
-//	modifiers();
-	capacity_all();
-//	relational_operators();
 //	iterators();
+	capacity_all();
+//	modifiers();
+//	relational_operators();
 	return (0);
 }

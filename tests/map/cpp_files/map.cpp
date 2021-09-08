@@ -487,7 +487,7 @@ void modifiers()
 //	erase_test_4();
 //	erase_test_5();
 //	erase_test_6();
-	clear_test_1();
+//	clear_test_1();
 }
 
 void element_access()

@@ -47,7 +47,7 @@ namespace ft {
 				temp = _array;
 				_array = _allocator.allocate(n);
 				for (size_type i = 0; i < _size; i++)
-					_array[i] = temp[i];
+					_allocator.construct(&_array[i], temp[i]);
 				_allocator.deallocate(temp, _capacity);
 				_capacity = n;
 			}
@@ -289,7 +289,7 @@ namespace ft {
 				size_type start_index = position - begin();
 				size_type range = first - last;
 
-				_size += range;
+			_size += range;
 				if (_size >= _capacity)
 					reallocate(_capacity * 2);
 				for (size_type i = _size - 1; i > start_index + range - 1; i--)
