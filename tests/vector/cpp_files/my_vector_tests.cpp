@@ -42,92 +42,103 @@ void vector_constructor_2()
 		std::cout << test_2[i] << std::endl;
 }
 
-void vector_constructor()
+void vector_equals_overload_1()
+{
+	int_vector test_1;
+	int_vector test_2(5, 100);
+
+	test_1 = test_2;
+	std::cout << "test_1.size() = " << test_1.size() << std::endl;
+	std::cout << "test_2.size() = " << test_2.size() << std::endl;
+}
+
+void vector_constructors()
 {
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
 	vector_constructor_1();
 	vector_constructor_2();
+	vector_equals_overload_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_vector.constructor()");
 }
 
-//void vector_empty()
-//{
-	//struct timeval	start, end;
+void vector_begin_1()
+{
+	string_vector test(5, "hoi");
 
-	//gettimeofday(&start, NULL);
-	//vector_empty_1();
-	//vector_empty_2();
-	//gettimeofday(&end, NULL);
-	//calc_time_taken(start, end, "my_vector.empty()");
-//}
+	string_vector::iterator it = test.begin();
+	std::cout << *it << std::endl;
+}
 
-//void vector_size()
-//{
-	//struct timeval	start, end;
+void vector_end_1()
+{
+	int_vector test;
 
-	//gettimeofday(&start, NULL);
-	//vector_size_1();
-	//vector_size_2();
-	//vector_size_3();
-	//gettimeofday(&end, NULL);
-	//calc_time_taken(start, end, "my_vector.size()");
-//}
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	for (int_vector::iterator it = test.begin(); it != test.end(); it++)
+		std::cout << *it;
+	std::cout << std::endl;
+}
 
-//void vector_top()
-//{
-	//struct timeval	start, end;
+void vector_end_2()
+{
+	int_vector test;
 
-	//gettimeofday(&start, NULL);
-	//vector_top_1();
-	//gettimeofday(&end, NULL);
-	//calc_time_taken(start, end, "my_vector.top()");
-//}
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	for (int_vector::iterator it = test.end()--; it != test.begin(); it--)
+		std::cout << *it;
+	std::cout << std::endl;
+}
 
-//void vector_push()
-//{
-	//struct timeval	start, end;
+void vector_rbegin_1()
+{
+	int_vector test;
 
-	//gettimeofday(&start, NULL);
-	//vector_push_1();
-	//vector_push_2();
-	//gettimeofday(&end, NULL);
-	//calc_time_taken(start, end, "my_vector.push()");
-//}
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	for (int_vector::reverse_iterator it = test.rbegin(); it != test.rend(); it++)
+		std::cout << *it;
+	std::cout << std::endl;
+}
 
-//void vector_pop()
-//{
-	//struct timeval	start, end;
+void vector_rend_1()
+{
+	int_vector test;
 
-	//gettimeofday(&start, NULL);
-	//vector_pop_1();
-	//vector_pop_2();
-	//gettimeofday(&end, NULL);
-	//calc_time_taken(start, end, "my_vector.pop()");
-//}
+	for (int i = 0; i < 10; i++)
+		test.push_back(i);
+	for (int_vector::reverse_iterator it = test.rend()--; it != test.rbegin(); it--)
+		std::cout << *it;
+	std::cout << std::endl;
+}
 
-//void vector_relational_operators()
-//{
-	//struct timeval	start, end;
+void vector_iterators()
+{
+	struct timeval	start, end;
 
-	//gettimeofday(&start, NULL);
-	//vector_less_1();
-	//vector_equal_1();
-	//vector_greater_1();
-	//gettimeofday(&end, NULL);
-	//calc_time_taken(start, end, "my_vector.relational_operators()");
-//}
+	gettimeofday(&start, NULL);
+	vector_begin_1();
+	vector_end_1();
+	vector_end_2();
+	vector_rbegin_1();
+	vector_rend_1();
+	gettimeofday(&end, NULL);
+	calc_time_taken(start, end, "my_vector.iterators()");
+}
 
 void vector_main(void)
 {
-	vector_constructor();
-//	iterators();
-//	capacity();
-//	element_access();
-//	modifiers();
+//	vector_constructors();
+	vector_iterators();
+//	vector_capacity();
+//	vector_element_access();
+//	vector_modifiers();
 //	vector_relational_operators();
+//	vector_swap()
 }
 
 int main(void)

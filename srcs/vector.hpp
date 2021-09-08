@@ -126,20 +126,20 @@ namespace ft {
 			// returns iterator to element after last
 			iterator end() { return (iterator(_array + _size)); }
 
-			// returns const_iterator to last_element
+			// returns const_iterator to element after last
 			const_iterator end() const { return (const_iterator(_array + _size)); }
 
 			// returns reverse_iterator to last element
-			reverse_iterator rbegin() { return (reverse_iterator(end())); }
+			reverse_iterator rbegin() { return (reverse_iterator(_array + _size - 1)); }
 
 			// returns const_reverse_iterator to last element
-			const_reverse_iterator rbegin() const { return (const_reverse_iterator(end())); }
+			const_reverse_iterator rbegin() const { return (const_reverse_iterator(_array + _size - 1)); }
 
-			// returns reverse_iterator to first element
-			reverse_iterator rend() { return (reverse_iterator(begin())); }
+			// returns reverse_iterator to element before first
+			reverse_iterator rend() { return (reverse_iterator(_array - 1)); }
 
-			// returns const_reverse_iterator to first element
-			const_reverse_iterator rend() const { return (reverse_iterator(begin())); }
+			// returns const_reverse_iterator to element before first
+			const_reverse_iterator rend() const { return (const_reverse_iterator(_array - 1)); }
 
 		// --- CAPACITY ---
 
