@@ -331,13 +331,74 @@ void vector_element_access()
 	calc_time_taken(start, end, "my_vector.capacity()");
 }
 
+void vector_assign_1()
+{
+	int_vector test;
+
+	test.assign(3, 100);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+	test.assign(15, 200);
+	for (size_t i = 0; i < test.size(); i++)
+		std::cout << test.at(i);
+	std::cout << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+}
+
+void vector_assign_2()
+{
+	int_vector test_one;
+	int_vector test_two;
+
+	test_one.assign(15, 200);
+	std::cout << "test_one.size() = " << test_one.size() << std::endl;
+	std::cout << "test_one.capacity() = " << test_one.capacity() << std::endl;
+	for (size_t i = 0; i < test_one.size(); i++)
+		std::cout << test_one.at(i);
+	std::cout << std::endl;
+	test_two.assign(test_one.begin(), test_one.end());
+	std::cout << "test_two.size() = " << test_two.size() << std::endl;
+	std::cout << "test_two.capacity() = " << test_two.capacity() << std::endl;
+	for (size_t i = 0; i < test_two.size(); i++)
+		std::cout << test_two.at(i);
+	std::cout << std::endl;
+	test_two.assign(15, 100);
+	std::cout << "test_two.size() = " << test_two.size() << std::endl;
+	std::cout << "test_two.capacity() = " << test_two.capacity() << std::endl;
+	for (size_t i = 0; i < test_two.size(); i++)
+		std::cout << test_two.at(i);
+	std::cout << std::endl;
+	test_two.assign(test_one.begin(), test_one.end());
+	std::cout << "test_two.size() = " << test_two.size() << std::endl;
+	std::cout << "test_two.capacity() = " << test_two.capacity() << std::endl;
+	for (size_t i = 0; i < test_two.size(); i++)
+		std::cout << test_two.at(i);
+	std::cout << std::endl;
+}
+
+
+void vector_modifiers()
+{
+	struct timeval	start, end;
+
+	gettimeofday(&start, NULL);
+	vector_assign_1();
+	vector_assign_2();
+	gettimeofday(&end, NULL);
+	calc_time_taken(start, end, "my_vector.capacity()");
+}
+
 void vector_main(void)
 {
 //	vector_constructors();
 ///	vector_iterators();
 //	vector_capacity();
-	vector_element_access();
-//	vector_modifiers();
+//	vector_element_access();
+	vector_modifiers();
 //	vector_relational_operators();
 //	vector_swap()
 }

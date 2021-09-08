@@ -336,7 +336,7 @@ void vector_main(void)
 //	vector_constructors();
 //	vector_iterators();
 //	vector_capacity();
-	vector_element_access();
+//	vector_element_access();
 //	vector_modifiers();
 //	vector_relational_operators();
 //	vector_swap()

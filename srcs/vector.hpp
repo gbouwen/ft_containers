@@ -46,9 +46,11 @@ namespace ft {
 
 				temp = _array;
 				_array = _allocator.allocate(n);
-				for (size_type i = 0; i < _size; i++)
-					_allocator.construct(&_array[i], temp[i]);
-				_allocator.deallocate(temp, _capacity);
+				if (temp) {
+					for (size_type i = 0; i < _size; i++)
+						_allocator.construct(&_array[i], temp[i]);
+					_allocator.deallocate(temp, _capacity);
+				}
 				_capacity = n;
 			}
 
