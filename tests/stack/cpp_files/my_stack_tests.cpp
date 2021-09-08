@@ -3,12 +3,14 @@
 #include <iostream>
 #include <sys/time.h>
 #include <iomanip>
+#include <vector>
 
 #include "../../../srcs/vector.hpp"
 #include "../../../srcs/stack.hpp"
 
-typedef ft::stack<int>			int_stack;
-typedef ft::stack<std::string>	string_stack;
+typedef ft::stack<int>						int_stack;
+typedef ft::stack<std::string>				string_stack;
+typedef ft::stack< int, std::vector<int> >	std_vector_int_stack;
 
 void calc_time_taken(struct timeval start, struct timeval end, std::string function_name)
 {
@@ -23,7 +25,20 @@ void calc_time_taken(struct timeval start, struct timeval end, std::string funct
 
 void stack_constructor_1()
 {
+	ft::vector<int>	my_vector(10, 100);
+	int_stack		test(my_vector);
 
+	std::cout << "test.top() = " << test.top() << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+}
+
+void stack_constructor_2()
+{
+	std::vector<int>		std_vector(10, 100);
+	std_vector_int_stack	test(std_vector);
+
+	std::cout << "test.top() = " << test.top() << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
 }
 
 void stack_constructor()
@@ -32,6 +47,7 @@ void stack_constructor()
 
 	gettimeofday(&start, NULL);
 	stack_constructor_1();
+	stack_constructor_2();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_stack.constructor()");
 }
@@ -199,9 +215,61 @@ void stack_member_functions()
 	stack_pop();
 }
 
+void stack_less_1()
+{
+	int_stack 		test_1;
+	int_stack		test_2;
+
+	test_1.push(10);
+	test_2.push(20);
+	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
+	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
+	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;
+	std::cout << "test_1 <= test_2 : " << (test_1 <= test_2) << std::endl;
+	std::cout << "test_1 > test_2 : " << (test_1 > test_2) << std::endl;
+	std::cout << "test_1 >= test_2 : " << (test_1 >= test_2) << std::endl;
+}
+
+void stack_equal_1()
+{
+	int_stack 		test_1;
+	int_stack		test_2;
+
+	test_1.push(10);
+	test_2.push(10);
+	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
+	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
+	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;
+	std::cout << "test_1 <= test_2 : " << (test_1 <= test_2) << std::endl;
+	std::cout << "test_1 > test_2 : " << (test_1 > test_2) << std::endl;
+	std::cout << "test_1 >= test_2 : " << (test_1 >= test_2) << std::endl;
+}
+
+void stack_greater_1()
+{
+	int_stack 		test_1;
+	int_stack		test_2;
+
+	test_1.push(10);
+	test_2.push(20);
+	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
+	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
+	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;
+	std::cout << "test_1 <= test_2 : " << (test_1 <= test_2) << std::endl;
+	std::cout << "test_1 > test_2 : " << (test_1 > test_2) << std::endl;
+	std::cout << "test_1 >= test_2 : " << (test_1 >= test_2) << std::endl;
+}
+
 void stack_relational_operators()
 {
-	std::cout << "--- STACK RELATIONAL OPERATORS ---" << std::endl;
+	struct timeval	start, end;
+
+	gettimeofday(&start, NULL);
+	stack_less_1();
+	stack_equal_1();
+	stack_greater_1();
+	gettimeofday(&end, NULL);
+	calc_time_taken(start, end, "my_stack.relational_operators()");
 }
 
 void stack_main(void)

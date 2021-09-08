@@ -5,9 +5,11 @@
 #include <iomanip>
 
 #include <stack>
+#include <vector>
 
-typedef std::stack<int>			int_stack;
-typedef std::stack<std::string>	string_stack;
+typedef std::stack<int>						int_stack;
+typedef std::stack<std::string>				string_stack;
+typedef std::stack< int, std::vector<int> >	std_vector_int_stack;
 
 void calc_time_taken(struct timeval start, struct timeval end, std::string function_name)
 {
@@ -18,6 +20,35 @@ void calc_time_taken(struct timeval start, struct timeval end, std::string funct
 	std::cout << "--------------------" << std::endl;
 	std::cout << function_name << "-> time taken = " << std::fixed << time_taken << std::setprecision(6) << " sec" << std::endl;
 	std::cout << "--------------------" << std::endl;
+}
+
+void stack_constructor_1()
+{
+	std::vector<int>		my_vector(10, 100);
+	std_vector_int_stack	test(my_vector);
+
+	std::cout << "test.top() = " << test.top() << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+}
+
+void stack_constructor_2()
+{
+	std::vector<int>		std_vector(10, 100);
+	std_vector_int_stack	test(std_vector);
+
+	std::cout << "test.top() = " << test.top() << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+}
+
+void stack_constructor()
+{
+	struct timeval	start, end;
+
+	gettimeofday(&start, NULL);
+	stack_constructor_1();
+	stack_constructor_2();
+	gettimeofday(&end, NULL);
+	calc_time_taken(start, end, "std_stack.constructor()");
 }
 
 void stack_empty_1()
@@ -44,7 +75,7 @@ void stack_empty()
 	stack_empty_1();
 	stack_empty_2();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "stl_stack.empty()");
+	calc_time_taken(start, end, "std_stack.empty()");
 }
 
 void stack_size_1()
@@ -86,7 +117,7 @@ void stack_size()
 	stack_size_2();
 	stack_size_3();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "stl_stack.size()");
+	calc_time_taken(start, end, "std_stack.size()");
 }
 
 void stack_top_1()
@@ -95,6 +126,9 @@ void stack_top_1()
 
 	for (int i = 0; i < 1000; i++)
 		test.push(i);
+	std::cout << "test.top() = " << test.top() << std::endl;
+	for (int i = 0; i < 100; i++)
+		test.pop();
 	std::cout << "test.top() = " << test.top() << std::endl;
 	for (int i = 0; i < 100; i++)
 		test.pop();
@@ -108,7 +142,7 @@ void stack_top()
 	gettimeofday(&start, NULL);
 	stack_top_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "stl_stack.top()");
+	calc_time_taken(start, end, "std_stack.top()");
 }
 
 void stack_push_1()
@@ -135,21 +169,106 @@ void stack_push()
 	stack_push_1();
 	stack_push_2();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "stl_stack.push()");
+	calc_time_taken(start, end, "std_stack.push()");
+}
+
+void stack_pop_1()
+{
+	string_stack test;
+
+	for (int i = 0; i < 10000; i++)
+		test.push("hoi");
+	for (int i = 0; i < 10000; i++)
+		test.pop();
+}
+
+void stack_pop_2()
+{
+	int_stack test;
+
+	for (int i = 0; i < 10000; i++)
+		test.push(i);
+	for (int i = 0; i < 10000; i++)
+		test.pop();
+}
+
+void stack_pop()
+{
+	struct timeval	start, end;
+
+	gettimeofday(&start, NULL);
+	stack_pop_1();
+	stack_pop_2();
+	gettimeofday(&end, NULL);
+	calc_time_taken(start, end, "std_stack.pop()");
 }
 
 void stack_member_functions()
 {
 	std::cout << "--- STACK MEMBER FUNCTIONS ---" << std::endl;
+	stack_constructor();
 	stack_empty();
 	stack_size();
 	stack_top();
 	stack_push();
+	stack_pop();
+}
+
+void stack_less_1()
+{
+	int_stack 		test_1;
+	int_stack		test_2;
+
+	test_1.push(10);
+	test_2.push(20);
+	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
+	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
+	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;
+	std::cout << "test_1 <= test_2 : " << (test_1 <= test_2) << std::endl;
+	std::cout << "test_1 > test_2 : " << (test_1 > test_2) << std::endl;
+	std::cout << "test_1 >= test_2 : " << (test_1 >= test_2) << std::endl;
+}
+
+void stack_equal_1()
+{
+	int_stack 		test_1;
+	int_stack		test_2;
+
+	test_1.push(10);
+	test_2.push(10);
+	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
+	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
+	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;
+	std::cout << "test_1 <= test_2 : " << (test_1 <= test_2) << std::endl;
+	std::cout << "test_1 > test_2 : " << (test_1 > test_2) << std::endl;
+	std::cout << "test_1 >= test_2 : " << (test_1 >= test_2) << std::endl;
+}
+
+void stack_greater_1()
+{
+	int_stack 		test_1;
+	int_stack		test_2;
+
+	test_1.push(10);
+	test_2.push(20);
+	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
+	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
+	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;
+	std::cout << "test_1 <= test_2 : " << (test_1 <= test_2) << std::endl;
+	std::cout << "test_1 > test_2 : " << (test_1 > test_2) << std::endl;
+	std::cout << "test_1 >= test_2 : " << (test_1 >= test_2) << std::endl;
 }
 
 void stack_relational_operators()
 {
-	std::cout << "--- STACK RELATIONAL OPERATORS ---" << std::endl;
+	struct timeval	start, end;
+
+	gettimeofday(&start, NULL);
+	stack_less_1();
+	stack_equal_1();
+	stack_greater_1();
+	gettimeofday(&end, NULL);
+	calc_time_taken(start, end, "std_stack.relational_operators()");
 }
 
 void stack_main(void)
