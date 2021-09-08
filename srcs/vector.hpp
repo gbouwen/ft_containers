@@ -176,6 +176,8 @@ namespace ft {
 			// requests that vector capacity is at least enough to contain n elements
 			// if n <= _capacity, nothing happens
 			void		reserve(size_type n) {
+				if (n > max_size())
+					throw (std::length_error("Length error"));
 				if (n > _capacity) {
 					reallocate(n);
 				}

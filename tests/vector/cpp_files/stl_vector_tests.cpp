@@ -248,6 +248,11 @@ void vector_reserve_1()
 	std::cout << "test.capacity() = " << test.capacity() << std::endl;
 	test.reserve(20);
 	std::cout << "test.capacity() = " << test.capacity() << std::endl;
+	try {
+		test.reserve(test.max_size() + 1);
+	} catch (std::exception &e) {
+		std::cout << "can't reserve this :)" << std::endl;
+	}
 }
 
 void vector_capacity()
