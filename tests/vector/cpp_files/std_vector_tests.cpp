@@ -4,10 +4,10 @@
 #include <sys/time.h>
 #include <iomanip>
 
-#include "../../../srcs/vector.hpp"
+#include <vector>
 
-typedef ft::vector<int>			int_vector;
-typedef ft::vector<std::string>	string_vector;
+typedef std::vector<int>			int_vector;
+typedef std::vector<std::string>	string_vector;
 
 void calc_time_taken(struct timeval start, struct timeval end, std::string function_name)
 {
@@ -61,7 +61,7 @@ void vector_constructors()
 	vector_constructor_2();
 	vector_equals_overload_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_vector.constructor()");
+	calc_time_taken(start, end, "std_vector.constructor()");
 }
 
 void vector_begin_1()
@@ -127,7 +127,7 @@ void vector_iterators()
 	vector_rbegin_1();
 	vector_rend_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_vector.iterators()");
+	calc_time_taken(start, end, "std_vector.iterators()");
 }
 
 void vector_size_1()
@@ -270,7 +270,7 @@ void vector_capacity()
 	vector_empty_1();
 	vector_reserve_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_vector.capacity()");
+	calc_time_taken(start, end, "std_vector.capacity()");
 }
 
 void vector_brackets_1()
@@ -328,7 +328,7 @@ void vector_element_access()
 	vector_front_1();
 	vector_back_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_vector.capacity()");
+	calc_time_taken(start, end, "std_vector.capacity()");
 }
 
 void vector_assign_1()
@@ -590,7 +590,7 @@ void vector_modifiers()
 	/*vector_push_back_3();*/
    /* vector_pop_back_1();*/
    /* vector_insert_1();*/
-   /* vector_insert_2();*/
+	/*vector_insert_2();*/
 	vector_insert_3();
 	vector_insert_4();
    /* vector_erase_1();*/
@@ -598,7 +598,7 @@ void vector_modifiers()
 	//vector_swap_1();
 	/*vector_clear_1();*/
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_vector.modifiers()");
+	calc_time_taken(start, end, "std_vector.modifiers()");
 }
 
 void vector_less_1()
@@ -655,7 +655,7 @@ void vector_relational_operators()
 	vector_equal_1();
 	vector_greater_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_vector.relational_operators()");
+	calc_time_taken(start, end, "std_vector.relational_operators()");
 }
 
 void vector_main(void)
