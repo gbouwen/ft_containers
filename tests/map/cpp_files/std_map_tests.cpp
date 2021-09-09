@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sys/time.h>
 #include <iomanip>
+#include <cstdlib>
 
 #include <map>
 
@@ -196,13 +197,43 @@ void map_capacity()
 	calc_time_taken(start, end, "std_map.capacity()");
 }
 
+void map_brackets_1()
+{
+	int_char_map test;
+
+	for (int i = 0 ; i < 100; i++)
+		test.insert(int_char_pair(i, 'a'));
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test[5] = " << test[5] << std::endl;
+	std::cout << "test[50] = " << test[50] << std::endl;
+	std::cout << "test[200] = " << test[200] << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+}
+
 void map_element_access()
 {
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
+	map_brackets_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "std_map.capacity()");
+}
+
+void map_insert_1()
+{
+	int_int_map test;
+
+	for (int i = 0; i < 1000; i++) {
+//		int x = rand() % 10000;
+		int y = rand();
+//		test.insert(int_int_pair(x, y));
+		test.insert(int_int_pair(i, y));
+	}
+	std::cout << "map.size() = " << test.size() << std::endl;
+	std::cout << "map[1] = " << test[1] << std::endl;
+	std::cout << "map[10] = " << test[10] << std::endl;
+	std::cout << "map[100] = " << test[100] << std::endl;
 }
 
 void map_modifiers()
@@ -210,6 +241,7 @@ void map_modifiers()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
+	map_insert_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "std_map.modifiers()");
 }
@@ -227,9 +259,9 @@ void map_main(void)
 {
 //	map_constructors();
 //	map_iterators();
-	map_capacity();
+//	map_capacity();
 //	map_element_access();
-//	map_modifiers();
+	map_modifiers();
 //	map_operations();
 }
 

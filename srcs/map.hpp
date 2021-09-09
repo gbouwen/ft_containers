@@ -14,6 +14,7 @@
 # include "utils/node.hpp"
 # include "utils/bidirectional_iterator.hpp"
 # include "utils/reverse_iterator.hpp"
+# include "vector.hpp"
 
 namespace ft {
 
@@ -193,6 +194,8 @@ namespace ft {
 				else
 					temp = insert_right_leaf(temp, val);
 				set_begin_end();
+				if (!is_balanced(_root))
+					balance_tree();
 				return (ft::pair<iterator, bool>(iterator(temp), true));
 			}
 
@@ -559,6 +562,37 @@ namespace ft {
 					node->_parent->_right = NULL;
 				delete (node);
 				_size--;
+			}
+
+			int max_height(node_pointer node) {
+				if (!node)
+					return (0);
+
+				int left_height = max_height(node->_left);
+				if (left_height == -1)
+					return (-1);
+
+				int right_height = max_height(node->_right);
+				if (right_height == -1)
+					return (-1);
+
+				if (abs(left_height - right_height) > 1)
+					return (-1);
+				int max = (left_height > right_height) ? left_height : right_height;
+				return (1 + max);
+			}
+
+			bool is_balanced(node_pointer root) {
+				return (max_height(root) != -1);
+			}
+
+
+			void balance_tree() {
+				vector<value_type> sorted_nodes;
+
+				for (iterator it = begin(); it != end(); it++) {
+					sorted_nodes.push_back(*it);
+				}
 			}
 
 	}; // class map
