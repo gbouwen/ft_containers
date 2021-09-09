@@ -197,11 +197,25 @@ void map_capacity()
 	calc_time_taken(start, end, "my_map.capacity()");
 }
 
+void map_brackets_1()
+{
+	int_char_map test;
+
+	for (int i = 0 ; i < 100; i++)
+		test.insert(int_char_pair(i, 'a'));
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test[5] = " << test[5] << std::endl;
+	std::cout << "test[50] = " << test[50] << std::endl;
+	std::cout << "test[200] = " << test[200] << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+}
+
 void map_element_access()
 {
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
+	map_brackets_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.capacity()");
 }
@@ -228,8 +242,8 @@ void map_main(void)
 {
 //	map_constructors();
 //	map_iterators();
-	map_capacity();
-//	map_element_access();
+//	map_capacity();
+	map_element_access();
 //	map_modifiers();
 //	map_operations();
 }
