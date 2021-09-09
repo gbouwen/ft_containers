@@ -156,11 +156,42 @@ void map_iterators()
 	calc_time_taken(start, end, "std_map.iterators()");
 }
 
+void map_empty_1()
+{
+	int_int_map test;
+
+	std::cout << "test.empty() = " << test.empty() << std::endl;
+	test.insert(int_int_pair(100, 100));
+	std::cout << "test.empty() = " << test.empty() << std::endl;
+}
+
+void map_size_1()
+{
+	int_int_map test;
+
+	std::cout << "test.size() = " << test.size() << std::endl;
+	for (int i = 0; i < 1000; i++)
+		test.insert(int_int_pair(i, 100));
+	std::cout << "test.size() = " << test.size() << std::endl;
+}
+
+void map_max_size_1()
+{
+	int_int_map		test_one;
+	int_char_map	test_two;
+
+	std::cout << "test_one.max_size() = " << test_one.max_size() << std::endl;
+	std::cout << "test_two.max_size() = " << test_two.max_size() << std::endl;
+}
+
 void map_capacity()
 {
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
+	map_empty_1();
+	map_size_1();
+	map_max_size_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "std_map.capacity()");
 }
@@ -195,8 +226,8 @@ void map_operations()
 void map_main(void)
 {
 //	map_constructors();
-	map_iterators();
-//	map_capacity();
+//	map_iterators();
+	map_capacity();
 //	map_element_access();
 //	map_modifiers();
 //	map_operations();
