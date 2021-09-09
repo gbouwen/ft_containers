@@ -19,11 +19,11 @@ MY_STACK_CPP = tests/stack/cpp_files/my_stack_tests.cpp
 MY_STACK_EXECUTABLE = tests/stack/executables/testMyStack
 MY_STACK_OUTPUT = tests/stack/output/outputMyStack.txt
 
-MAP_CPP = tests/map/cpp_files/map.cpp
+MAP_CPP = tests/map/cpp_files/std_map_tests.cpp
 MAP_EXECUTABLE = tests/map/executables/testMap
 MAP_OUTPUT = tests/map/output/outputMap.txt
 
-MY_MAP_CPP = tests/map/cpp_files/myMap.cpp
+MY_MAP_CPP = tests/map/cpp_files/my_map_tests.cpp
 MY_MAP_EXECUTABLE = tests/map/executables/testMyMap
 MY_MAP_OUTPUT = tests/map/output/outputMyMap.txt
 

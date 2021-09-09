@@ -95,8 +95,8 @@ namespace ft {
 				_allocator = x._allocator;
 				_size = 0;
 				_root = NULL;
-				_begin = x._begin;
-				_end = x._end;
+				_begin = new node();
+				_end = new node();
 				insert(x.begin(), x.end());
 			}
 
@@ -109,14 +109,14 @@ namespace ft {
 
 			// operator overload=
 			map& operator=(const map& x) {
-				clear();
 				if (this != x) {
+					clear();
 					_allocator = x._allocator;
 					_comp = x._comp;
 					_size = 0;
 					_root = NULL;
-					_begin = x._begin;
-					_end = x._end;
+					_begin = new node();
+					_end = new node();
 					insert(x.begin(), x.end());
 				}
 				return (*this);

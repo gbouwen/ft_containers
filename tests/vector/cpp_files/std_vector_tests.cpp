@@ -664,9 +664,8 @@ void vector_main(void)
 //	vector_iterators();
 //	vector_capacity();
 //	vector_element_access();
-//	vector_modifiers();
-	vector_relational_operators();
-//	vector_swap()
+	vector_modifiers();
+//	vector_relational_operators();
 }
 
 int main(void)

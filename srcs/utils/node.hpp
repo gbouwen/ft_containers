@@ -108,7 +108,7 @@ namespace ft {
 			node_pointer get_previous_node(node_pointer node) {
 				node_pointer temp = node;
 
-				if (node->is_empty())
+				if (temp->is_empty())
 					return (temp->_parent);
 				if (temp->_left)
 					return (get_last_element(temp->_left));
