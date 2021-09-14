@@ -220,6 +220,7 @@ namespace ft {
 					return ;
 				node_pointer node = find_node(position->first);
 				remove_node(node);
+				//balance_tree() ???
 			}
 
 			// erases element with key k
