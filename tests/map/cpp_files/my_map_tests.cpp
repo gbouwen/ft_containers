@@ -389,16 +389,9 @@ void test_test()
 	gettimeofday(&start, NULL);
 	int_int_map test;
 
-   /* for (int i = 0; i < 10; i++) {*/
-		//int x = rand() % 1000;
-		//test.insert(int_int_pair(x, i + 100));
-	/*}*/
-//	test.get_allocator();
-	test.insert(int_int_pair(10, 10));
-	test.insert(int_int_pair(5, 5));
-	test.insert(int_int_pair(20, 20));
-	test.insert(int_int_pair(15, 15));
-	test.insert(int_int_pair(14, 14));
+	for (int i = 0; i < 1000; i++) {
+		test.insert(int_int_pair(i, i + 100));
+	}
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.test()");
 }

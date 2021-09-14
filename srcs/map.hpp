@@ -570,63 +570,61 @@ namespace ft {
 				return (std::max(left_height, right_height) + 1);
 			}
 
-			void rotate_left(node_pointer node) {
-				node_pointer middle = node->_parent;
-				node_pointer highest = middle->_parent;
+			void rotate_left(node_pointer pivot_node) {
+				node_pointer child = pivot_node->_right;
 
-				if (_root == highest)
-					_root = middle;
-				middle->_parent = highest->_parent;
-				if (highest->_parent && highest->_parent->_left == highest)
-					highest->_parent->_left = middle;
-				else if (highest->_parent && highest->_parent->_right == highest)
-					highest->_parent->_right = middle;
-				highest->_right = middle->_left;
-				if (highest->_right)
-					highest->_right->_parent = highest;
-				middle->_left = highest;
-				highest->_parent = middle;
+				if (_root == pivot_node)
+					_root = child;
+				child->_parent = pivot_node->_parent;
+				if (pivot_node->_parent && pivot_node->_parent->_left == pivot_node)
+					pivot_node->_parent->_left = child;
+				else if (pivot_node->_parent && pivot_node->_parent->_right == pivot_node)
+					pivot_node->_parent->_right = child;
+				pivot_node->_right = child->_left;
+				if (pivot_node->_right)
+					pivot_node->_right->_parent = pivot_node;
+				child->_left = pivot_node;
+				pivot_node->_parent = child;
 			}
 
-			void rotate_right(node_pointer node) {
-				node_pointer middle = node->_parent;
-				node_pointer highest = middle->_parent;
+			void rotate_right(node_pointer pivot_node) {
+				node_pointer child = pivot_node->_left;
 
-				if (_root == highest)
-					_root = middle;
-				middle->_parent = highest->_parent;
-				if (highest->_parent && highest->_parent->_left == highest)
-					highest->_parent->_left = middle;
-				else if (highest->_parent && highest->_parent->_right == highest)
-					highest->_parent->_right = middle;
-				highest->_left = middle->_right;
-				if (highest->_left)
-					highest->_left->_parent = highest;
-				middle->_right = highest;
-				highest->_parent = middle;
+				if (_root == pivot_node)
+					_root = child;
+				child->_parent = pivot_node->_parent;
+				if (pivot_node->_parent && pivot_node->_parent->_left == pivot_node)
+					pivot_node->_parent->_left = child;
+				else if (pivot_node->_parent && pivot_node->_parent->_right == pivot_node)
+					pivot_node->_parent->_right = child;
+				pivot_node->_left = child->_right;
+				if (pivot_node->_left)
+					pivot_node->_left->_parent = pivot_node;
+				child->_right = pivot_node;
+				pivot_node->_parent = child;
 			}
 
 			void balance_tree(node_pointer node) {
+				node_pointer pivot_node;
 
-				get_allocator();
-				std::cout << "--------\n";
-				while (node != NULL) {
-					int balance_factor = calc_height(node->_right) - calc_height(node->_left);
-					int right_balance_factor = calc_height(node->_right->_right) - calc_height(node->_right->_left);
-					int left_balance_factor = calc_height(node->_left->_right) - calc_height(node->_left->_left);
-
-					if (balance_factor < -1 && right_balance_factor < 0) {
-						rotate_right(node);
-					} else if (balance_factor < -1 && right_balance_factor >= 0) {
-						rotate_left(node->_right);
-						rotate_right(node);
-					} else if (balance_factor > 1 && left_balance_factor > 0) {
-						rotate_left(node);
-					} else if (balance_factor > 1 && left_balance_factor <= 0) {
-						rotate_right(node->_left);
-						rotate_left(node);
+				if (node->_parent && node->_parent->_parent)
+					pivot_node = node->_parent->_parent;
+				else
+					return ;
+				while (pivot_node != NULL) {
+					int balance_factor = calc_height(pivot_node->_right) - calc_height(pivot_node->_left);
+					if (balance_factor < -1 && pivot_node->_left->_left == node) {
+						rotate_right(pivot_node);
+					} else if (balance_factor < -1 && pivot_node->_left->_right == node) {
+						rotate_left(pivot_node->_left);
+						rotate_right(pivot_node);
+					} else if (balance_factor > 1 && pivot_node->_right->_right == node) {
+						rotate_left(pivot_node);
+					} else if (balance_factor > 1 && pivot_node->_right->_left == node) {
+						rotate_right(pivot_node->_right);
+						rotate_left(pivot_node);
 					}
-					node = node->_parent;
+					pivot_node = pivot_node->_parent;
 				}
 			}
 
