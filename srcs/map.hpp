@@ -3,10 +3,9 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include <stdio.h> ///////////////////
-
 # include <cstddef>
 # include <memory>
+# include <algorithm>
 
 # include "utils/pair.hpp"
 # include "utils/make_pair.hpp"
@@ -110,7 +109,7 @@ namespace ft {
 
 			// operator overload=
 			map& operator=(const map& x) {
-				if (this != x) {
+				if (this != &x) {
 					clear();
 					_allocator = x._allocator;
 					_comp = x._comp;
@@ -186,17 +185,16 @@ namespace ft {
 					return (ft::pair<iterator, bool>(begin(), true));
 				}
 
-				node_pointer temp = _root;
-				if (!find_unique_last_node(temp, val))
-					return (ft::pair<iterator, bool>(iterator(temp), false));
-				else if (val.first < temp->_data.first)
-					temp = insert_left_leaf(temp, val);
+				node_pointer last = _root;
+				if (!find_unique_last_node(last, val))
+					return (ft::pair<iterator, bool>(iterator(last), false));
+				else if (val.first < last->_data.first)
+					last = insert_left_leaf(last, val);
 				else
-					temp = insert_right_leaf(temp, val);
+					last = insert_right_leaf(last, val);
+				balance_tree(last);
 				set_begin_end();
-				if (!is_balanced(_root))
-					balance_tree();
-				return (ft::pair<iterator, bool>(iterator(temp), true));
+				return (ft::pair<iterator, bool>(iterator(last), true));
 			}
 
 			// inserts new pair, returns iterator to newly added element or element with same key
@@ -361,7 +359,7 @@ namespace ft {
 
 			// returns allocator
 			allocator_type get_allocator() const {
-				print_tree(_root);
+				print_tree(_root); // REMOVE THIS REMOVE THIS REMOVE THIS
 				return (_allocator);
 			}
 
@@ -564,35 +562,97 @@ namespace ft {
 				_size--;
 			}
 
-			int max_height(node_pointer node) {
-				if (!node)
+			int calc_height(node_pointer node) {
+				if (!node || node->is_empty())
 					return (0);
-
-				int left_height = max_height(node->_left);
-				if (left_height == -1)
-					return (-1);
-
-				int right_height = max_height(node->_right);
-				if (right_height == -1)
-					return (-1);
-
-				if (abs(left_height - right_height) > 1)
-					return (-1);
-				int max = (left_height > right_height) ? left_height : right_height;
-				return (1 + max);
+				int left_height = calc_height(node->_left);
+				int right_height = calc_height(node->_right);
+				return (std::max(left_height, right_height) + 1);
 			}
 
-			bool is_balanced(node_pointer root) {
-				return (max_height(root) != -1);
+			void rotate_left(node_pointer node) {
+				node_pointer middle = node->_parent;
+				node_pointer highest = middle->_parent;
+
+				if (_root == highest)
+					_root = middle;
+				middle->_parent = highest->_parent;
+				if (highest->_parent && highest->_parent->_left == highest)
+					highest->_parent->_left = middle;
+				else if (highest->_parent && highest->_parent->_right == highest)
+					highest->_parent->_right = middle;
+				highest->_right = middle->_left;
+				if (highest->_right)
+					highest->_right->_parent = highest;
+				middle->_left = highest;
+				highest->_parent = middle;
 			}
 
+			void rotate_right(node_pointer node) {
+				node_pointer middle = node->_parent;
+				node_pointer highest = middle->_parent;
 
-			void balance_tree() {
-				vector<value_type> sorted_nodes;
+				if (_root == highest)
+					_root = middle;
+				middle->_parent = highest->_parent;
+				if (highest->_parent && highest->_parent->_left == highest)
+					highest->_parent->_left = middle;
+				else if (highest->_parent && highest->_parent->_right == highest)
+					highest->_parent->_right = middle;
+				highest->_left = middle->_right;
+				if (highest->_left)
+					highest->_left->_parent = highest;
+				middle->_right = highest;
+				highest->_parent = middle;
+			}
 
-				for (iterator it = begin(); it != end(); it++) {
-					sorted_nodes.push_back(*it);
+			void balance_tree(node_pointer node) {
+
+				get_allocator();
+				std::cout << "--------\n";
+				while (node != NULL) {
+					int balance_factor = calc_height(node->_right) - calc_height(node->_left);
+					int right_balance_factor = calc_height(node->_right->_right) - calc_height(node->_right->_left);
+					int left_balance_factor = calc_height(node->_left->_right) - calc_height(node->_left->_left);
+
+					if (balance_factor < -1 && right_balance_factor < 0) {
+						rotate_right(node);
+					} else if (balance_factor < -1 && right_balance_factor >= 0) {
+						rotate_left(node->_right);
+						rotate_right(node);
+					} else if (balance_factor > 1 && left_balance_factor > 0) {
+						rotate_left(node);
+					} else if (balance_factor > 1 && left_balance_factor <= 0) {
+						rotate_right(node->_left);
+						rotate_left(node);
+					}
+					node = node->_parent;
 				}
+			}
+
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+			void	print_tree_utils(node_pointer root, int space) const
+			{
+			   int count = 5;
+				if (root == NULL)
+					return;
+				space += count;
+				print_tree_utils(root->_right, space);
+				std::cout << std::endl;
+				for (int i = count; i < space; i++)
+					std::cout << " ";
+				std::cout << root->_data.first << ", " << root->_data.second << std::endl;
+				print_tree_utils(root->_left, space);
+			}
+
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
+			void	print_tree(node_pointer root) const
+			{
+				print_tree_utils(root, 0);
 			}
 
 	}; // class map
