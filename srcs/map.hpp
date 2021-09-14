@@ -609,10 +609,10 @@ namespace ft {
 				node_pointer pivot_node;
 
 				if (node->_parent && node->_parent->_parent)
-					pivot_node = node->_parent->_parent;
-				else
-					return ;
-				while (pivot_node != NULL) {
+						pivot_node = node->_parent->_parent;
+					else
+						return ;
+				do {
 					int balance_factor = calc_height(pivot_node->_right) - calc_height(pivot_node->_left);
 					if (balance_factor < -1 && pivot_node->_left->_left == node) {
 						rotate_right(pivot_node);
@@ -626,7 +626,7 @@ namespace ft {
 						rotate_left(pivot_node);
 					}
 					pivot_node = pivot_node->_parent;
-				}
+				} while (pivot_node != NULL);
 			}
 
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
