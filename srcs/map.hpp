@@ -642,7 +642,7 @@ namespace ft {
 					}
 					pivot_node = pivot_node->_parent;
 					if (node->_parent)
-					node = node->_parent;
+						node = node->_parent;
 				}
 			}
 
