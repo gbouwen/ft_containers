@@ -181,23 +181,25 @@ namespace ft {
 			// inserts new pair, returns pair with iterator to new element as first
 			// returns bool as second: true if succeeded, false if key already exists
 			ft::pair<iterator, bool> insert(const value_type& val) {
-				key_compare comp = key_comp();
 				if (empty()) {
 					create_new_root(val);
 					set_begin_end();
 					return (ft::pair<iterator, bool>(begin(), true));
 				}
 
-				node_pointer last = _root;
-				if (count(val.first))
-					return (ft::pair<iterator, bool>(iterator(last), false));
-				else if (comp(val.first, last->_data.first))
-					last = insert_left_leaf(last, val);
+				iterator it = find(val.first);
+				if (it != end())
+					return (ft::pair<iterator, bool>(it, false));
+				node_pointer last_node = find_last_node(val);
+				key_compare comp = key_compare();
+				node_pointer inserted_node;
+				if (comp(val.first, last_node->_data.first))
+					inserted_node = insert_left_leaf(last_node, val);
 				else
-					last = insert_right_leaf(last, val);
-				//balance_tree(last);
+					inserted_node = insert_right_leaf(last_node, val);
+				balance_tree(inserted_node);
 				set_begin_end();
-				return (ft::pair<iterator, bool>(iterator(last), true));
+				return (ft::pair<iterator, bool>(iterator(inserted_node), true));
 			}
 
 			// inserts new pair, returns iterator to newly added element or element with same key
@@ -398,6 +400,10 @@ namespace ft {
 
 				parent->_left = child;
 				child->_parent = parent;
+				while (parent) {
+					parent->_balance_factor = calc_height(parent->_right) - calc_height(parent->_left);
+					parent = parent->_parent;
+				}
 				child->_left = NULL;
 				child->_right = NULL;
 				child->_balance_factor = 0;
@@ -411,6 +417,10 @@ namespace ft {
 
 				parent->_right = child;
 				child->_parent = parent;
+				while (parent) {
+					parent->_balance_factor = calc_height(parent->_right) - calc_height(parent->_left);
+					parent = parent->_parent;
+				}
 				child->_left = NULL;
 				child->_right = NULL;
 				child->_balance_factor = 0;
@@ -608,16 +618,15 @@ namespace ft {
 					pivot_node = node->_parent->_parent;
 				else
 					return ;
-				while (pivot_node != NULL) {
-					int balance_factor = calc_height(pivot_node->_right) - calc_height(pivot_node->_left);
-					if (balance_factor < -1 && pivot_node->_left->_left == node) {
+				while (pivot_node) {
+					if (pivot_node->_balance_factor < -1 && pivot_node->_left->_left == node) {
 						rotate_right(pivot_node);
-					} else if (balance_factor < -1 && pivot_node->_left->_right == node) {
+					} else if (pivot_node->_balance_factor < -1 && pivot_node->_left->_right == node) {
 						rotate_left(pivot_node->_left);
 						rotate_right(pivot_node);
-					} else if (balance_factor > 1 && pivot_node->_right->_right == node) {
+					} else if (pivot_node->_balance_factor > 1 && pivot_node->_right->_right == node) {
 						rotate_left(pivot_node);
-					} else if (balance_factor > 1 && pivot_node->_right->_left == node) {
+					} else if (pivot_node->_balance_factor > 1 && pivot_node->_right->_left == node) {
 						rotate_right(pivot_node->_right);
 						rotate_left(pivot_node);
 					}
@@ -643,6 +652,28 @@ namespace ft {
 				}
 			}
 
+			node_pointer find_last_node(const value_type &val) {
+				node_pointer temp = _root;
+				key_compare comp = key_compare();
+
+				while (temp->_left || temp->_right) {
+					if (comp(val.first, temp->_data.first)) { // less
+						if (temp->_left && temp->_left != _begin) {
+							temp = temp->_left;
+						}
+						else
+							break ;
+					} else if (!comp(val.first, temp->_data.first)) { // greater
+						if (temp->_right && temp->_right != _end) {
+							temp = temp->_right;
+						}
+						else
+							break ;
+					}
+				}
+				return (temp);
+			}
+
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
@@ -656,7 +687,7 @@ namespace ft {
 				std::cout << std::endl;
 				for (int i = count; i < space; i++)
 					std::cout << " ";
-				std::cout << root->_data.first << ", " << root->_data.second << std::endl;
+				std::cout << root->_data.first << ", bf = " << root->_balance_factor << std::endl;
 				print_tree_utils(root->_left, space);
 			}
 
