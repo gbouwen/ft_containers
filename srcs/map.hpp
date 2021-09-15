@@ -368,8 +368,15 @@ namespace ft {
 
 			// returns allocator
 			allocator_type get_allocator() const {
-				print_tree(_root); // REMOVE THIS REMOVE THIS REMOVE THIS
 				return (_allocator);
+			}
+
+
+			//REMOVE THIS REMOVE THIS REMOVE THIS
+			//REMOVE THIS REMOVE THIS REMOVE THIS
+			//REMOVE THIS REMOVE THIS REMOVE THIS
+			void print_tree() const {
+				print_tree(_root);
 			}
 
 		private:
@@ -634,6 +641,7 @@ namespace ft {
 						rotate_left(pivot_node);
 					}
 					pivot_node = pivot_node->_parent;
+					if (node->_parent)
 					node = node->_parent;
 				}
 			}
