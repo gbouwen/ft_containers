@@ -19,15 +19,17 @@ namespace ft {
 			node_pointer	_left;
 			node_pointer	_right;
 			value_type		_data;
+			int				_balance_factor;
 			bool			_empty;
 
 		// constructors/destructor/operator=
 
-			node(): _parent(), _left(), _right(), _data(), _empty(true) { }
+			node(): _parent(), _left(), _right(), _data(), _balance_factor(), _empty(true) { }
 
-			node(const node &src): _parent(src._parent), _left(src._left), _right(src._right), _data(src._data), _empty(false) { }
+			node(const node &src): _parent(src._parent), _left(src._left), _right(src._right), _data(src._data),
+									_balance_factor(src._balance_factor), _empty(false) { }
 
-			node(value_type x): _parent(), _left(), _right(), _data(x), _empty(false) { }
+			node(value_type x): _parent(), _left(), _right(), _data(x), _balance_factor(), _empty(false) { }
 
 			node& operator=(const node& rhs) {
 				if (this != rhs) {
@@ -35,6 +37,7 @@ namespace ft {
 					_left = rhs._left;
 					_right = rhs._right;
 					_data = rhs._data;
+					_balance_factor = rhs._balance_factor;
 					_empty = rhs._empty;
 				}
 				return (*this);
@@ -45,7 +48,8 @@ namespace ft {
 		// operator overloads
 
 			bool operator==(const node& rhs) {
-				return (_parent == rhs._parent && _left == rhs._left && _right == rhs._right && _data == rhs._data);
+				return (_parent == rhs._parent && _left == rhs._left && _right == rhs._right
+						&& _data == rhs._data && _balance_factor == rhs._balance_factor);
 			}
 
 			bool operator!=(const node& rhs) { return (!(*this == rhs)); }

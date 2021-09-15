@@ -181,6 +181,7 @@ namespace ft {
 			// inserts new pair, returns pair with iterator to new element as first
 			// returns bool as second: true if succeeded, false if key already exists
 			ft::pair<iterator, bool> insert(const value_type& val) {
+				key_compare comp = key_comp();
 				if (empty()) {
 					create_new_root(val);
 					set_begin_end();
@@ -188,13 +189,13 @@ namespace ft {
 				}
 
 				node_pointer last = _root;
-				if (!find_unique_last_node(last, val))
+				if (count(val.first))
 					return (ft::pair<iterator, bool>(iterator(last), false));
-				else if (val.first < last->_data.first)
+				else if (comp(val.first, last->_data.first))
 					last = insert_left_leaf(last, val);
-				else if (val.first > last->_data.first)
+				else
 					last = insert_right_leaf(last, val);
-				balance_tree(last);
+				//balance_tree(last);
 				set_begin_end();
 				return (ft::pair<iterator, bool>(iterator(last), true));
 			}
@@ -387,6 +388,7 @@ namespace ft {
 				_root->_parent = NULL;
 				_root->_right = NULL;
 				_root->_left = NULL;
+				_root->_balance_factor = 0;
 				_size++;
 			}
 
@@ -398,6 +400,7 @@ namespace ft {
 				child->_parent = parent;
 				child->_left = NULL;
 				child->_right = NULL;
+				child->_balance_factor = 0;
 				_size++;
 				return (child);
 			}
@@ -410,6 +413,7 @@ namespace ft {
 				child->_parent = parent;
 				child->_left = NULL;
 				child->_right = NULL;
+				child->_balance_factor = 0;
 				_size++;
 				return (child);
 			}
@@ -425,41 +429,18 @@ namespace ft {
 				_end->_parent = last;
 			}
 
-			// returns true if successfully found last unique node,
-			// returns false if the key already exists within the map
-			bool find_unique_last_node(node_pointer& temp, const value_type& val) {
-				while (temp->_left || temp->_right) {
-					if (temp->_data.first == val.first)
-						return (false);
-					if (val.first < temp->_data.first) {
-						if (temp->_left != NULL && !temp->_left->is_empty())
-							temp = temp->_left;
-						else
-							break ;
-					}
-					else if (val.first > temp->_data.first) {
-						if (temp->_right != NULL && !temp->_right->is_empty())
-							temp = temp->_right;
-						else
-							break ;
-					}
-				}
-				if (temp->_data.first == val.first)
-					return (false);
-				return (true);
-			}
-
 			// returns node_pointer which has k as first
 			node_pointer find_node(const key_type& k) {
-				node_pointer temp = _root;
+				key_compare		comp = key_comp();
+				node_pointer	temp = _root;
 
 				while (temp) {
-					if (temp->_data.first == k)
+					if (!comp(k, temp->_data.first) && !comp(temp->_data.first, k))
 						break ;
-					else if (k > temp->_data.first)
-						temp = temp->_right;
-					else if (k < temp->_data.first)
+					else if (comp(k, temp->_data.first))
 						temp = temp->_left;
+					else
+						temp = temp->_right;
 				}
 				return (temp);
 			}
@@ -624,7 +605,7 @@ namespace ft {
 				node_pointer pivot_node;
 
 				if (node && node->_parent && node->_parent->_parent)
-						pivot_node = node->_parent->_parent;
+					pivot_node = node->_parent->_parent;
 				else
 					return ;
 				while (pivot_node != NULL) {
