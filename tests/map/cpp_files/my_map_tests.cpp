@@ -393,6 +393,7 @@ void test_test()
 //		int x = rand() % 10000;
 		test.insert(int_int_pair(i, i + 100));
 	}
+	//test.print_tree();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.test()");
 }
