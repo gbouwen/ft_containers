@@ -3,6 +3,8 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
+# include <sys/time.h>
+
 # include <cstddef>
 # include <memory>
 # include <algorithm>
@@ -102,7 +104,7 @@ namespace ft {
 
 			// destructor
 			~map() {
-				clear();
+				delete_all_destructor(begin(), end());
 				delete (_begin);
 				delete (_end);
 			}
@@ -190,7 +192,7 @@ namespace ft {
 					return (ft::pair<iterator, bool>(iterator(last), false));
 				else if (val.first < last->_data.first)
 					last = insert_left_leaf(last, val);
-				else
+				else if (val.first > last->_data.first)
 					last = insert_right_leaf(last, val);
 				balance_tree(last);
 				set_begin_end();
@@ -219,8 +221,9 @@ namespace ft {
 				if (!count(position->first))
 					return ;
 				node_pointer node = find_node(position->first);
+				node_pointer temp = node->_parent;
 				remove_node(node);
-				//balance_tree() ???
+				balance_tree(temp);
 			}
 
 			// erases element with key k
@@ -253,7 +256,12 @@ namespace ft {
 
 			// deletes map content + deallocates
 			void clear() {
+				struct timeval start, endinio;
+
+				gettimeofday(&start, NULL);
 				erase(begin(), end());
+				gettimeofday(&endinio, NULL);
+				calc_time_taken(start, endinio, "erase()");
 			}
 
 		// --- OBSERVERS ---
@@ -608,11 +616,11 @@ namespace ft {
 			void balance_tree(node_pointer node) {
 				node_pointer pivot_node;
 
-				if (node->_parent && node->_parent->_parent)
+				if (node && node->_parent && node->_parent->_parent)
 						pivot_node = node->_parent->_parent;
-					else
-						return ;
-				do {
+				else
+					return ;
+				while (pivot_node != NULL) {
 					int balance_factor = calc_height(pivot_node->_right) - calc_height(pivot_node->_left);
 					if (balance_factor < -1 && pivot_node->_left->_left == node) {
 						rotate_right(pivot_node);
@@ -626,7 +634,24 @@ namespace ft {
 						rotate_left(pivot_node);
 					}
 					pivot_node = pivot_node->_parent;
-				} while (pivot_node != NULL);
+					node = node->_parent;
+				}
+			}
+
+			void delete_node_destructor(iterator position) {
+				if (!count(position->first))
+					return ;
+				node_pointer node = find_node(position->first);
+				remove_node(node);
+			}
+
+			void delete_all_destructor(iterator first, iterator last) {
+				while (first != last) {
+					iterator temp = first;
+					temp++;
+					delete_node_destructor(first);
+					first = find(temp->first);
+				}
 			}
 
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
@@ -652,6 +677,17 @@ namespace ft {
 			void	print_tree(node_pointer root) const
 			{
 				print_tree_utils(root, 0);
+			}
+
+			void calc_time_taken(struct timeval start, struct timeval end, std::string function_name)
+			{
+				double time_taken;
+
+				time_taken = (end.tv_sec - start.tv_sec) * 1e6;
+				time_taken = (time_taken + (end.tv_usec - start.tv_usec)) * 1e-6;
+				std::cout << "--------------------" << std::endl;
+				std::cout << function_name << "-> time taken = " << std::fixed << time_taken << std::setprecision(6) << " sec" << std::endl;
+				std::cout << "--------------------" << std::endl;
 			}
 
 	}; // class map

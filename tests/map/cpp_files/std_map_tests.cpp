@@ -388,14 +388,10 @@ void test_test()
 	gettimeofday(&start, NULL);
 	int_int_map test;
 
-   /* for (int i = 0; i < 100; i++) {*/
-		//int x = rand() % 1000;
-		//test.insert(int_int_pair(i, i + 100));
-	/*}*/
-	test.insert(int_int_pair(10, 10));
-	test.insert(int_int_pair(5, 5));
-	test.insert(int_int_pair(8, 8));
-	test.insert(int_int_pair(9, 9));
+	for (int i = 0; i < 30000; i++) {
+		//int x = rand() % 10000;
+		test.insert(int_int_pair(i, i + 100));
+	}
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "std_map.test()");
 }
