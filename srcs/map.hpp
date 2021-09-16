@@ -198,7 +198,7 @@ namespace ft {
 					inserted_node = insert_left_leaf(last_node, val);
 				else
 					inserted_node = insert_right_leaf(last_node, val);
-				/*balance_tree(inserted_node);*/
+				balance_tree(inserted_node);
 				set_begin_end();
 				return (ft::pair<iterator, bool>(iterator(inserted_node), true));
 			}
@@ -396,7 +396,7 @@ namespace ft {
 			}
 
 			void update_parents_balance_factor(node_pointer parent, node_pointer child) {
-				while (parent != _last_nonzero_bf_node) {
+				while (child != _last_nonzero_bf_node) {
 					if (parent->_left == child)
 						parent->_balance_factor--;
 					else if (parent->_right == child)
@@ -404,6 +404,7 @@ namespace ft {
 					parent = parent->_parent;
 					child = child->_parent;
 				}
+				_last_nonzero_bf_node = NULL;
 			}
 
 			// returns newly inserted left leaf
@@ -412,10 +413,7 @@ namespace ft {
 
 				parent->_left = child;
 				child->_parent = parent;
-				if (_last_nonzero_bf_node)
-					update_parents_balance_factor(parent, child);
-				else
-					parent->_balance_factor--;
+				update_parents_balance_factor(parent, child);
 				child->_left = NULL;
 				child->_right = NULL;
 				child->_balance_factor = 0;
@@ -429,11 +427,7 @@ namespace ft {
 
 				parent->_right = child;
 				child->_parent = parent;
-				std::cout << child->_data.first << std::endl;
-				if (_last_nonzero_bf_node)
-					update_parents_balance_factor(parent, child);
-				else
-					parent->_balance_factor++;
+				update_parents_balance_factor(parent, child);
 				child->_left = NULL;
 				child->_right = NULL;
 				child->_balance_factor = 0;
@@ -624,26 +618,65 @@ namespace ft {
 				pivot_node->_parent = child;
 			}
 
+			void calc_balance_factors_left_right_rotation(node_pointer pivot_node, node_pointer middle, node_pointer node) {
+				if (node->_balance_factor == -1) {
+					middle->_balance_factor = 0;
+					pivot_node->_balance_factor = 1;
+				} else if (node->_balance_factor == 0) {
+					middle->_balance_factor = 0;
+					pivot_node->_balance_factor = 0;
+				} else if (node->_balance_factor == 1) {
+					middle->_balance_factor = -1;
+					pivot_node->_balance_factor = 0;
+				}
+				node->_balance_factor = 0;
+			}
+
+			void calc_balance_factors_right_left_rotation(node_pointer pivot_node, node_pointer middle, node_pointer node) {
+				if (node->_balance_factor == 1) {
+					middle->_balance_factor = 0;
+					pivot_node->_balance_factor = -1;
+				} else if (node->_balance_factor == 0) {
+					middle->_balance_factor = 0;
+					pivot_node->_balance_factor = 0;
+				} else if (node->_balance_factor == -1) {
+					middle->_balance_factor = 1;
+					pivot_node->_balance_factor = 0;
+				}
+				node->_balance_factor = 0;
+			}
+
 			void balance_tree(node_pointer node) {
 				node_pointer pivot_node;
+				node_pointer pivot_child;
 
-				if (node && node->_parent && node->_parent->_parent)
+				if (node && node->_parent && node->_parent->_parent) {
+					pivot_child = node->_parent;
 					pivot_node = node->_parent->_parent;
+				}
 				else
 					return ;
 				while (pivot_node) {
-					if (pivot_node->_balance_factor < -1 && pivot_node->_left->_left == node) {
+					if (pivot_node->_balance_factor < -1 && pivot_child->_left == node) {
 						rotate_right(pivot_node);
-					} else if (pivot_node->_balance_factor < -1 && pivot_node->_left->_right == node) {
+						pivot_child->_balance_factor = 0;
+						pivot_node->_balance_factor = 0;
+					} else if (pivot_node->_balance_factor < -1 && pivot_child->_right == node) {
 						rotate_left(pivot_node->_left);
 						rotate_right(pivot_node);
-					} else if (pivot_node->_balance_factor > 1 && pivot_node->_right->_right == node) {
+						calc_balance_factors_left_right_rotation(pivot_node, pivot_child, node);
+					} else if (pivot_node->_balance_factor > 1 && pivot_child->_right == node) {
 						rotate_left(pivot_node);
-					} else if (pivot_node->_balance_factor > 1 && pivot_node->_right->_left == node) {
+						pivot_child->_balance_factor = 0;
+						pivot_node->_balance_factor = 0;
+					} else if (pivot_node->_balance_factor > 1 && pivot_child->_left == node) {
 						rotate_right(pivot_node->_right);
 						rotate_left(pivot_node);
+						calc_balance_factors_right_left_rotation(pivot_node, pivot_child, node);
 					}
 					pivot_node = pivot_node->_parent;
+					if (pivot_child->_parent)
+						pivot_child = pivot_child->_parent;
 					if (node->_parent)
 						node = node->_parent;
 				}
@@ -690,6 +723,8 @@ namespace ft {
 				}
 				if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first))
 					return (false);
+				if (!_last_nonzero_bf_node)
+					_last_nonzero_bf_node = _root;
 				return (true);
 			}
 

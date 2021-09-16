@@ -388,7 +388,7 @@ void test_test()
 	gettimeofday(&start, NULL);
 	int_int_map test;
 
-	for (int i = 0; i < 10000; i++) {
+	for (int i = 0; i < 100000; i++) {
 		/*int x = rand() % 10000;*/
 		test.insert(int_int_pair(i, i + 100));
 	}
