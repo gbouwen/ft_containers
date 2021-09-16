@@ -70,6 +70,7 @@ namespace ft {
 			node_pointer	_root;
 			node_pointer	_begin;
 			node_pointer	_end;
+			node_pointer	_last_nonzero_bf_node;
 			Compare			_comp;
 			allocator_type	_allocator;
 
@@ -79,7 +80,7 @@ namespace ft {
 
 			// default constructor
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _size(0), _root(), _begin(new node()), _end(new node()), _comp(comp), _allocator(alloc) {
+					: _size(0), _root(), _begin(new node()), _end(new node()), _last_nonzero_bf_node(), _comp(comp), _allocator(alloc) {
 			}
 
 			// constructs map with elements between [first, last]
@@ -87,7 +88,7 @@ namespace ft {
 			map(InputIterator first, InputIterator last,
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type())
-				: _size(0), _root(), _begin(new node()), _end(new node()), _comp(comp), _allocator(alloc) {
+				: _size(0), _root(), _begin(new node()), _end(new node()), _last_nonzero_bf_node(), _comp(comp), _allocator(alloc) {
 				insert(first, last);
 			}
 
@@ -99,6 +100,7 @@ namespace ft {
 				_root = NULL;
 				_begin = new node();
 				_end = new node();
+				_last_nonzero_bf_node = x._last_nonzero_bf_node;
 				insert(x.begin(), x.end());
 			}
 
@@ -187,17 +189,16 @@ namespace ft {
 					return (ft::pair<iterator, bool>(begin(), true));
 				}
 
-				iterator it = find(val.first);
-				if (it != end())
-					return (ft::pair<iterator, bool>(it, false));
-				node_pointer last_node = find_last_node(val);
+				node_pointer last_node = _root;
+				if (!find_last_node(last_node, val))
+					return (ft::pair<iterator, bool>(end(), false));
 				key_compare comp = key_compare();
 				node_pointer inserted_node;
 				if (comp(val.first, last_node->_data.first))
 					inserted_node = insert_left_leaf(last_node, val);
 				else
 					inserted_node = insert_right_leaf(last_node, val);
-				balance_tree(inserted_node);
+				/*balance_tree(inserted_node);*/
 				set_begin_end();
 				return (ft::pair<iterator, bool>(iterator(inserted_node), true));
 			}
@@ -394,16 +395,27 @@ namespace ft {
 				_size++;
 			}
 
+			void update_parents_balance_factor(node_pointer parent, node_pointer child) {
+				while (parent != _last_nonzero_bf_node) {
+					if (parent->_left == child)
+						parent->_balance_factor--;
+					else if (parent->_right == child)
+						parent->_balance_factor++;
+					parent = parent->_parent;
+					child = child->_parent;
+				}
+			}
+
 			// returns newly inserted left leaf
 			node_pointer insert_left_leaf(node_pointer parent, const value_type& val) {
 				node_pointer child = new node(val);
 
 				parent->_left = child;
 				child->_parent = parent;
-				while (parent) {
-					parent->_balance_factor = calc_height(parent->_right) - calc_height(parent->_left);
-					parent = parent->_parent;
-				}
+				if (_last_nonzero_bf_node)
+					update_parents_balance_factor(parent, child);
+				else
+					parent->_balance_factor--;
 				child->_left = NULL;
 				child->_right = NULL;
 				child->_balance_factor = 0;
@@ -417,10 +429,11 @@ namespace ft {
 
 				parent->_right = child;
 				child->_parent = parent;
-				while (parent) {
-					parent->_balance_factor = calc_height(parent->_right) - calc_height(parent->_left);
-					parent = parent->_parent;
-				}
+				std::cout << child->_data.first << std::endl;
+				if (_last_nonzero_bf_node)
+					update_parents_balance_factor(parent, child);
+				else
+					parent->_balance_factor++;
 				child->_left = NULL;
 				child->_right = NULL;
 				child->_balance_factor = 0;
@@ -652,11 +665,15 @@ namespace ft {
 				}
 			}
 
-			node_pointer find_last_node(const value_type &val) {
-				node_pointer temp = _root;
+			bool find_last_node(node_pointer& temp, const value_type &val) {
 				key_compare comp = key_compare();
 
 				while (temp->_left || temp->_right) {
+					if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first))
+						return (false);
+					if (temp->_balance_factor != 0) {
+						_last_nonzero_bf_node = temp;
+					}
 					if (comp(val.first, temp->_data.first)) { // less
 						if (temp->_left && temp->_left != _begin) {
 							temp = temp->_left;
@@ -671,7 +688,9 @@ namespace ft {
 							break ;
 					}
 				}
-				return (temp);
+				if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first))
+					return (false);
+				return (true);
 			}
 
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
