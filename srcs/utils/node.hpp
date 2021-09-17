@@ -58,7 +58,6 @@ namespace ft {
 
 			bool is_empty() { return (_empty); }
 
-			// returns first element
 			node_pointer get_begin(node_pointer node) {
 				node_pointer temp = node;
 
@@ -68,6 +67,7 @@ namespace ft {
 				return (temp);
 			}
 
+			// returns first element
 			node_pointer get_first_element(node_pointer node) {
 				node_pointer temp = node;
 
@@ -102,7 +102,7 @@ namespace ft {
 				node_pointer temp = node;
 
 				if (temp->_right)
-					return (get_begin(temp->_right));
+					return (get_first_element(temp->_right));
 				while (temp->_parent && temp->_parent->_data.first < node->_data.first)
 					temp = temp->_parent;
 				return (temp->_parent);

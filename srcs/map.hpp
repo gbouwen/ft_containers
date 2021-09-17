@@ -43,6 +43,8 @@ namespace ft {
 		typedef ft::node<value_type>														node;
 		typedef ft::node<value_type>*														node_pointer;
 
+		typedef typename Alloc::template rebind<node>::other								node_allocator;
+
 		class value_compare: ft::binary_function<value_type, value_type, bool> {
 
 			friend class map;
@@ -66,13 +68,13 @@ namespace ft {
 
 		private:
 
+			node_allocator	_allocator;
+			Compare			_comp;
 			size_type		_size;
 			node_pointer	_root;
 			node_pointer	_begin;
 			node_pointer	_end;
 			node_pointer	_last_nonzero_bf_node;
-			Compare			_comp;
-			allocator_type	_allocator;
 
 		public:
 
@@ -80,7 +82,11 @@ namespace ft {
 
 			// default constructor
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _size(0), _root(), _begin(new node()), _end(new node()), _last_nonzero_bf_node(), _comp(comp), _allocator(alloc) {
+					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _last_nonzero_bf_node() {
+				_begin = _allocator.allocate(1);
+				_begin->_empty = true;
+				_end = _allocator.allocate(1);
+				_end->_empty = true;
 			}
 
 			// constructs map with elements between [first, last]
@@ -88,7 +94,8 @@ namespace ft {
 			map(InputIterator first, InputIterator last,
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type())
-				: _size(0), _root(), _begin(new node()), _end(new node()), _last_nonzero_bf_node(), _comp(comp), _allocator(alloc) {
+				: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(_allocator.allocate(1)), _end(_allocator.allocate(1)),
+				_last_nonzero_bf_node() {
 				insert(first, last);
 			}
 
@@ -98,8 +105,8 @@ namespace ft {
 				_allocator = x._allocator;
 				_size = 0;
 				_root = NULL;
-				_begin = new node();
-				_end = new node();
+				_begin = x._begin;
+				_end = x._end;
 				_last_nonzero_bf_node = x._last_nonzero_bf_node;
 				insert(x.begin(), x.end());
 			}
@@ -107,8 +114,10 @@ namespace ft {
 			// destructor
 			~map() {
 				delete_all_destructor(begin(), end());
-				delete (_begin);
-				delete (_end);
+   /*             _allocator.destroy(_begin);*/
+				//_allocator.deallocate(_begin, 1);
+				//_allocator.destroy(_end);
+				/*_allocator.deallocate(_end, 1);*/
 			}
 
 			// operator overload=
@@ -119,8 +128,8 @@ namespace ft {
 					_comp = x._comp;
 					_size = 0;
 					_root = NULL;
-					_begin = new node();
-					_end = new node();
+					_begin = x._begin;
+					_end = x._end;
 					insert(x.begin(), x.end());
 				}
 				return (*this);
@@ -170,7 +179,7 @@ namespace ft {
 			size_type size() const { return (_size); }
 
 			// returns max container size
-			size_type max_size() const { return (_allocator.max_size() * 2 / 10); }
+			size_type max_size() const { return (_allocator.max_size()); }
 
 		// --- ELEMENT ACCESS ---
 
@@ -260,12 +269,7 @@ namespace ft {
 
 			// deletes map content + deallocates
 			void clear() {
-				struct timeval start, endinio;
-
-				gettimeofday(&start, NULL);
 				erase(begin(), end());
-				gettimeofday(&endinio, NULL);
-				calc_time_taken(start, endinio, "erase()");
 			}
 
 		// --- OBSERVERS ---
@@ -387,7 +391,8 @@ namespace ft {
 
 			// if map is empty, set root to val
 			void create_new_root(const value_type& val) {
-				_root = new node(val);
+				_root = _allocator.allocate(1);
+				_allocator.construct(_root, val);
 				_root->_parent = NULL;
 				_root->_right = NULL;
 				_root->_left = NULL;
@@ -409,11 +414,13 @@ namespace ft {
 
 			// returns newly inserted left leaf
 			node_pointer insert_left_leaf(node_pointer parent, const value_type& val) {
-				node_pointer child = new node(val);
+				node_pointer child = _allocator.allocate(1);
+				_allocator.construct(child, val);
 
 				parent->_left = child;
 				child->_parent = parent;
 				update_parents_balance_factor(parent, child);
+				child->_empty = false;
 				child->_left = NULL;
 				child->_right = NULL;
 				child->_balance_factor = 0;
@@ -423,11 +430,13 @@ namespace ft {
 
 			// returns newly inserted right leaf
 			node_pointer insert_right_leaf(node_pointer parent, const value_type& val) {
-				node_pointer child = new node(val);
+				node_pointer child = _allocator.allocate(1);
+				_allocator.construct(child, val);
 
 				parent->_right = child;
 				child->_parent = parent;
 				update_parents_balance_factor(parent, child);
+				child->_empty = false;
 				child->_left = NULL;
 				child->_right = NULL;
 				child->_balance_factor = 0;
@@ -435,7 +444,6 @@ namespace ft {
 				return (child);
 			}
 
-			// sets last element to _end
 			void set_begin_end() {
 				node_pointer first = _root->get_first_element(_root);
 				node_pointer last = _root->get_last_element(_root);
@@ -479,7 +487,8 @@ namespace ft {
 
 			void remove_root() {
 				if (size() == 1) {
-					delete (_root);
+					_allocator.destroy(_root);
+					_allocator.deallocate(_root, 1);
 					_size--;
 				}
 				else if (_root->_left && _root->_left != _begin && _root->_right == _end)
@@ -504,7 +513,8 @@ namespace ft {
 				}
 				max->_parent->_right = NULL;
 				_root = max;
-				delete (del);
+				_allocator.destroy(del);
+				_allocator.deallocate(del, 1);
 				_size--;
 			}
 
@@ -513,7 +523,8 @@ namespace ft {
 
 				_root->_left->_parent = NULL;
 				_root = _root->_left;
-				delete (del);
+				_allocator.destroy(del);
+				_allocator.deallocate(del, 1);
 				_size--;
 			}
 
@@ -522,7 +533,8 @@ namespace ft {
 
 				_root->_right->_parent = NULL;
 				_root = _root->_right;
-				delete (del);
+				_allocator.destroy(del);
+				_allocator.deallocate(del, 1);
 				_size--;
 			}
 
@@ -543,7 +555,8 @@ namespace ft {
 				}
 				max->_parent->_right = NULL;
 				max->_parent = node->_parent;
-				delete (node);
+				_allocator.destroy(node);
+				_allocator.deallocate(node, 1);
 				_size--;
 			}
 
@@ -553,7 +566,8 @@ namespace ft {
 				else if (node->_parent->_left == node)
 					node->_parent->_left = node->_left;
 				node->_left->_parent = node->_parent;
-				delete (node);
+				_allocator.destroy(node);
+				_allocator.deallocate(node, 1);
 				_size--;
 			}
 
@@ -563,7 +577,8 @@ namespace ft {
 				else if (node->_parent->_left == node)
 					node->_parent->_left = node->_right;
 				node->_right->_parent = node->_parent;
-				delete (node);
+				_allocator.destroy(node);
+				_allocator.deallocate(node, 1);
 				_size--;
 			}
 
@@ -572,16 +587,9 @@ namespace ft {
 					node->_parent->_left = NULL;
 				else if (node->_parent->_right == node)
 					node->_parent->_right = NULL;
-				delete (node);
+				_allocator.destroy(node);
+				_allocator.deallocate(node, 1);
 				_size--;
-			}
-
-			int calc_height(node_pointer node) {
-				if (!node || node->is_empty())
-					return (0);
-				int left_height = calc_height(node->_left);
-				int right_height = calc_height(node->_right);
-				return (std::max(left_height, right_height) + 1);
 			}
 
 			void rotate_left(node_pointer pivot_node) {
@@ -751,17 +759,6 @@ namespace ft {
 			void	print_tree(node_pointer root) const
 			{
 				print_tree_utils(root, 0);
-			}
-
-			void calc_time_taken(struct timeval start, struct timeval end, std::string function_name)
-			{
-				double time_taken;
-
-				time_taken = (end.tv_sec - start.tv_sec) * 1e6;
-				time_taken = (time_taken + (end.tv_usec - start.tv_usec)) * 1e-6;
-				std::cout << "--------------------" << std::endl;
-				std::cout << function_name << "-> time taken = " << std::fixed << time_taken << std::setprecision(6) << " sec" << std::endl;
-				std::cout << "--------------------" << std::endl;
 			}
 
 	}; // class map

@@ -191,8 +191,8 @@ void map_capacity()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	map_empty_1();
-	map_size_1();
+   /* map_empty_1();*/
+	/*map_size_1();*/
 	map_max_size_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.capacity()");
@@ -389,7 +389,7 @@ void test_test()
 	gettimeofday(&start, NULL);
 	int_int_map test;
 
-	for (int i = 0; i < 100000; i++) {
+	for (int i = 0; i < 1000000; i++) {
 	//	int x = rand() % 10000;
 		test.insert(int_int_pair(i, i + 100));
 	}
