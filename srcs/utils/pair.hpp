@@ -25,11 +25,11 @@ namespace ft {
 		pair(const first_type& a, const second_type& b): first(a), second(b) { }
 
 		// operator overload=
-   /*     pair& operator=(const pair& pr) {*/
-			//first = pr.first;
-			//second = pr.second;
-			//return (*this);
-		/*}*/
+		pair& operator=(const pair& pr) {
+			first = pr.first;
+			second = pr.second;
+			return (*this);
+		}
 
 	}; // struct pair
 
