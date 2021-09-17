@@ -200,7 +200,7 @@ namespace ft {
 
 				node_pointer last_node = _root;
 				if (!find_last_node(last_node, val))
-					return (ft::pair<iterator, bool>(end(), false));
+					return (ft::pair<iterator, bool>(last_node, false));
 				key_compare comp = key_compare();
 				node_pointer inserted_node;
 				if (comp(val.first, last_node->_data.first))
