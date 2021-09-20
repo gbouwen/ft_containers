@@ -114,10 +114,10 @@ namespace ft {
 			// destructor
 			~map() {
 				delete_all_destructor(begin(), end());
-   /*             _allocator.destroy(_begin);*/
-				//_allocator.deallocate(_begin, 1);
-				//_allocator.destroy(_end);
-				/*_allocator.deallocate(_end, 1);*/
+				_allocator.destroy(_begin);
+				_allocator.deallocate(_begin, 1);
+				_allocator.destroy(_end);
+				_allocator.deallocate(_end, 1);
 			}
 
 			// operator overload=
@@ -224,6 +224,7 @@ namespace ft {
 			template <class InputIterator>
 			void insert(InputIterator first, InputIterator last) {
 				while (first != last) {
+					std::cout << "SHEESH" << std::endl;
 					insert(*first);
 					first++;
 				}
