@@ -113,11 +113,11 @@ namespace ft {
 
 			// destructor
 			~map() {
-				delete_all_destructor(begin(), end());
-				_allocator.destroy(_begin);
-				_allocator.deallocate(_begin, 1);
-				_allocator.destroy(_end);
-				_allocator.deallocate(_end, 1);
+				clear();
+   /*             _allocator.destroy(_begin);*/
+				//_allocator.deallocate(_begin, 1);
+				//_allocator.destroy(_end);
+				/*_allocator.deallocate(_end, 1);*/
 			}
 
 			// operator overload=
@@ -224,7 +224,6 @@ namespace ft {
 			template <class InputIterator>
 			void insert(InputIterator first, InputIterator last) {
 				while (first != last) {
-					std::cout << "SHEESH" << std::endl;
 					insert(*first);
 					first++;
 				}
@@ -235,9 +234,7 @@ namespace ft {
 				if (!count(position->first))
 					return ;
 				node_pointer node = find_node(position->first);
-				node_pointer temp = node->_parent;
 				remove_node(node);
-				balance_tree(temp);
 			}
 
 			// erases element with key k
@@ -286,8 +283,9 @@ namespace ft {
 			// returns iterator to k if k is in map
 			// returns end if k is not in map
 			iterator find(const key_type& k) {
+				key_compare comp = key_comp();
 				for (iterator it = begin(); it != end(); it++) {
-					if (it->first == k)
+					if (!comp(it->first, k) && !comp(k, it->first))
 						return (it);
 				}
 				return (end());
@@ -296,8 +294,9 @@ namespace ft {
 			// returns iterator to k if k is in map
 			// returns end if k is not in map
 			const_iterator find(const key_type& k) const {
+				key_compare comp = key_comp();
 				for (const_iterator it = begin(); it != end(); it++) {
-					if (it->first == k)
+					if (!comp(it->first, k) && !comp(k, it->first))
 						return (it);
 				}
 				return (end());
@@ -688,22 +687,6 @@ namespace ft {
 						pivot_child = pivot_child->_parent;
 					if (node->_parent)
 						node = node->_parent;
-				}
-			}
-
-			void delete_node_destructor(iterator position) {
-				if (!count(position->first))
-					return ;
-				node_pointer node = find_node(position->first);
-				remove_node(node);
-			}
-
-			void delete_all_destructor(iterator first, iterator last) {
-				while (first != last) {
-					iterator temp = first;
-					temp++;
-					delete_node_destructor(first);
-					first = find(temp->first);
 				}
 			}
 

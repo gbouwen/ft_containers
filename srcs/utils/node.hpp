@@ -101,7 +101,7 @@ namespace ft {
 			node_pointer get_next_node(node_pointer node) {
 				node_pointer temp = node;
 
-				if (temp->_right)
+				if (temp->_right && !temp->_right->is_empty())
 					return (get_first_element(temp->_right));
 				while (temp->_parent && temp->_parent->_data.first < node->_data.first)
 					temp = temp->_parent;
@@ -114,7 +114,7 @@ namespace ft {
 
 				if (temp->is_empty())
 					return (temp->_parent);
-				if (temp->_left)
+				if (temp->_left && !temp->_left->is_empty())
 					return (get_last_element(temp->_left));
 				while (temp->_parent->_data.first > node->_data.first)
 					temp = temp->_parent;
