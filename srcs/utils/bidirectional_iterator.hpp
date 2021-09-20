@@ -49,13 +49,15 @@ namespace ft {
 				return (*this);
 			}
 
-			friend bool	operator==(const bidirectional_iterator& a, const bidirectional_iterator& b) { return (a._node == b._node); }
+			bool	operator==(const bidirectional_iterator& b) { return (_node == b._node); }
 
-			friend bool	operator!=(const bidirectional_iterator& a, const bidirectional_iterator& b) { return (a._node != b._node); }
+			bool	operator!=(const bidirectional_iterator& b) { return (_node != b._node); }
 
 			reference	operator*() const { return (_node->_data); }
 
 			pointer		operator->() { return (&(_node->_data)); }
+
+			node_pointer get_node() const { return (_node); }
 
 			// prefix
 			iterator&	operator++() {

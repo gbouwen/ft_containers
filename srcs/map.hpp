@@ -83,19 +83,30 @@ namespace ft {
 			// default constructor
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _last_nonzero_bf_node() {
+				value_type empty = value_type(0, 0);
 				_begin = _allocator.allocate(1);
+				_allocator.construct(_begin, empty);
 				_begin->_empty = true;
 				_end = _allocator.allocate(1);
+				_allocator.construct(_end, empty);
 				_end->_empty = true;
 			}
 
 			// constructs map with elements between [first, last]
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last,
-				const key_compare& comp = key_compare(),
-				const allocator_type& alloc = allocator_type())
-				: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(_allocator.allocate(1)), _end(_allocator.allocate(1)),
-				_last_nonzero_bf_node() {
+					const key_compare& comp = key_compare(),
+					const allocator_type& alloc = allocator_type())
+					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(),
+					_last_nonzero_bf_node() {
+				value_type empty = value_type(0, 0);
+				_begin = _allocator.allocate(1);
+				_allocator.construct(_begin, empty);
+				_begin->_empty = true;
+				_end = _allocator.allocate(1);
+				_allocator.construct(_end, empty);
+				_end->_empty = true;
+				_allocator.construct(_end, empty);
 				insert(first, last);
 			}
 
@@ -107,17 +118,17 @@ namespace ft {
 				_root = NULL;
 				_begin = x._begin;
 				_end = x._end;
-				_last_nonzero_bf_node = x._last_nonzero_bf_node;
+				_last_nonzero_bf_node = NULL;
 				insert(x.begin(), x.end());
 			}
 
 			// destructor
 			~map() {
 				clear();
-   /*             _allocator.destroy(_begin);*/
-				//_allocator.deallocate(_begin, 1);
-				//_allocator.destroy(_end);
-				/*_allocator.deallocate(_end, 1);*/
+				_allocator.destroy(_begin);
+				_allocator.deallocate(_begin, 1);
+				_allocator.destroy(_end);
+				_allocator.deallocate(_end, 1);
 			}
 
 			// operator overload=
@@ -135,8 +146,7 @@ namespace ft {
 				return (*this);
 			}
 
-
-		// --- ITERATORS ---
+			// --- ITERATORS ---
 
 			// returns iterator to first element
 			iterator begin() {
@@ -198,8 +208,8 @@ namespace ft {
 					return (ft::pair<iterator, bool>(begin(), true));
 				}
 
-				node_pointer last_node = _root;
-				if (!find_last_node(last_node, val))
+				node_pointer last_node = find_last_node(_root, val);
+				if (last_node == _end)
 					return (ft::pair<iterator, bool>(last_node, false));
 				key_compare comp = key_compare();
 				node_pointer inserted_node;
@@ -690,12 +700,13 @@ namespace ft {
 				}
 			}
 
-			bool find_last_node(node_pointer& temp, const value_type &val) {
+			node_pointer find_last_node(node_pointer temp, const value_type &val) {
 				key_compare comp = key_compare();
 
 				while (temp->_left || temp->_right) {
-					if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first))
-						return (false);
+					if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first)) { // equals
+						return (_end);
+					}
 					if (temp->_balance_factor != 0) {
 						_last_nonzero_bf_node = temp;
 					}
@@ -714,10 +725,10 @@ namespace ft {
 					}
 				}
 				if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first))
-					return (false);
+					return (_end);
 				if (!_last_nonzero_bf_node)
 					_last_nonzero_bf_node = _root;
-				return (true);
+				return (temp);
 			}
 
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS

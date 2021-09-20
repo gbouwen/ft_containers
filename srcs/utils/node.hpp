@@ -45,15 +45,6 @@ namespace ft {
 
 			~node() { }
 
-		// operator overloads
-
-			bool operator==(const node& rhs) {
-				return (_parent == rhs._parent && _left == rhs._left && _right == rhs._right
-						&& _data == rhs._data && _balance_factor == rhs._balance_factor);
-			}
-
-			bool operator!=(const node& rhs) { return (!(*this == rhs)); }
-
 		// helper functions
 
 			bool is_empty() { return (_empty); }
@@ -103,6 +94,8 @@ namespace ft {
 
 				if (temp->_right && !temp->_right->is_empty())
 					return (get_first_element(temp->_right));
+				else if (temp->_right && temp->_right->is_empty())
+					return (temp->_right);
 				while (temp->_parent && temp->_parent->_data.first < node->_data.first)
 					temp = temp->_parent;
 				return (temp->_parent);

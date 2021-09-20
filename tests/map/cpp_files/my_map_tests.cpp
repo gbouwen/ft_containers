@@ -29,16 +29,18 @@ void map_constructor_1()
 {
 	int_char_map test_one;
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++) {
 		test_one.insert(int_char_pair(i, 'a'));
+	}
 
+	test_one.print_tree();
 	int_char_map test_two(test_one);
-	for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)
-		std::cout << it->first << " -> " << it->second << " ";
-	std::cout << std::endl;
-	for (int_char_map::iterator it = test_two.begin(); it != test_two.end(); it++)
-		std::cout << it->first << " -> " << it->second << " ";
-	std::cout << std::endl;
+   /* for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)*/
+		//std::cout << it->first << " -> " << it->second << " ";
+	/*std::cout << std::endl;*/
+	//for (int_char_map::iterator it = test_two.begin(); it != test_two.end(); it++)
+		//std::cout << it->first << " -> " << it->second << " ";
+	/*std::cout << std::endl;*/
 }
 
 void map_constructor_2()
@@ -49,12 +51,12 @@ void map_constructor_2()
 		test_one.insert(int_char_pair(i, 'a'));
 
 	int_char_map test_two(test_one.begin(), test_one.end());
-	for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)
-		std::cout << it->first << " -> " << it->second << " ";
-	std::cout << std::endl;
-	for (int_char_map::iterator it = test_two.begin(); it != test_two.end(); it++)
-		std::cout << it->first << " -> " << it->second << " ";
-	std::cout << std::endl;
+   /* for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)*/
+		//std::cout << it->first << " -> " << it->second << " ";
+	//std::cout << std::endl;
+	//for (int_char_map::iterator it = test_two.begin(); it != test_two.end(); it++)
+		//std::cout << it->first << " -> " << it->second << " ";
+	/*std::cout << std::endl;*/
 }
 
 void map_equals_overload_1()
@@ -78,9 +80,9 @@ void map_constructors()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	map_constructor_1();
+	//map_constructor_1();
 	map_constructor_2();
-	map_equals_overload_1();
+	/*map_equals_overload_1();*/
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.constructor()");
 }
@@ -239,7 +241,7 @@ void map_insert_2()
 {
 	int_int_map test;
 
-	for (int i = 0; i < 1000000; i++) {
+	for (int i = 0; i < 100000; i++) {
 		int x = rand() % 1000000;
 		test.insert(int_int_pair(x, i));
 	}
@@ -313,7 +315,7 @@ void map_modifiers()
 
 	gettimeofday(&start, NULL);
 	map_insert_1();
-	//map_insert_2();
+   /* map_insert_2();*/
 	//map_erase_1();
 	/*map_erase_2();*/
 	/*map_swap_1();*/
@@ -411,8 +413,8 @@ void map_test()
 {
 	int_int_map	test;
 
-	for (int i = 0; i < 3; i++)
-		test.insert(int_int_pair(i, i));
+	for (int i = 0; i < 1000; i++)
+		test.insert(int_int_pair(100 - i, i));
 	int_int_map::iterator it = test.begin();
 	std::cout << it->first << std::endl;
 	std::cout << it->first << std::endl;
@@ -420,12 +422,12 @@ void map_test()
 
 void map_main(void)
 {
-//	map_constructors();
-//	map_iterators();
-//	map_capacity();
-//	map_element_access();
-	map_modifiers();
-//	map_operations();
+	map_constructors();
+   /* map_iterators();*/
+	//map_capacity();
+	//map_element_access();
+//	map_modifiers();
+	//map_operations();
    /* map_test();*/
 }
 
