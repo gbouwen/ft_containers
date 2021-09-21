@@ -151,11 +151,11 @@ void map_iterators()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	/*map_begin_1();*/
-	/*map_end_1();*/
-	/*map_end_2();*/
+	map_begin_1();
+	map_end_1();
+	map_end_2();
 	map_rbegin_1();
-   /* map_rend_1();*/
+	map_rend_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.iterators()");
 }
@@ -193,8 +193,8 @@ void map_capacity()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-   /* map_empty_1();*/
-	/*map_size_1();*/
+	map_empty_1();
+	map_size_1();
 	map_max_size_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.capacity()");
@@ -422,10 +422,10 @@ void map_test()
 
 void map_main(void)
 {
-   /* map_constructors();*/
+	map_constructors();
 	map_iterators();
-	//map_capacity();
-	//map_element_access();
+	map_capacity();
+	map_element_access();
 //	map_modifiers();
 	//map_operations();
    /* map_test();*/

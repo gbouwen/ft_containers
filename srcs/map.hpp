@@ -210,9 +210,10 @@ namespace ft {
 					return (ft::pair<iterator, bool>(begin(), true));
 				}
 
-				node_pointer last_node = find_last_node(_root, val);
-				if (last_node == _end)
-					return (ft::pair<iterator, bool>(last_node, false));
+				ft::pair<node_pointer, bool> pair = find_last_node(_root, val);
+				node_pointer last_node = pair.first;
+				if (!pair.second)
+					return (ft::make_pair<iterator, bool>(last_node, pair.second));
 				key_compare comp = key_compare();
 				node_pointer inserted_node;
 				if (comp(val.first, last_node->_data.first))
@@ -707,12 +708,12 @@ namespace ft {
 				}
 			}
 
-			node_pointer find_last_node(node_pointer temp, const value_type &val) {
+			ft::pair<node_pointer, bool> find_last_node(node_pointer temp, const value_type &val) {
 				key_compare comp = key_compare();
 
 				while (temp->_left || temp->_right) {
 					if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first)) { // equals
-						return (_end);
+						return (ft::make_pair<node_pointer, bool>(temp, false));
 					}
 					if (temp->_balance_factor != 0) {
 						_last_nonzero_bf_node = temp;
@@ -731,11 +732,11 @@ namespace ft {
 							break ;
 					}
 				}
-				if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first))
-					return (_end);
+				if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first)) // equals
+					return (ft::make_pair<node_pointer, bool>(temp, false));
 				if (!_last_nonzero_bf_node)
 					_last_nonzero_bf_node = _root;
-				return (temp);
+				return (ft::make_pair<node_pointer, bool>(temp, true));
 			}
 
 			void	delete_tree(node_pointer node) {
