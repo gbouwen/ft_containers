@@ -130,7 +130,14 @@ namespace ft {
 
 			// destructor
 			~map() {
-				delete_tree(_root);
+				if (_size)
+					delete_tree(_root);
+				else {
+					_allocator.destroy(_begin);
+					_allocator.destroy(_end);
+					_allocator.deallocate(_begin, 1);
+					_allocator.deallocate(_end, 1);
+				}
 			}
 
 			// operator overload=
