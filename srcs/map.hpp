@@ -220,7 +220,7 @@ namespace ft {
 					inserted_node = insert_left_leaf(last_node, val);
 				else
 					inserted_node = insert_right_leaf(last_node, val);
-				balance_tree(inserted_node);
+				balance_tree_insert(inserted_node);
 				set_begin_end();
 				return (ft::pair<iterator, bool>(iterator(inserted_node), true));
 			}
@@ -246,7 +246,7 @@ namespace ft {
 			void erase(iterator position) {
 				if (!count(position->first))
 					return ;
-				node_pointer node = find_node(position->first);
+				node_pointer node = find_node_erase(position->first);
 				remove_node(node);
 			}
 
@@ -413,14 +413,20 @@ namespace ft {
 				_size++;
 			}
 
-			void update_parents_balance_factor(node_pointer parent, node_pointer child) {
+			void update_parents_balance_factor_insert(node_pointer parent, node_pointer child) {
 				while (child != _last_nonzero_bf_node) {
 					if (parent->_left == child)
 						parent->_balance_factor--;
 					else if (parent->_right == child)
 						parent->_balance_factor++;
-					parent = parent->_parent;
-					child = child->_parent;
+					if (parent->_parent)
+						parent = parent->_parent;
+					else
+						break ;
+					if (child->_parent)
+						child = child->_parent;
+					else
+						break ;
 				}
 				_last_nonzero_bf_node = NULL;
 			}
@@ -432,7 +438,7 @@ namespace ft {
 
 				parent->_left = child;
 				child->_parent = parent;
-				update_parents_balance_factor(parent, child);
+				update_parents_balance_factor_insert(parent, child);
 				child->_empty = false;
 				child->_left = NULL;
 				child->_right = NULL;
@@ -448,7 +454,7 @@ namespace ft {
 
 				parent->_right = child;
 				child->_parent = parent;
-				update_parents_balance_factor(parent, child);
+				update_parents_balance_factor_insert(parent, child);
 				child->_empty = false;
 				child->_left = NULL;
 				child->_right = NULL;
@@ -468,37 +474,56 @@ namespace ft {
 			}
 
 			// returns node_pointer which has k as first
-			node_pointer find_node(const key_type& k) {
+			node_pointer find_node_erase(const key_type& k) {
 				key_compare		comp = key_comp();
 				node_pointer	temp = _root;
 
 				while (temp) {
-					if (!comp(k, temp->_data.first) && !comp(temp->_data.first, k))
+					if (!comp(k, temp->_data.first) && !comp(temp->_data.first, k)) // equals
 						break ;
-					else if (comp(k, temp->_data.first))
+					else if (comp(k, temp->_data.first)) // less
 						temp = temp->_left;
-					else
+					else // greater
 						temp = temp->_right;
 				}
 				return (temp);
 			}
 
+   /*         void update_parents_balance_factor_delete(node_pointer node, bool left_side_deletion) {*/
+				//if (left_side_deletion)
+					//[>update_balance_factor_after_left_side_deletion();<]
+				//else
+					//[>update_balance_factor_after_right_side_deletion();<]
+				//node = node->_parent;
+				//while (node && node != _root) {
+					//if (node->_parent)
+						//node = node->_parent;
+					//else
+						//break ;
+				//}
+			//}
+
 			void remove_node(node_pointer node) {
-				if (node == _root) {
+				/*key_compare	comp = key_comp();*/
+				//node_pointer parent = node->_parent;
+				//bool left_side_deletion;
+				//if (parent && parent->_left == node)
+					//left_side_deletion = true;
+				//else if (parent && parent->_right == node)
+					/*left_side_deletion = false;*/
+
+				if (node == _root)
 					remove_root();
-				}
-				else if ((!node->_left || node->_left == _begin) && (!node->_right || node->_right == _end)) {
+				else if ((!node->_left || node->_left == _begin) && (!node->_right || node->_right == _end))
 					remove_leaf(node);
-				}
-				else if (node->_left && node->_left != _begin && (!node->_right || node->_right == _end)) {
+				else if (node->_left && node->_left != _begin && (!node->_right || node->_right == _end))
 					remove_node_with_only_left_child(node);
-				}
-				else if (node->_right && node->_right != _end && (!node->_left || node->_left == _begin)) {
+				else if (node->_right && node->_right != _end && (!node->_left || node->_left == _begin))
 					remove_node_with_only_right_child(node);
-				}
-				else if (node->_left && node->_left != _begin && node->_right && node->_right != _end) {
+				else if (node->_left && node->_left != _begin && node->_right && node->_right != _end)
 					remove_node_with_two_children(node);
-				}
+				/*if (parent)*/
+					//update_parents_balance_factor_delete(parent, left_side_deletion);
 				if (size() != 0)
 					set_begin_end();
 			}
@@ -672,7 +697,7 @@ namespace ft {
 				node->_balance_factor = 0;
 			}
 
-			void balance_tree(node_pointer node) {
+			void balance_tree_insert(node_pointer node) {
 				node_pointer pivot_node;
 				node_pointer pivot_child;
 

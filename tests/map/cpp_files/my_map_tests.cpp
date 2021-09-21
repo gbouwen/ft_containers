@@ -241,7 +241,7 @@ void map_insert_2()
 {
 	int_int_map test;
 
-	for (int i = 0; i < 100000; i++) {
+	for (int i = 0; i < 1000000; i++) {
 		int x = rand() % 1000000;
 		test.insert(int_int_pair(x, i));
 	}
@@ -258,6 +258,7 @@ void map_erase_1()
 	for (int i = 0; i < 1000000; i++) {
 		test.insert(int_int_pair(i, i + 1));
 	}
+	test.erase(1000);
 	test.erase(1000);
 	test.erase(900);
 	test.erase(400);
@@ -314,11 +315,11 @@ void map_modifiers()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	map_insert_1();
-   /* map_insert_2();*/
-	//map_erase_1();
-	/*map_erase_2();*/
-	/*map_swap_1();*/
+   /* map_insert_1();*/
+	/*map_insert_2();*/
+	map_erase_1();
+   /* map_erase_2();*/
+   /* map_swap_1();*/
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.modifiers()");
 }
@@ -409,26 +410,14 @@ void map_operations()
 	calc_time_taken(start, end, "my_map.operations()");
 }
 
-void map_test()
-{
-	int_int_map	test;
-
-	for (int i = 0; i < 1000; i++)
-		test.insert(int_int_pair(100 - i, i));
-	int_int_map::iterator it = test.begin();
-	std::cout << it->first << std::endl;
-	std::cout << it->first << std::endl;
-}
-
 void map_main(void)
 {
-	map_constructors();
-	map_iterators();
-	map_capacity();
-	map_element_access();
-//	map_modifiers();
+   /* map_constructors();*/
+	//map_iterators();
+	//map_capacity();
+	/*map_element_access();*/
+	map_modifiers();
 	//map_operations();
-   /* map_test();*/
 }
 
 int main(void)
