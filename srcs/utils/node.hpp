@@ -109,6 +109,8 @@ namespace ft {
 					return (temp->_parent);
 				if (temp->_left && !temp->_left->is_empty())
 					return (get_last_element(temp->_left));
+				else if (temp->_left && temp->_left->is_empty())
+					return (temp->_left);
 				while (temp->_parent->_data.first > node->_data.first)
 					temp = temp->_parent;
 				return (temp->_parent);

@@ -126,6 +126,7 @@ void map_rbegin_1()
 
 	for (int i = 0; i < 10; i++)
 		test.insert(int_int_pair(i, i + 100));
+	int_int_map::reverse_iterator it = test.rbegin();
 	for (int_int_map::reverse_iterator it = test.rbegin(); it != test.rend(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
@@ -150,11 +151,11 @@ void map_iterators()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	map_begin_1();
-	map_end_1();
-	map_end_2();
+	/*map_begin_1();*/
+	/*map_end_1();*/
+	/*map_end_2();*/
 	map_rbegin_1();
-	map_rend_1();
+   /* map_rend_1();*/
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.iterators()");
 }
@@ -421,8 +422,8 @@ void map_test()
 
 void map_main(void)
 {
-	map_constructors();
-   /* map_iterators();*/
+   /* map_constructors();*/
+	map_iterators();
 	//map_capacity();
 	//map_element_access();
 //	map_modifiers();
