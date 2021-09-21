@@ -116,19 +116,21 @@ namespace ft {
 				_allocator = x._allocator;
 				_size = 0;
 				_root = NULL;
-				_begin = x._begin;
-				_end = x._end;
+				value_type empty = value_type(0, 0);
+				_begin = _allocator.allocate(1);
+				_allocator.construct(_begin, empty);
+				_begin->_empty = true;
+				_end = _allocator.allocate(1);
+				_allocator.construct(_end, empty);
+				_end->_empty = true;
+				_allocator.construct(_end, empty);
 				_last_nonzero_bf_node = NULL;
 				insert(x.begin(), x.end());
 			}
 
 			// destructor
 			~map() {
-				clear();
-				_allocator.destroy(_begin);
-				_allocator.deallocate(_begin, 1);
-				_allocator.destroy(_end);
-				_allocator.deallocate(_end, 1);
+				delete_tree(_root);
 			}
 
 			// operator overload=
@@ -481,16 +483,21 @@ namespace ft {
 			}
 
 			void remove_node(node_pointer node) {
-				if (node == _root)
+				if (node == _root) {
 					remove_root();
-				else if ((!node->_left || node->_left == _begin) && (!node->_right || node->_right == _end))
+				}
+				else if ((!node->_left || node->_left == _begin) && (!node->_right || node->_right == _end)) {
 					remove_leaf(node);
-				else if (node->_left && node->_left != _begin && (!node->_right || node->_right == _end))
+				}
+				else if (node->_left && node->_left != _begin && (!node->_right || node->_right == _end)) {
 					remove_node_with_only_left_child(node);
-				else if (node->_right && node->_right != _end && (!node->_left || node->_left == _begin))
+				}
+				else if (node->_right && node->_right != _end && (!node->_left || node->_left == _begin)) {
 					remove_node_with_only_right_child(node);
-				else if (node->_left && node->_left != _begin && node->_right && node->_right != _end)
+				}
+				else if (node->_left && node->_left != _begin && node->_right && node->_right != _end) {
 					remove_node_with_two_children(node);
+				}
 				if (size() != 0)
 					set_begin_end();
 			}
@@ -729,6 +736,15 @@ namespace ft {
 				if (!_last_nonzero_bf_node)
 					_last_nonzero_bf_node = _root;
 				return (temp);
+			}
+
+			void	delete_tree(node_pointer node) {
+				if (!node)
+					return ;
+				delete_tree(node->_left);
+				delete_tree(node->_right);
+				_allocator.destroy(node);
+				_allocator.deallocate(node, 1);
 			}
 
 			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS

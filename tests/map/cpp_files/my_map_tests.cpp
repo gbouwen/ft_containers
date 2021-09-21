@@ -33,7 +33,6 @@ void map_constructor_1()
 		test_one.insert(int_char_pair(i, 'a'));
 	}
 
-	test_one.print_tree();
 	int_char_map test_two(test_one);
    /* for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)*/
 		//std::cout << it->first << " -> " << it->second << " ";
@@ -80,8 +79,8 @@ void map_constructors()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	//map_constructor_1();
-	map_constructor_2();
+	map_constructor_1();
+	/*map_constructor_2();*/
 	/*map_equals_overload_1();*/
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.constructor()");
