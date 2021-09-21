@@ -251,19 +251,46 @@ void map_insert_2()
 	std::cout << "test[100] = " << test[100] << std::endl;
 }
 
+/*void map_erase_1()*/
+//{
+	//int_int_map test;
+
+	//for (int i = 0; i < 1000000; i++) {
+		//test.insert(int_int_pair(i, i + 1));
+	//}
+	//test.erase(1000);
+	//test.erase(1000);
+	//test.erase(900);
+	//test.erase(400);
+	//test.erase(10);
+	//test.erase(9000);
+//}
+
 void map_erase_1()
 {
 	int_int_map test;
 
-	for (int i = 0; i < 1000000; i++) {
-		test.insert(int_int_pair(i, i + 1));
-	}
-	test.erase(1000);
-	test.erase(1000);
-	test.erase(900);
-	test.erase(400);
-	test.erase(10);
-	test.erase(9000);
+	/*for (int i = 0; i < 10; i++) {*/
+		//test.insert(int_int_pair(i, i + 1));
+	/*}*/
+	test.insert(int_int_pair(10, 10));
+	test.insert(int_int_pair(15, 15));
+	test.insert(int_int_pair(8, 8));
+	test.insert(int_int_pair(7, 7));
+	test.insert(int_int_pair(12, 12));
+	test.insert(int_int_pair(20, 20));
+	test.print_tree();
+	std::cout << "------" << std::endl;
+	test.erase(8);
+	test.erase(7);
+	test.print_tree();
+   /* std::cout << "---------------------\n";*/
+	//test.erase(0);
+	//test.print_tree();
+	//std::cout << "---------------------\n";
+	//test.erase(2);
+	//test.print_tree();
+	/*std::cout << "---------------------\n";*/
 }
 
 void map_erase_2()

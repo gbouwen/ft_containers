@@ -438,6 +438,7 @@ namespace ft {
 
 				parent->_left = child;
 				child->_parent = parent;
+
 				update_parents_balance_factor_insert(parent, child);
 				child->_empty = false;
 				child->_left = NULL;
@@ -489,28 +490,143 @@ namespace ft {
 				return (temp);
 			}
 
-   /*         void update_parents_balance_factor_delete(node_pointer node, bool left_side_deletion) {*/
-				//if (left_side_deletion)
-					//[>update_balance_factor_after_left_side_deletion();<]
-				//else
-					//[>update_balance_factor_after_right_side_deletion();<]
-				//node = node->_parent;
-				//while (node && node != _root) {
-					//if (node->_parent)
-						//node = node->_parent;
+			bool rebalance_tree_deletion_left_side(node_pointer node) {
+				node_pointer child = node->_right;
+				if (child->_balance_factor == -1) {
+					rotate_right(child);
+					rotate_left(node);
+					calc_balance_factors_right_left_rotation(node, child, NULL);
+				}
+				else {
+					rotate_left(node);
+					if (child->_balance_factor == 0) {
+						child->_balance_factor = -1;
+						node->_balance_factor = 1;
+						return (false);
+					}
+					else {
+						child->_balance_factor = 0;
+						node->_balance_factor = 0;
+					}
+				}
+				return (true);
+			}
+
+			bool rebalance_tree_deletion_right_side(node_pointer node) {
+				node_pointer child = node->_left;
+				if (child->_balance_factor == 1) {
+					rotate_left(child);
+					rotate_right(node);
+					calc_balance_factors_left_right_rotation(node, child, NULL);
+				}
+				else {
+					rotate_right(node);
+					if (child->_balance_factor == 0) {
+						child->_balance_factor = 1;
+						node->_balance_factor = -1;
+						return (false);
+					}
+					else {
+						child->_balance_factor = 0;
+						node->_balance_factor = 0;
+					}
+				}
+				return (true);
+			}
+
+			bool update_balance_factor_after_left_side_deletion(node_pointer node) {
+				if (node->_balance_factor < 0) {
+					node->_balance_factor = 0;
+					return (true);
+				}
+				else if (node->_balance_factor == 0) {
+					node->_balance_factor++;
+					return (false);
+				}
+				else if (node->_balance_factor > 0) {
+					node->_balance_factor++;
+					return (true);
+				}
+				return (true);
+			}
+
+			bool update_balance_factor_after_right_side_deletion(node_pointer node) {
+				if (node->_balance_factor > 0) {
+					node->_balance_factor = 0;
+					return (true);
+				}
+				else if (node->_balance_factor == 0) {
+					node->_balance_factor--;
+					return (false);
+				}
+				else if (node->_balance_factor < 0) {
+					node->_balance_factor--;
+					return (true);
+				}
+				return (true);
+			}
+
+			void update_parents_balance_factor_delete(node_pointer parent, bool left_side_deletion) {
+				bool check_parent;
+
+				if (left_side_deletion) {
+					check_parent = update_balance_factor_after_left_side_deletion(parent);
+					if (!check_parent)
+						return ;
+					if (parent->_balance_factor > 1) {
+						if (!rebalance_tree_deletion_left_side(parent))
+							return ;
+					}
+				}
+				else {
+					check_parent = update_balance_factor_after_right_side_deletion(parent);
+					if (!check_parent)
+						return ;
+					if (parent->_balance_factor < -1) {
+						if (!rebalance_tree_deletion_right_side(parent))
+							return ;
+					}
+				}
+   /*             node_pointer child = parent;*/
+				//parent = parent->_parent;
+				//while (parent && parent != _root) {
+					//if (parent->_left == child) {
+						//check_parent = update_balance_factor_after_left_side_deletion(parent);
+						//if (!check_parent)
+							//return ;
+						//if (parent->_balance_factor > 1) {
+							//if (!rebalance_tree_deletion_left_side(parent))
+								//return ;
+						//}
+					//}
+					//else if (parent->_right == child) {
+						//check_parent = update_balance_factor_after_right_side_deletion(parent);
+						//if (!check_parent)
+							//return ;
+						//if (parent->_balance_factor < -1) {
+							//if (!rebalance_tree_deletion_right_side(parent))
+								//return ;
+						//}
+							//return ;
+					//}
+					//if (parent->_parent)
+						//parent = parent->_parent;
 					//else
 						//break ;
-				//}
-			//}
+					//if (child->_parent)
+						//child = child->_parent;
+					//else
+						//break ;
+				/*}*/
+			}
 
 			void remove_node(node_pointer node) {
-				/*key_compare	comp = key_comp();*/
-				//node_pointer parent = node->_parent;
-				//bool left_side_deletion;
-				//if (parent && parent->_left == node)
-					//left_side_deletion = true;
-				//else if (parent && parent->_right == node)
-					/*left_side_deletion = false;*/
+				node_pointer parent = node->_parent;
+				bool left_side_deletion;
+				if (parent && parent->_left == node)
+					left_side_deletion = true;
+				else if (parent && parent->_right == node)
+					left_side_deletion = false;
 
 				if (node == _root)
 					remove_root();
@@ -522,8 +638,8 @@ namespace ft {
 					remove_node_with_only_right_child(node);
 				else if (node->_left && node->_left != _begin && node->_right && node->_right != _end)
 					remove_node_with_two_children(node);
-				/*if (parent)*/
-					//update_parents_balance_factor_delete(parent, left_side_deletion);
+				if (parent)
+					update_parents_balance_factor_delete(parent, left_side_deletion);
 				if (size() != 0)
 					set_begin_end();
 			}
@@ -680,7 +796,8 @@ namespace ft {
 					middle->_balance_factor = -1;
 					pivot_node->_balance_factor = 0;
 				}
-				node->_balance_factor = 0;
+				if (node)
+					node->_balance_factor = 0;
 			}
 
 			void calc_balance_factors_right_left_rotation(node_pointer pivot_node, node_pointer middle, node_pointer node) {
@@ -694,7 +811,8 @@ namespace ft {
 					middle->_balance_factor = 1;
 					pivot_node->_balance_factor = 0;
 				}
-				node->_balance_factor = 0;
+				if (node)
+					node->_balance_factor = 0;
 			}
 
 			void balance_tree_insert(node_pointer node) {
