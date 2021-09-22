@@ -440,8 +440,10 @@ namespace ft {
 					temp->_parent->_right = temp;
 				node = temp;
 
-				node->_left->_height = std::max(get_height(node->_left->_left), get_height(node->_left->_right)) + 1;
-				node->_right->_height = std::max(get_height(node->_right->_left), get_height(node->_right->_right)) + 1;
+				if (node->_left)
+					node->_left->_height = std::max(get_height(node->_left->_left), get_height(node->_left->_right)) + 1;
+				if (node->_right)
+					node->_right->_height = std::max(get_height(node->_right->_left), get_height(node->_right->_right)) + 1;
 				node->_height = std::max(get_height(node->_left), get_height(node->_right)) + 1;
 				if (node->_parent)
 					node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
@@ -464,8 +466,10 @@ namespace ft {
 					temp->_parent->_right = temp;
 				node = temp;
 
-				node->_left->_height = std::max(get_height(node->_left->_left), get_height(node->_left->_right)) + 1;
-				node->_right->_height = std::max(get_height(node->_right->_left), get_height(node->_right->_right)) + 1;
+				if (node->_left)
+					node->_left->_height = std::max(get_height(node->_left->_left), get_height(node->_left->_right)) + 1;
+				if (node->_right)
+					node->_right->_height = std::max(get_height(node->_right->_left), get_height(node->_right->_right)) + 1;
 				node->_height = std::max(get_height(node->_left), get_height(node->_right)) + 1;
 				if (node->_parent)
 					node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
