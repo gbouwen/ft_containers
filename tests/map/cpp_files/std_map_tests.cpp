@@ -426,7 +426,7 @@ void map_main(void)
 	//map_iterators();
 	//map_capacity();
 	/*map_element_access();*/
-	map_modifiers();
+	/*map_modifiers();*/
 	//map_operations();
 }
 

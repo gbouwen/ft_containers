@@ -208,9 +208,15 @@ namespace ft {
 			// inserts new pair, returns pair with iterator to new element as first
 			// returns bool as second: true if succeeded, false if key already exists
 			ft::pair<iterator, bool> insert(const value_type& val) {
+				/*iterator it = find(val.first);*/
+				//if (it != end())
+					/*return (ft::make_pair<iterator, bool>(it, false));*/
 				remove_begin_end();
-				insert_node(_root, val);
+   				_root = insert_node(_root, val);
 				set_begin_end();
+				/*it = find(val.first);*/
+   /*             return (ft::make_pair<iterator, bool>(it, true));*/
+				return (ft::make_pair<iterator, bool>(iterator(_root), true));
 			}
 
 			// inserts new pair, returns iterator to newly added element or element with same key
@@ -231,32 +237,29 @@ namespace ft {
 			}
 
 			// erases element position
-			void erase(iterator position) {
-				if (!count(position->first))
-					return ;
-				node_pointer node = find_node_erase(position->first);
-				remove_node(node);
-			}
+   /*         void erase(iterator position) {*/
+
+			/*}*/
 
 			// erases element with key k
-			size_type erase(const key_type& k) {
-				iterator it = find(k);
-				if (it != end()) {
-					erase(it);
-					return (1);
-				}
-				return (0);
-			}
+   /*         size_type erase(const key_type& k) {*/
+				//iterator it = find(k);
+				//if (it != end()) {
+					//erase(it);
+					//return (1);
+				//}
+				//return (0);
+			/*}*/
 
 			// erases range [first, last]
-			void erase(iterator first, iterator last) {
-				while (first != last) {
-					iterator temp = first;
-					temp++;
-					erase(first);
-					first = find(temp->first);
-				}
-			}
+			/*void erase(iterator first, iterator last) {*/
+				//while (first != last) {
+					//iterator temp = first;
+					//temp++;
+					//erase(first);
+					//first = find(temp->first);
+				//}
+			/*}*/
 
 			// exchanges contents of map with the contents of x
 			void swap(map& x) {
@@ -268,7 +271,7 @@ namespace ft {
 
 			// deletes map content + deallocates
 			void clear() {
-				erase(begin(), end());
+				/*erase(begin(), end());*/
 			}
 
 		// --- OBSERVERS ---
@@ -390,6 +393,18 @@ namespace ft {
 
 		private:
 
+			node_pointer create_new_node(const value_type& val) {
+				node_pointer node;
+
+				node = _allocator.allocate(1);
+				_allocator.construct(node, val);
+				node->_right = NULL;
+				node->_left = NULL;
+				node->_height = 1;
+				_size++;
+				return (node);
+			}
+
 			int get_height(node_pointer node) {
 				if (!node)
 					return (0);
@@ -403,7 +418,7 @@ namespace ft {
 			}
 
 			node_pointer rotate_right(node_pointer y) {
-				node_pointer x = node->_left;
+				node_pointer x = y->_left;
 				node_pointer t2 = x->_right;
 
 				x->_right = y;
@@ -429,50 +444,40 @@ namespace ft {
 			}
 
 			node_pointer insert_node(node_pointer node, const value_type& val) {
+				key_compare compare = key_compare();
 				if (!node)
-					return (create_new_node(val))
-				if (comp(val.first, node->_data.first)) // less
+					return (create_new_node(val));
+				if (compare(val.first, node->_data.first)) // less
 					node->_left = insert_node(node->_left, val);
-				else if (comp(node->_data.first, val.first)) // greater
+				else if (compare(node->_data.first, val.first)) // greater
 					node->_right = insert_node(node->_right, val);
-				else
-					return (node); // false
+				else // equal
+					return (node);
 				node->_height = 1 + std::max(get_height(node->_left), get_height(node->_right));
 
 				int balance_factor = calc_balance_factor(node);
 
-				if (balance_factor > 1 && comp(val, node->_left->_data.first)) // left left
+				if (balance_factor > 1 && compare(val.first, node->_left->_data.first)) // left left
 					return (rotate_right(node));
-				if (balance_factor < -1 && comp(node->_right->_data.first, val)) // right right
+				if (balance_factor < -1 && compare(node->_right->_data.first, val.first)) // right right
 					return (rotate_left(node));
-				if (balance_factor > 1 && comp(node->_left->_data.first, val)) { // left right
+				if (balance_factor > 1 && compare(node->_left->_data.first, val.first)) { // left right
 					node->_left = rotate_left(node->_left);
 					return (rotate_right(node));
 				}
-				if (balance_factor < -1 && comp(val, node->_right->_data.first)) { // right left
+				if (balance_factor < -1 && compare(val.first, node->_right->_data.first)) { // right left
 					node->_right = rotate_right(node->_right);
 					return (rotate_left(node));
 				}
 				return (node);
 			}
 
-			// if map is empty, set root to val
-			node_pointer create_new_node(const value_type& val) {
-				node_pointer node;
-
-				node = _allocator.allocate(1);
-				_allocator.construct(node, val);
-				node->_right = NULL;
-				node->_left = NULL;
-				node->_height = 0;
-				_size++;
-				return (node);
-			}
-
 			void remove_begin_end() {
-				_begin->_parent->_left = NULL;
+				if (_begin->_parent)
+					_begin->_parent->_left = NULL;
 				_begin->_parent = NULL;
-				_end->_parent->_right = NULL;
+				if (_end->_parent)
+					_end->_parent->_right = NULL;
 				_end->_parent = NULL;
 			}
 
@@ -508,7 +513,7 @@ namespace ft {
 				std::cout << std::endl;
 				for (int i = count; i < space; i++)
 					std::cout << " ";
-				std::cout << root->_data.first << ", bf = " << root->_balance_factor << std::endl;
+				std::cout << root->_data.first << ",  = " << root->_height << std::endl;
 				print_tree_utils(root->_left, space);
 			}
 
