@@ -227,10 +227,14 @@ void map_insert_1()
 	for (int i = 0; i < 10000; i++) {
 		test.insert(int_int_pair(i, i + 1));
 	}
-   /* std::cout << "map.size() = " << test.size() << std::endl;*/
-	//std::cout << "test[1] = " << test[1] << std::endl;
-	//std::cout << "test[10] = " << test[10] << std::endl;
-	/*std::cout << "test[100] = " << test[100] << std::endl;*/
+	std::pair<int_int_map::iterator, bool> pair = test.insert(int_int_pair(10, 0));
+	std::cout << pair.first->first << " = " << pair.second << std::endl;
+	pair = test.insert(int_int_pair(123456789, 0));
+	std::cout << pair.first->first << " = " << pair.second << std::endl;
+	std::cout << "map.size() = " << test.size() << std::endl;
+	std::cout << "test[1] = " << test[1] << std::endl;
+	std::cout << "test[10] = " << test[10] << std::endl;
+	std::cout << "test[100] = " << test[100] << std::endl;
 }
 
 void map_insert_2()

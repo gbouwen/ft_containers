@@ -235,10 +235,10 @@ void map_insert_1()
 	std::cout << pair.first->first << " = " << pair.second << std::endl;
 	pair = test.insert(int_int_pair(123456789, 0));
 	std::cout << pair.first->first << " = " << pair.second << std::endl;
-   /* std::cout << "map.size() = " << test.size() << std::endl;*/
-	//std::cout << "test[1] = " << test[1] << std::endl;
-	//std::cout << "test[10] = " << test[10] << std::endl;
-	/*std::cout << "test[100] = " << test[100] << std::endl;*/
+	std::cout << "map.size() = " << test.size() << std::endl;
+	std::cout << "test[1] = " << test[1] << std::endl;
+	std::cout << "test[10] = " << test[10] << std::endl;
+	std::cout << "test[100] = " << test[100] << std::endl;
 }
 
 void map_insert_2()
