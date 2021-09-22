@@ -74,6 +74,8 @@ namespace ft {
 			node_pointer	_root;
 			node_pointer	_begin;
 			node_pointer	_end;
+			bool			_duplicate;
+			node_pointer	_latest;
 
 		public:
 
@@ -81,7 +83,7 @@ namespace ft {
 
 			// default constructor
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end() {
+					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _duplicate(false), _latest() {
 				value_type empty = value_type(0, 0);
 				_begin = _allocator.allocate(1);
 				_allocator.construct(_begin, empty);
@@ -96,7 +98,7 @@ namespace ft {
 			map(InputIterator first, InputIterator last,
 					const key_compare& comp = key_compare(),
 					const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end() {
+					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _duplicate(false), _latest() {
 				value_type empty = value_type(0, 0);
 				_begin = _allocator.allocate(1);
 				_allocator.construct(_begin, empty);
@@ -122,6 +124,8 @@ namespace ft {
 				_allocator.construct(_end, empty);
 				_end->_empty = true;
 				_allocator.construct(_end, empty);
+				_duplicate = x._duplicate;
+				_latest = NULL;
 				insert(x.begin(), x.end());
 			}
 
@@ -208,15 +212,14 @@ namespace ft {
 			// inserts new pair, returns pair with iterator to new element as first
 			// returns bool as second: true if succeeded, false if key already exists
 			ft::pair<iterator, bool> insert(const value_type& val) {
-				/*iterator it = find(val.first);*/
-				//if (it != end())
-					/*return (ft::make_pair<iterator, bool>(it, false));*/
+				_duplicate = false;
 				remove_begin_end();
-   				_root = insert_node(_root, val);
+				_root = insert_node(_root, NULL, val);
 				set_begin_end();
-				/*it = find(val.first);*/
-   /*             return (ft::make_pair<iterator, bool>(it, true));*/
-				return (ft::make_pair<iterator, bool>(iterator(_root), true));
+				if (_duplicate)
+					return (ft::make_pair<iterator, bool>(iterator(_latest), false));
+				else
+					return (ft::make_pair<iterator, bool>(iterator(_latest), true));
 			}
 
 			// inserts new pair, returns iterator to newly added element or element with same key
@@ -388,20 +391,24 @@ namespace ft {
 			//REMOVE THIS REMOVE THIS REMOVE THIS
 			//REMOVE THIS REMOVE THIS REMOVE THIS
 			void print_tree() const {
+				std::cout << "-----" << std::endl;
 				print_tree(_root);
+				std::cout << "-----" << std::endl;
 			}
 
 		private:
 
-			node_pointer create_new_node(const value_type& val) {
+			node_pointer create_new_node(node_pointer parent, const value_type& val) {
 				node_pointer node;
 
 				node = _allocator.allocate(1);
 				_allocator.construct(node, val);
+				node->_parent = parent;
 				node->_right = NULL;
 				node->_left = NULL;
 				node->_height = 1;
 				_size++;
+				_latest = node;
 				return (node);
 			}
 
@@ -417,51 +424,74 @@ namespace ft {
 				return (get_height(node->_left) - get_height(node->_right));
 			}
 
-			node_pointer rotate_right(node_pointer y) {
-				node_pointer x = y->_left;
-				node_pointer t2 = x->_right;
+			node_pointer rotate_right(node_pointer node) {
+				key_compare		comp = key_compare();
+				node_pointer	temp = node->_left;
 
-				x->_right = y;
-				y->_left = t2;
+				node->_left = temp->_right;
+				if (temp->_right)
+					temp->_right->_parent = node;
+				temp->_right = node;
+				temp->_parent = node->_parent;
+				node->_parent = temp;
+				if (temp->_parent && comp(node->_data.first, temp->_parent->_data.first))
+					temp->_parent->_left = temp;
+				else if (temp->_parent && comp(temp->_parent->_data.first, node->_data.first))
+					temp->_parent->_right = temp;
+				node = temp;
 
-				y->_height = std::max(get_height(y->_left), get_height(y->_right)) + 1;
-				x->_height = std::max(get_height(x->_left), get_height(x->_right)) + 1;
-
-				return (x);
+				node->_left->_height = std::max(get_height(node->_left->_left), get_height(node->_left->_right)) + 1;
+				node->_right->_height = std::max(get_height(node->_right->_left), get_height(node->_right->_right)) + 1;
+				node->_height = std::max(get_height(node->_left), get_height(node->_right)) + 1;
+				if (node->_parent)
+					node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
+				return (node);
 			}
 
-			node_pointer rotate_left(node_pointer x) {
-				node_pointer y = x->_right;
-				node_pointer t2 = y->_left;
+			node_pointer rotate_left(node_pointer node) {
+				key_compare		comp = key_compare();
+				node_pointer	temp = node->_right;
 
-				y->_left = x;
-				x->_right = t2;
+				node->_right = temp->_left;
+				if (temp->_left)
+					temp->_left->_parent = node;
+				temp->_left = node;
+				temp->_parent = node->_parent;
+				node->_parent = temp;
+				if (temp->_parent && comp(node->_data.first, temp->_parent->_data.first))
+					temp->_parent->_left = temp;
+				else if (temp->_parent && comp(temp->_parent->_data.first, node->_data.first))
+					temp->_parent->_right = temp;
+				node = temp;
 
-				x->_height = std::max(get_height(x->_left), get_height(x->_right)) + 1;
-				y->_height = std::max(get_height(y->_left), get_height(y->_left)) + 1;
-
-				return (y);
+				node->_left->_height = std::max(get_height(node->_left->_left), get_height(node->_left->_right)) + 1;
+				node->_right->_height = std::max(get_height(node->_right->_left), get_height(node->_right->_right)) + 1;
+				node->_height = std::max(get_height(node->_left), get_height(node->_right)) + 1;
+				if (node->_parent)
+					node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
+				return (node);
 			}
 
-			node_pointer insert_node(node_pointer node, const value_type& val) {
+			node_pointer insert_node(node_pointer node, node_pointer parent, const value_type& val) {
 				key_compare compare = key_compare();
-				if (!node)
-					return (create_new_node(val));
-				if (compare(val.first, node->_data.first)) // less
-					node->_left = insert_node(node->_left, val);
-				else if (compare(node->_data.first, val.first)) // greater
-					node->_right = insert_node(node->_right, val);
-				else // equal
-					return (node);
-				node->_height = 1 + std::max(get_height(node->_left), get_height(node->_right));
 
+				if (!node)
+					return (create_new_node(parent, val));
+				if (compare(val.first, node->_data.first)) // less
+					node->_left = insert_node(node->_left, node, val);
+				else if (compare(node->_data.first, val.first)) // greater
+					node->_right = insert_node(node->_right, node, val);
+				else { // equals
+					_duplicate = true;
+					_latest = node;
+					return (node);
+				}
+				node->_height = std::max(get_height(node->_left), get_height(node->_right)) + 1;
 				int balance_factor = calc_balance_factor(node);
 
 				if (balance_factor > 1 && compare(val.first, node->_left->_data.first)) // left left
 					return (rotate_right(node));
-				if (balance_factor < -1 && compare(node->_right->_data.first, val.first)) // right right
-					return (rotate_left(node));
-				if (balance_factor > 1 && compare(node->_left->_data.first, val.first)) { // left right
+				else if (balance_factor > 1 && compare(node->_left->_data.first, val.first)) { // left right
 					node->_left = rotate_left(node->_left);
 					return (rotate_right(node));
 				}
@@ -469,6 +499,8 @@ namespace ft {
 					node->_right = rotate_right(node->_right);
 					return (rotate_left(node));
 				}
+				else if (balance_factor < -1 && compare(node->_right->_data.first, val.first)) // right right
+					return (rotate_left(node));
 				return (node);
 			}
 

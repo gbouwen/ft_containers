@@ -228,10 +228,13 @@ void map_insert_1()
 {
 	int_int_map test;
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10000; i++) {
 		test.insert(int_int_pair(i, i + 1));
 	}
-	test.print_tree();
+	ft::pair<int_int_map::iterator, bool> pair = test.insert(int_int_pair(10, 0));
+	std::cout << pair.first->first << " = " << pair.second << std::endl;
+	pair = test.insert(int_int_pair(123456789, 0));
+	std::cout << pair.first->first << " = " << pair.second << std::endl;
    /* std::cout << "map.size() = " << test.size() << std::endl;*/
 	//std::cout << "test[1] = " << test[1] << std::endl;
 	//std::cout << "test[10] = " << test[10] << std::endl;
