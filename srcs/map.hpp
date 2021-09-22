@@ -74,7 +74,6 @@ namespace ft {
 			node_pointer	_root;
 			node_pointer	_begin;
 			node_pointer	_end;
-			node_pointer	_last_nonzero_bf_node;
 
 		public:
 
@@ -82,7 +81,7 @@ namespace ft {
 
 			// default constructor
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _last_nonzero_bf_node() {
+					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end() {
 				value_type empty = value_type(0, 0);
 				_begin = _allocator.allocate(1);
 				_allocator.construct(_begin, empty);
@@ -97,8 +96,7 @@ namespace ft {
 			map(InputIterator first, InputIterator last,
 					const key_compare& comp = key_compare(),
 					const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(),
-					_last_nonzero_bf_node() {
+					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end() {
 				value_type empty = value_type(0, 0);
 				_begin = _allocator.allocate(1);
 				_allocator.construct(_begin, empty);
@@ -124,7 +122,6 @@ namespace ft {
 				_allocator.construct(_end, empty);
 				_end->_empty = true;
 				_allocator.construct(_end, empty);
-				_last_nonzero_bf_node = NULL;
 				insert(x.begin(), x.end());
 			}
 
@@ -211,25 +208,9 @@ namespace ft {
 			// inserts new pair, returns pair with iterator to new element as first
 			// returns bool as second: true if succeeded, false if key already exists
 			ft::pair<iterator, bool> insert(const value_type& val) {
-				if (empty()) {
-					create_new_root(val);
-					set_begin_end();
-					return (ft::pair<iterator, bool>(begin(), true));
-				}
-
-				ft::pair<node_pointer, bool> pair = find_last_node(_root, val);
-				node_pointer last_node = pair.first;
-				if (!pair.second)
-					return (ft::make_pair<iterator, bool>(last_node, pair.second));
-				key_compare comp = key_compare();
-				node_pointer inserted_node;
-				if (comp(val.first, last_node->_data.first))
-					inserted_node = insert_left_leaf(last_node, val);
-				else
-					inserted_node = insert_right_leaf(last_node, val);
-				balance_tree_insert(inserted_node);
+				remove_begin_end();
+				insert_node(_root, val);
 				set_begin_end();
-				return (ft::pair<iterator, bool>(iterator(inserted_node), true));
 			}
 
 			// inserts new pair, returns iterator to newly added element or element with same key
@@ -409,65 +390,90 @@ namespace ft {
 
 		private:
 
-			// if map is empty, set root to val
-			void create_new_root(const value_type& val) {
-				_root = _allocator.allocate(1);
-				_allocator.construct(_root, val);
-				_root->_parent = NULL;
-				_root->_right = NULL;
-				_root->_left = NULL;
-				_root->_balance_factor = 0;
-				_size++;
+			int get_height(node_pointer node) {
+				if (!node)
+					return (0);
+				return (node->_height);
 			}
 
-			void update_parents_balance_factor_insert(node_pointer parent, node_pointer child) {
-				while (child != _last_nonzero_bf_node) {
-					if (parent->_left == child)
-						parent->_balance_factor--;
-					else if (parent->_right == child)
-						parent->_balance_factor++;
-					if (parent->_parent)
-						parent = parent->_parent;
-					else
-						break ;
-					if (child->_parent)
-						child = child->_parent;
-					else
-						break ;
+			int calc_balance_factor(node_pointer node) {
+				if (!node)
+					return (0);
+				return (get_height(node->_left) - get_height(node->_right));
+			}
+
+			node_pointer rotate_right(node_pointer y) {
+				node_pointer x = node->_left;
+				node_pointer t2 = x->_right;
+
+				x->_right = y;
+				y->_left = t2;
+
+				y->_height = std::max(get_height(y->_left), get_height(y->_right)) + 1;
+				x->_height = std::max(get_height(x->_left), get_height(x->_right)) + 1;
+
+				return (x);
+			}
+
+			node_pointer rotate_left(node_pointer x) {
+				node_pointer y = x->_right;
+				node_pointer t2 = y->_left;
+
+				y->_left = x;
+				x->_right = t2;
+
+				x->_height = std::max(get_height(x->_left), get_height(x->_right)) + 1;
+				y->_height = std::max(get_height(y->_left), get_height(y->_left)) + 1;
+
+				return (y);
+			}
+
+			node_pointer insert_node(node_pointer node, const value_type& val) {
+				if (!node)
+					return (create_new_node(val))
+				if (comp(val.first, node->_data.first)) // less
+					node->_left = insert_node(node->_left, val);
+				else if (comp(node->_data.first, val.first)) // greater
+					node->_right = insert_node(node->_right, val);
+				else
+					return (node); // false
+				node->_height = 1 + std::max(get_height(node->_left), get_height(node->_right));
+
+				int balance_factor = calc_balance_factor(node);
+
+				if (balance_factor > 1 && comp(val, node->_left->_data.first)) // left left
+					return (rotate_right(node));
+				if (balance_factor < -1 && comp(node->_right->_data.first, val)) // right right
+					return (rotate_left(node));
+				if (balance_factor > 1 && comp(node->_left->_data.first, val)) { // left right
+					node->_left = rotate_left(node->_left);
+					return (rotate_right(node));
 				}
-				_last_nonzero_bf_node = NULL;
+				if (balance_factor < -1 && comp(val, node->_right->_data.first)) { // right left
+					node->_right = rotate_right(node->_right);
+					return (rotate_left(node));
+				}
+				return (node);
 			}
 
-			// returns newly inserted left leaf
-			node_pointer insert_left_leaf(node_pointer parent, const value_type& val) {
-				node_pointer child = _allocator.allocate(1);
-				_allocator.construct(child, val);
+			// if map is empty, set root to val
+			node_pointer create_new_node(const value_type& val) {
+				node_pointer node;
 
-				parent->_left = child;
-				child->_parent = parent;
-				update_parents_balance_factor_insert(parent, child);
-				child->_empty = false;
-				child->_left = NULL;
-				child->_right = NULL;
-				child->_balance_factor = 0;
+				node = _allocator.allocate(1);
+				_allocator.construct(node, val);
+				node->_right = NULL;
+				node->_left = NULL;
+				node->_height = 0;
 				_size++;
-				return (child);
+				return (node);
 			}
 
-			// returns newly inserted right leaf
-			node_pointer insert_right_leaf(node_pointer parent, const value_type& val) {
-				node_pointer child = _allocator.allocate(1);
-				_allocator.construct(child, val);
-
-				parent->_right = child;
-				child->_parent = parent;
-				update_parents_balance_factor_insert(parent, child);
-				child->_empty = false;
-				child->_left = NULL;
-				child->_right = NULL;
-				child->_balance_factor = 0;
-				_size++;
-				return (child);
+			void remove_begin_end() {
+				_begin->_parent->_left = NULL;
+				_begin->_parent = NULL;
+				_end->_parent->_right = NULL;
+				_end->_parent = NULL;
 			}
 
 			void set_begin_end() {
@@ -478,275 +484,6 @@ namespace ft {
 				_begin->_parent = first;
 				last->_right = _end;
 				_end->_parent = last;
-			}
-
-			// returns node_pointer which has k as first
-			node_pointer find_node_erase(const key_type& k) {
-				key_compare		comp = key_comp();
-				node_pointer	temp = _root;
-
-				while (temp) {
-					if (!comp(k, temp->_data.first) && !comp(temp->_data.first, k)) // equals
-						break ;
-					else if (comp(k, temp->_data.first)) // less
-						temp = temp->_left;
-					else // greater
-						temp = temp->_right;
-				}
-				return (temp);
-			}
-
-			void remove_node(node_pointer node) {
-				if (node == _root)
-					remove_root();
-				else if ((!node->_left || node->_left == _begin) && (!node->_right || node->_right == _end))
-					remove_leaf(node);
-				else if (node->_left && node->_left != _begin && (!node->_right || node->_right == _end))
-					remove_node_with_only_left_child(node);
-				else if (node->_right && node->_right != _end && (!node->_left || node->_left == _begin))
-					remove_node_with_only_right_child(node);
-				else if (node->_left && node->_left != _begin && node->_right && node->_right != _end)
-					remove_node_with_two_children(node);
-				if (size() != 0)
-					set_begin_end();
-			}
-
-			void remove_root() {
-				if (size() == 1) {
-					_allocator.destroy(_root);
-					_allocator.deallocate(_root, 1);
-					_size--;
-				}
-				else if (_root->_left && _root->_left != _begin && _root->_right == _end)
-					remove_root_only_left_child();
-				else if (_root->_right && _root->_right != _end && _root->_left == _begin)
-					remove_root_only_right_child();
-				else if (_root->_left && _root->_left != _begin && _root->_right && _root->_right != _end)
-					remove_root_with_two_children();
-			}
-
-			void remove_root_with_two_children() {
-				node_pointer max = _root->get_last_element(_root->_left);
-				node_pointer del = _root;
-
-				if (_root->_left != max) {
-					max->_left = _root->_left;
-					_root->_left->_parent = max;
-				}
-				if (_root->_right != max) {
-					max->_right = _root->_right;
-					_root->_right->_parent = max;
-				}
-				max->_parent->_right = NULL;
-				_root = max;
-				_allocator.destroy(del);
-				_allocator.deallocate(del, 1);
-				_size--;
-			}
-
-			void remove_root_only_left_child() {
-				node_pointer del = _root;
-
-				_root->_left->_parent = NULL;
-				_root = _root->_left;
-				_allocator.destroy(del);
-				_allocator.deallocate(del, 1);
-				_size--;
-			}
-
-			void remove_root_only_right_child() {
-				node_pointer del = _root;
-
-				_root->_right->_parent = NULL;
-				_root = _root->_right;
-				_allocator.destroy(del);
-				_allocator.deallocate(del, 1);
-				_size--;
-			}
-
-			void remove_node_with_two_children(node_pointer node) {
-				node_pointer max = node->get_last_element(node->_left);
-
-				if (node->_parent->_right == node)
-					node->_parent->_right = max;
-				else if (node->_parent->_left == node)
-					node->_parent->_left = max;
-				if (node->_left != max) {
-					max->_left = node->_left;
-					node->_left->_parent = max;
-				}
-				if (node->_right != max) {
-					max->_right = node->_right;
-					node->_right->_parent = max;
-				}
-				max->_parent->_right = NULL;
-				max->_parent = node->_parent;
-				_allocator.destroy(node);
-				_allocator.deallocate(node, 1);
-				_size--;
-			}
-
-			void remove_node_with_only_left_child(node_pointer node) {
-				if (node->_parent->_right == node)
-					node->_parent->_right = node->_left;
-				else if (node->_parent->_left == node)
-					node->_parent->_left = node->_left;
-				node->_left->_parent = node->_parent;
-				_allocator.destroy(node);
-				_allocator.deallocate(node, 1);
-				_size--;
-			}
-
-			void remove_node_with_only_right_child(node_pointer node) {
-				if (node->_parent->_right == node)
-					node->_parent->_right = node->_right;
-				else if (node->_parent->_left == node)
-					node->_parent->_left = node->_right;
-				node->_right->_parent = node->_parent;
-				_allocator.destroy(node);
-				_allocator.deallocate(node, 1);
-				_size--;
-			}
-
-			void remove_leaf(node_pointer node) {
-				if (node->_parent->_left == node)
-					node->_parent->_left = NULL;
-				else if (node->_parent->_right == node)
-					node->_parent->_right = NULL;
-				_allocator.destroy(node);
-				_allocator.deallocate(node, 1);
-				_size--;
-			}
-
-			void rotate_left(node_pointer pivot_node) {
-				node_pointer child = pivot_node->_right;
-
-				if (_root == pivot_node)
-					_root = child;
-				child->_parent = pivot_node->_parent;
-				if (pivot_node->_parent && pivot_node->_parent->_left == pivot_node)
-					pivot_node->_parent->_left = child;
-				else if (pivot_node->_parent && pivot_node->_parent->_right == pivot_node)
-					pivot_node->_parent->_right = child;
-				pivot_node->_right = child->_left;
-				if (pivot_node->_right)
-					pivot_node->_right->_parent = pivot_node;
-				child->_left = pivot_node;
-				pivot_node->_parent = child;
-			}
-
-			void rotate_right(node_pointer pivot_node) {
-				node_pointer child = pivot_node->_left;
-
-				if (_root == pivot_node)
-					_root = child;
-				child->_parent = pivot_node->_parent;
-				if (pivot_node->_parent && pivot_node->_parent->_left == pivot_node)
-					pivot_node->_parent->_left = child;
-				else if (pivot_node->_parent && pivot_node->_parent->_right == pivot_node)
-					pivot_node->_parent->_right = child;
-				pivot_node->_left = child->_right;
-				if (pivot_node->_left)
-					pivot_node->_left->_parent = pivot_node;
-				child->_right = pivot_node;
-				pivot_node->_parent = child;
-			}
-
-			void calc_balance_factors_left_right_rotation(node_pointer pivot_node, node_pointer middle, node_pointer node) {
-				if (node->_balance_factor == -1) {
-					middle->_balance_factor = 0;
-					pivot_node->_balance_factor = 1;
-				} else if (node->_balance_factor == 0) {
-					middle->_balance_factor = 0;
-					pivot_node->_balance_factor = 0;
-				} else if (node->_balance_factor == 1) {
-					middle->_balance_factor = -1;
-					pivot_node->_balance_factor = 0;
-				}
-				if (node)
-					node->_balance_factor = 0;
-			}
-
-			void calc_balance_factors_right_left_rotation(node_pointer pivot_node, node_pointer middle, node_pointer node) {
-				if (node->_balance_factor == 1) {
-					middle->_balance_factor = 0;
-					pivot_node->_balance_factor = -1;
-				} else if (node->_balance_factor == 0) {
-					middle->_balance_factor = 0;
-					pivot_node->_balance_factor = 0;
-				} else if (node->_balance_factor == -1) {
-					middle->_balance_factor = 1;
-					pivot_node->_balance_factor = 0;
-				}
-				if (node)
-					node->_balance_factor = 0;
-			}
-
-			void balance_tree_insert(node_pointer node) {
-				node_pointer pivot_node;
-				node_pointer pivot_child;
-
-				if (node && node->_parent && node->_parent->_parent) {
-					pivot_child = node->_parent;
-					pivot_node = node->_parent->_parent;
-				}
-				else
-					return ;
-				while (pivot_node) {
-					if (pivot_node->_balance_factor < -1 && pivot_child->_left == node) {
-						rotate_right(pivot_node);
-						pivot_child->_balance_factor = 0;
-						pivot_node->_balance_factor = 0;
-					} else if (pivot_node->_balance_factor < -1 && pivot_child->_right == node) {
-						rotate_left(pivot_node->_left);
-						rotate_right(pivot_node);
-						calc_balance_factors_left_right_rotation(pivot_node, pivot_child, node);
-					} else if (pivot_node->_balance_factor > 1 && pivot_child->_right == node) {
-						rotate_left(pivot_node);
-						pivot_child->_balance_factor = 0;
-						pivot_node->_balance_factor = 0;
-					} else if (pivot_node->_balance_factor > 1 && pivot_child->_left == node) {
-						rotate_right(pivot_node->_right);
-						rotate_left(pivot_node);
-						calc_balance_factors_right_left_rotation(pivot_node, pivot_child, node);
-					}
-					pivot_node = pivot_node->_parent;
-					if (pivot_child->_parent)
-						pivot_child = pivot_child->_parent;
-					if (node->_parent)
-						node = node->_parent;
-				}
-			}
-
-			ft::pair<node_pointer, bool> find_last_node(node_pointer temp, const value_type &val) {
-				key_compare comp = key_compare();
-
-				while (temp->_left || temp->_right) {
-					if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first)) { // equals
-						return (ft::make_pair<node_pointer, bool>(temp, false));
-					}
-					if (temp->_balance_factor != 0) {
-						_last_nonzero_bf_node = temp;
-					}
-					if (comp(val.first, temp->_data.first)) { // less
-						if (temp->_left && temp->_left != _begin) {
-							temp = temp->_left;
-						}
-						else
-							break ;
-					} else if (!comp(val.first, temp->_data.first)) { // greater
-						if (temp->_right && temp->_right != _end) {
-							temp = temp->_right;
-						}
-						else
-							break ;
-					}
-				}
-				if (!comp(val.first, temp->_data.first) && !comp(temp->_data.first, val.first)) // equals
-					return (ft::make_pair<node_pointer, bool>(temp, false));
-				if (!_last_nonzero_bf_node)
-					_last_nonzero_bf_node = _root;
-				return (ft::make_pair<node_pointer, bool>(temp, true));
 			}
 
 			void	delete_tree(node_pointer node) {
