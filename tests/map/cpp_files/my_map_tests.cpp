@@ -312,6 +312,12 @@ void map_erase_3()
 		int x = rand() % 1000000;
 		test.erase(x);
 	}
+	int_int_map test_two;
+
+	test_two.insert(int_int_pair(1, 1));
+	std::cout << test_two.size() << std::endl;
+	test_two.erase(test_two.begin());
+	std::cout << test_two.size() << std::endl;
 }
 
 void map_swap_1()

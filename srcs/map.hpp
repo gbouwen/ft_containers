@@ -243,9 +243,16 @@ namespace ft {
 
 			// erases element position
 			void erase(iterator position) {
+				key_compare comp = key_compare();
+
+				_erased = true;
 				remove_begin_end();
 				_root = erase_node(_root, position->first);
 				set_begin_end();
+				if (_erased && !comp(position->first, _root->_data.first) && !comp(_root->_data.first, position->first)) {
+					delete_node(_root);
+					_root = NULL;
+				}
 			}
 
 			// erases element with key k
@@ -257,8 +264,8 @@ namespace ft {
 				_root = erase_node(_root, k);
 				set_begin_end();
 				if (_erased && !comp(k, _root->_data.first) && !comp(_root->_data.first, k)) {
+					delete_node(_root);
 					_root = NULL;
-					_size--;
 					return (1);
 				}
 				return (0);
@@ -408,7 +415,13 @@ namespace ft {
 
 		private:
 
-			node_pointer balance_after_erase(node_pointer node) {
+			void delete_node(node_pointer node) {
+				_allocator.destroy(node);
+				_allocator.deallocate(node, 1);
+				_size--;
+			}
+
+			node_pointer balance_erase(node_pointer node) {
 				int balance_factor = calc_balance_factor(node);
 
 				if (node->_left && node->_right && (balance_factor < -1 || balance_factor > 1)) {
@@ -455,12 +468,6 @@ namespace ft {
 				return (node);
 			}
 
-			void delete_node(node_pointer node) {
-				_allocator.destroy(node);
-				_allocator.deallocate(node, 1);
-				_size--;
-			}
-
 			node_pointer erase_node(node_pointer node, const key_type& k) {
 				key_compare comp = key_compare();
 
@@ -476,10 +483,11 @@ namespace ft {
 								node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
 							}
 
-							node->_left->_parent = node->_parent;
-							_size--;
-							node->_left = balance_after_erase(node->_left);
-							return (node->_left);
+							node_pointer temp = node->_left;
+							temp->_parent = node->_parent;
+							delete_node(node);
+							temp = balance_erase(temp);
+							return (temp);
 						}
 						else if (!node->_left && node->_right) {
 							if (node->_parent) {
@@ -491,10 +499,11 @@ namespace ft {
 								node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
 							}
 
-							node->_right->_parent = node->_parent;
-							_size--;
-							node->_right = balance_after_erase(node->_right);
-							return (node->_right);
+							node_pointer temp = node->_right;
+							temp->_parent = node->_parent;
+							delete_node(node);
+							temp = balance_erase(temp);
+							return (temp);
 						}
 						else if (!node->_left && !node->_right) {
 							if (node->_parent) {
@@ -504,7 +513,7 @@ namespace ft {
 									node->_parent->_left = NULL;
 
 								node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
-								_size--;
+								delete_node(node);
 								return (NULL);
 							}
 						}
@@ -516,17 +525,17 @@ namespace ft {
 							value_type val = temp->_data;
 							node->_right = erase_node(node->_right, temp->_data.first);
 							node_pointer new_node = create_new_node_erase(node, val);
-							_size--;
-							new_node = balance_after_erase(new_node);
+							delete_node(node);
+							new_node = balance_erase(new_node);
 							return (new_node);
 						}
 					}
 					else if (comp(k, node->_data.first)) { // less
 						node->_left = erase_node(node->_left, k);
-						node = balance_after_erase(node);
+						node = balance_erase(node);
 					} else if (comp(node->_data.first, k)) { // greater
 						node->_right = erase_node(node->_right, k);
-						node = balance_after_erase(node);
+						node = balance_erase(node);
 					}
 					if (node)
 						node->_height = std::max(get_height(node->_left), get_height(node->_right)) + 1;
