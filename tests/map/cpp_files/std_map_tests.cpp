@@ -349,8 +349,8 @@ void map_modifiers()
 	gettimeofday(&start, NULL);
    /* map_insert_1();*/
 	/*map_insert_2();*/
-	map_insert_3();
-	//map_erase_1();
+   /* map_insert_3();*/
+	map_erase_1();
 	/*map_erase_2();*/
    /* map_erase_3();*/
 	/*map_swap_1();*/
@@ -450,7 +450,7 @@ void map_main(void)
 	//map_iterators();
 	//map_capacity();
 	/*map_element_access();*/
-	map_modifiers();
+	//map_modifiers();
 	//map_operations();
 }
 

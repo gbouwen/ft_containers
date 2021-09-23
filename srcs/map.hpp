@@ -241,21 +241,21 @@ namespace ft {
 
 			// erases element position
 			void erase(iterator position) {
-				node_pointer node = find_node_erase(_root, position->first);
-				if (!node)
-					return ;
-				erase_node(node, position->first);
+				remove_begin_end();
+				_root = erase_node(_root, position.first);
+				set_begin_end();
 			}
 
 			// erases element with key k
-   /*         size_type erase(const key_type& k) {*/
-				//iterator it = find(k);
-				//if (it != end()) {
-					//erase(it);
-					//return (1);
-				//}
-				//return (0);
-			/*}*/
+			size_type erase(const key_type& k) {
+				_erased = true;
+				remove_begin_end();
+				_root = erase_node(_root, k);
+				set_begin_end();
+				if (_erased)
+					return (1);
+				return (0);
+			}
 
 			// erases range [first, last]
 			/*void erase(iterator first, iterator last) {*/
@@ -401,38 +401,125 @@ namespace ft {
 
 		private:
 
+			node_pointer balance_after_erase(node_pointer node) {
+				int balance_factor = calc_balance_factor(node);
+
+				if (node->_left && node->_right && (balance_factor < -1 || balance_factor > 1)) {
+					if (get_height(node->_left) < get_height(node->_right)) {
+						if (node->_right->_left && node->_right->_right) {
+							if (node->_right->_left->_height > node->_right->_right->_height) { // right left
+								node->_right = rotate_right(node->_right);
+								return (rotate_left(node));
+							}
+							else // right right
+								return (rotate_left(node));
+						}
+					} else {
+						if (node->_left->_left && node->_left->_right) {
+							if (node->_left->_left->_height > node->_left->_right->_height) // left left
+								return (rotate_right(node));
+							else { // left right
+								node->_left = rotate_left(node->_left);
+								return (rotate_right(node));
+							}
+						}
+					}
+				}
+				return (node);
+			}
+
+			node_pointer create_new_node_erase(node_pointer old_node, const value_type& val) {
+				node_pointer node;
+
+				node = _allocator.allocate(1);
+				_allocator.construct(node, val);
+				node->_parent = old_node->_parent;
+				node->_right = old_node->_right;
+				node->_left = old_node->_left;
+				node->_height = 1;
+				return (node);
+			}
+
 			node_pointer erase_node(node_pointer node, const key_type& k) {
 				key_compare comp = key_compare();
 
-				if (!node)
-					return (NULL);
-				if (!comp(node->_data.first, k) && !comp(k, node->_data.first)) {
-					if (!node->_right && node->_left) {
-						if (comp(node->_parent->_data.first, k))
-							node->_parent->_right = node->_left;
-						else
-							node->_parent->_left = node->_left;
+				if (node) {
+					if (!comp(k, node->_data.first) && !comp(node->_data.first, k)) { // equal
+						if (!node->_right && node->_left) {
+							if (node->_parent) {
+								if (comp(node->_parent->_data.first, node->_data.first)) // less
+									node->_parent->_right = node->_left;
+								else
+									node->_parent->_left = node->_left;
 
-						node->_height = std::max(get_height(node->_left), get_height(node->_right)) + 1;
+								node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
+							}
+
+							node_pointer temp = node->_left;
+							temp->_parent = node->_parent;
+							_allocator.destroy(node);
+							_allocator.deallocate(node, 1);
+							_size--;
+							temp->_left = balance_after_erase(temp->_left);
+							return (temp->_left);
+						}
+						else if (!node->_left && node->_right) {
+							if (node->_parent) {
+								if (comp(node->_parent->_data.first, node->_data.first)) // less
+									node->_parent->_right = node->_right;
+								else
+									node->_parent->_left = node->_right;
+
+								node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
+							}
+
+							node_pointer temp = node->_right;
+							temp->_parent = node->_parent;
+							_allocator.destroy(node);
+							_allocator.deallocate(node, 1);
+							_size--;
+							temp->_right = balance_after_erase(temp->_right);
+							return (temp->_right);
+						}
+						else if (!node->_left && !node->_right) {
+							if (node->_parent) {
+								if (comp(node->_parent->_data.first, node->_data.first)) // less
+									node->_parent->_right = NULL;
+								else
+									node->_parent->_left = NULL;
+
+								node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
+								_allocator.destroy(node);
+								_allocator.deallocate(node, 1);
+								_size--;
+								return (NULL);
+							}
+						}
+						else {
+							node_pointer temp = node;
+							temp = temp->_right;
+							while (temp->_left)
+								temp = temp->_left;
+							node->_right = erase_node(node->_right, temp->_data.first);
+							node_pointer new_node = create_new_node_erase(node, temp->_data);
+							_allocator.destroy(node);
+							_allocator.deallocate(node, 1);
+							new_node = balance_after_erase(new_node);
+						}
 					}
-					node->_left->_parent = node->_parent;
-					// delete here ???
-					node->_left = balance_after_delete(node->_left);
-					return (node->_left);
+					else if (comp(k, node->_data.first)) { // less
+						node->_left = erase_node(node->_left, k);
+						node = balance_after_erase(node);
+					} else if (comp(node->_data.first, k)) { // greater
+						node->_right = erase_node(node->_right, k);
+						node = balance_after_erase(node);
+					}
+					if (node)
+						node->_height = std::max(get_height(node->_left), get_height(node->_right)) + 1;
 				}
-			}
-
-			node_pointer find_node_erase(node_pointer node, const key_type& k) {
-				key_compare comp = key_compare();
-				while (node) {
-					if (comp(k, node->_data.first))
-						node = node->_left;
-					else if (comp(node->_data.first, k))
-						node = node->_right;
-					else
-						return (node);
-				}
-				return (NULL);
+				else
+					_erased = false;
+				return (node);
 			}
 
 			node_pointer create_new_node(node_pointer parent, const value_type& val) {

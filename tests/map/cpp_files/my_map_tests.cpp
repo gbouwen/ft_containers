@@ -274,20 +274,15 @@ void map_insert_3()
 	std::cout << "test[100] = " << test_two[100] << std::endl;
 }
 
-//void map_erase_1()
-//{
-	//int_int_map test;
+void map_erase_1()
+{
+	int_int_map test;
 
-	//for (int i = 0; i < 1000000; i++) {
-		//test.insert(int_int_pair(i, i + 1));
-	//}
-	//test.erase(1000);
-	//test.erase(1000);
-	//test.erase(900);
-	//test.erase(400);
-	//test.erase(10);
-	//test.erase(9000);
-//}
+	for (int i = 0; i < 10; i++) {
+		test.insert(int_int_pair(i, i + 1));
+	}
+	test.print_tree();
+}
 
 //void map_erase_2()
 //{
@@ -353,8 +348,8 @@ void map_modifiers()
 	gettimeofday(&start, NULL);
    /* map_insert_1();*/
 	//map_insert_2();
-	map_insert_3();
-	//map_erase_1();
+	/*map_insert_3();*/
+	map_erase_1();
 	/*map_erase_2();*/
 	/*map_erase_3();*/
 	//map_swap_1();
