@@ -76,6 +76,7 @@ namespace ft {
 			node_pointer	_end;
 			bool			_duplicate;
 			node_pointer	_latest;
+			bool			_erased;
 
 		public:
 
@@ -83,7 +84,7 @@ namespace ft {
 
 			// default constructor
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _duplicate(false), _latest() {
+					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _duplicate(false), _latest(), _erased(false) {
 				value_type empty = value_type(0, 0);
 				_begin = _allocator.allocate(1);
 				_allocator.construct(_begin, empty);
@@ -98,7 +99,7 @@ namespace ft {
 			map(InputIterator first, InputIterator last,
 					const key_compare& comp = key_compare(),
 					const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _duplicate(false), _latest() {
+					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _duplicate(false), _latest(), _erased(false) {
 				value_type empty = value_type(0, 0);
 				_begin = _allocator.allocate(1);
 				_allocator.construct(_begin, empty);
@@ -126,6 +127,7 @@ namespace ft {
 				_allocator.construct(_end, empty);
 				_duplicate = x._duplicate;
 				_latest = NULL;
+				_erased = x._erased;
 				insert(x.begin(), x.end());
 			}
 
