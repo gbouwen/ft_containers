@@ -29,9 +29,8 @@ void map_constructor_1()
 {
 	int_char_map test_one;
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; i++)
 		test_one.insert(int_char_pair(i, 'a'));
-	}
 
 	int_char_map test_two(test_one);
 	for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)
@@ -66,12 +65,12 @@ void map_equals_overload_1()
 		test_one.insert(int_char_pair(i, 'a'));
 
 	int_char_map test_two = test_one;
-	for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)
-		std::cout << it->first << " -> " << it->second << " ";
-	std::cout << std::endl;
-	for (int_char_map::iterator it = test_two.begin(); it != test_two.end(); it++)
-		std::cout << it->first << " -> " << it->second << " ";
-	std::cout << std::endl;
+	/*for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)*/
+		//std::cout << it->first << " -> " << it->second << " ";
+	//std::cout << std::endl;
+	//for (int_char_map::iterator it = test_two.begin(); it != test_two.end(); it++)
+		//std::cout << it->first << " -> " << it->second << " ";
+	/*std::cout << std::endl;*/
 }
 
 void map_constructors()
@@ -347,7 +346,7 @@ void map_swap_1()
 
 	std::cout << it_one->first << std::endl;
 	std::cout << it_two->first << std::endl;
-	test.swap(test_two);
+   /* test.swap(test_two);*/
 	//std::cout << it_one->first << std::endl;
 	/*std::cout << it_two->first << std::endl;*/
 }
@@ -360,10 +359,10 @@ void map_modifiers()
    /* map_insert_1();*/
 	//map_insert_2();
 	/*map_insert_3();*/
-   /* map_erase_1();*/
-   /* map_erase_2();*/
-	map_erase_3();
-	//map_swap_1();
+	/*map_erase_1();*/
+	//map_erase_2();
+	/*map_erase_3();*/
+	map_swap_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.modifiers()");
 }
@@ -456,11 +455,11 @@ void map_operations()
 
 void map_main(void)
 {
-   /* map_constructors();*/
+	map_constructors();
 	//map_iterators();
 	//map_capacity();
 	/*map_element_access();*/
-	map_modifiers();
+	/*map_modifiers();*/
 	//map_operations();
 }
 

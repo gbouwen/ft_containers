@@ -84,7 +84,16 @@ namespace ft {
 
 			// default constructor
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _duplicate(false), _latest(), _erased(false) {
+				: _allocator(alloc)
+				, _comp(comp)
+				, _size(0)
+				, _root()
+				, _begin()
+				, _end()
+				, _duplicate(false)
+				, _latest()
+				, _erased(false)
+			{
 				value_type empty = value_type(0, 0);
 				_begin = _allocator.allocate(1);
 				_allocator.construct(_begin, empty);
@@ -96,10 +105,18 @@ namespace ft {
 
 			// constructs map with elements between [first, last]
 			template <class InputIterator>
-			map(InputIterator first, InputIterator last,
-					const key_compare& comp = key_compare(),
-					const allocator_type& alloc = allocator_type())
-					: _allocator(alloc), _comp(comp), _size(0), _root(), _begin(), _end(), _duplicate(false), _latest(), _erased(false) {
+			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+				: _allocator(alloc)
+				, _comp(comp)
+				, _size(0)
+				, _root()
+				, _begin()
+				, _end()
+				, _duplicate(false)
+				, _latest()
+				, _erased(false)
+			{
+
 				value_type empty = value_type(0, 0);
 				_begin = _allocator.allocate(1);
 				_allocator.construct(_begin, empty);
@@ -113,22 +130,7 @@ namespace ft {
 
 			// copy constructor
 			map(const map& x) {
-				_comp = x._comp;
-				_allocator = x._allocator;
-				_size = 0;
-				_root = NULL;
-				value_type empty = value_type(0, 0);
-				_begin = _allocator.allocate(1);
-				_allocator.construct(_begin, empty);
-				_begin->_empty = true;
-				_end = _allocator.allocate(1);
-				_allocator.construct(_end, empty);
-				_end->_empty = true;
-				_allocator.construct(_end, empty);
-				_duplicate = x._duplicate;
-				_latest = NULL;
-				_erased = x._erased;
-				insert(x.begin(), x.end());
+				*this = x;
 			}
 
 			// destructor
@@ -147,12 +149,21 @@ namespace ft {
 			map& operator=(const map& x) {
 				if (this != &x) {
 					clear();
-					_allocator = x._allocator;
 					_comp = x._comp;
+					_allocator = x._allocator;
 					_size = 0;
 					_root = NULL;
-					_begin = x._begin;
-					_end = x._end;
+					value_type empty = value_type(0, 0);
+					_begin = _allocator.allocate(1);
+					_allocator.construct(_begin, empty);
+					_begin->_empty = true;
+					_end = _allocator.allocate(1);
+					_allocator.construct(_end, empty);
+					_end->_empty = true;
+					_allocator.construct(_end, empty);
+					_duplicate = x._duplicate;
+					_latest = NULL;
+					_erased = x._erased;
 					insert(x.begin(), x.end());
 				}
 				return (*this);
@@ -291,7 +302,7 @@ namespace ft {
 
 			// deletes map content + deallocates
 			void clear() {
-				/*erase(begin(), end());*/
+				erase(begin(), end());
 			}
 
 		// --- OBSERVERS ---
