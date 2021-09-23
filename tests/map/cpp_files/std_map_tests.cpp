@@ -343,9 +343,29 @@ void map_swap_1()
 
 	std::cout << it_one->first << std::endl;
 	std::cout << it_two->first << std::endl;
-	test.swap(test_two);
+	/*test.swap(test_two);*/
 	//std::cout << it_one->first << std::endl;
 	/*std::cout << it_two->first << std::endl;*/
+}
+
+void map_clear_1()
+{
+	int_int_map test;
+	int_int_map test_two;
+
+	for (int i = 0; i < 1000000; i++) {
+		int x = rand() % 1000000;
+		test.insert(int_int_pair(x, i));
+	}
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test[1] = " << test[1] << std::endl;
+	std::cout << "test[10] = " << test[10] << std::endl;
+	std::cout << "test[100] = " << test[100] << std::endl;
+	test.clear();
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test_two.size() = " << test_two.size() << std::endl;
+	test_two.clear();
+	std::cout << "test_two.size() = " << test_two.size() << std::endl;
 }
 
 void map_modifiers()
@@ -359,7 +379,8 @@ void map_modifiers()
 	/*map_erase_1();*/
 	//map_erase_2();
 	/*map_erase_3();*/
-	map_swap_1();
+	/*map_swap_1();*/
+	map_clear_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "std_map.modifiers()");
 }
@@ -452,11 +473,11 @@ void map_operations()
 
 void map_main(void)
 {
-	map_constructors();
+   /* map_constructors();*/
 	//map_iterators();
 	//map_capacity();
 	/*map_element_access();*/
-	/*map_modifiers();*/
+	map_modifiers();
 	//map_operations();
 }
 

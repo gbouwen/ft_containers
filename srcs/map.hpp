@@ -254,27 +254,16 @@ namespace ft {
 
 			// erases element position
 			void erase(iterator position) {
-				key_compare comp = key_compare();
-
-				_erased = true;
-				remove_begin_end();
-				_root = erase_node(_root, position->first);
-				set_begin_end();
-				if (_erased && !comp(position->first, _root->_data.first) && !comp(_root->_data.first, position->first)) {
-					delete_node(_root);
-					_root = NULL;
-				}
+				erase(position->first);
 			}
 
 			// erases element with key k
 			size_type erase(const key_type& k) {
-				key_compare comp = key_compare();
-
 				_erased = true;
 				remove_begin_end();
 				_root = erase_node(_root, k);
 				set_begin_end();
-				if (_erased && !comp(k, _root->_data.first) && !comp(_root->_data.first, k)) {
+				if (_erased && _size == 1) {
 					delete_node(_root);
 					_root = NULL;
 					return (1);
@@ -287,7 +276,7 @@ namespace ft {
 				while (first != last) {
 					iterator temp = first;
 					temp++;
-					erase(first->first);
+					erase(first);
 					first = find(temp->first);
 				}
 			}
