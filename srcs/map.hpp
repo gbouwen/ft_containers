@@ -244,7 +244,7 @@ namespace ft {
 			// erases element position
 			void erase(iterator position) {
 				remove_begin_end();
-				_root = erase_node(_root, position.first);
+				_root = erase_node(_root, position->first);
 				set_begin_end();
 			}
 
@@ -258,20 +258,21 @@ namespace ft {
 				set_begin_end();
 				if (_erased && !comp(k, _root->_data.first) && !comp(_root->_data.first, k)) {
 					_root = NULL;
+					_size--;
 					return (1);
 				}
 				return (0);
 			}
 
 			// erases range [first, last]
-			/*void erase(iterator first, iterator last) {*/
-				//while (first != last) {
-					//iterator temp = first;
-					//temp++;
-					//erase(first);
-					//first = find(temp->first);
-				//}
-			/*}*/
+			void erase(iterator first, iterator last) {
+				while (first != last) {
+					iterator temp = first;
+					temp++;
+					erase(first->first);
+					first = find(temp->first);
+				}
+			}
 
 			// exchanges contents of map with the contents of x
 			void swap(map& x) {
@@ -411,7 +412,7 @@ namespace ft {
 				int balance_factor = calc_balance_factor(node);
 
 				if (node->_left && node->_right && (balance_factor < -1 || balance_factor > 1)) {
-					if (get_height(node->_left) < get_height(node->_right)) {
+					if (node->_left->_height < node->_right->_height) {
 						if (node->_right->_left && node->_right->_right) {
 							if (node->_right->_left->_height > node->_right->_right->_height) { // right left
 								node->_right = rotate_right(node->_right);
@@ -440,15 +441,21 @@ namespace ft {
 				node = _allocator.allocate(1);
 				_allocator.construct(node, val);
 				node->_parent = old_node->_parent;
+				if (old_node->_parent && old_node->_parent->_left == old_node)
+					old_node->_parent->_left = node;
+				if (old_node->_parent && old_node->_parent->_right == old_node)
+					old_node->_parent->_right = node;
+				if (old_node->_left && old_node->_left->_parent == old_node)
+					old_node->_left->_parent = node;
+				if (old_node->_right && old_node->_right->_parent == old_node)
+					old_node->_right->_parent = node;
 				node->_right = old_node->_right;
 				node->_left = old_node->_left;
-				node->_height = 1;
+				node->_height = old_node->_height;
 				return (node);
 			}
 
 			void delete_node(node_pointer node) {
-				if (_size == 1 && node == _root)
-					std::cout << "A" << std::endl;
 				_allocator.destroy(node);
 				_allocator.deallocate(node, 1);
 				_size--;
@@ -469,11 +476,10 @@ namespace ft {
 								node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
 							}
 
-							node_pointer temp = node->_left;
-							temp->_parent = node->_parent;
-							delete_node(node);
-							temp->_left = balance_after_erase(temp->_left);
-							return (temp->_left);
+							node->_left->_parent = node->_parent;
+							_size--;
+							node->_left = balance_after_erase(node->_left);
+							return (node->_left);
 						}
 						else if (!node->_left && node->_right) {
 							if (node->_parent) {
@@ -485,12 +491,10 @@ namespace ft {
 								node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
 							}
 
-							node_pointer temp = node->_right;
-							temp->_parent = node->_parent;
-							delete_node(node);
-							temp->_right = balance_after_erase(temp->_right);
-							std::cout << "H" << std::endl;
-							return (temp->_right);
+							node->_right->_parent = node->_parent;
+							_size--;
+							node->_right = balance_after_erase(node->_right);
+							return (node->_right);
 						}
 						else if (!node->_left && !node->_right) {
 							if (node->_parent) {
@@ -500,7 +504,7 @@ namespace ft {
 									node->_parent->_left = NULL;
 
 								node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
-								delete_node(node);
+								_size--;
 								return (NULL);
 							}
 						}
@@ -512,8 +516,9 @@ namespace ft {
 							value_type val = temp->_data;
 							node->_right = erase_node(node->_right, temp->_data.first);
 							node_pointer new_node = create_new_node_erase(node, val);
-							delete_node(node);
+							_size--;
 							new_node = balance_after_erase(new_node);
+							return (new_node);
 						}
 					}
 					else if (comp(k, node->_data.first)) { // less

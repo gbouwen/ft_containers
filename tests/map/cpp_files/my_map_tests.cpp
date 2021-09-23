@@ -278,38 +278,41 @@ void map_erase_1()
 {
 	int_int_map test;
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 1000000; i++) {
 		test.insert(int_int_pair(i, i + 1));
 	}
-	test.print_tree();
-	test.erase(8);
-	test.print_tree();
+	test.erase(1000);
+	test.erase(1000);
+	test.erase(900);
+	test.erase(400);
+	test.erase(10);
+	test.erase(9000);
 }
 
-//void map_erase_2()
-//{
-	//int_int_map test;
+void map_erase_2()
+{
+	int_int_map test;
 
-	//for (int i = 0; i < 1000000; i++) {
-		//test.insert(int_int_pair(i, i + 1));
-	//}
-	//std::cout << test.size() << std::endl;
-	//test.erase(test.begin(), test.end());
-	//std::cout << test.size() << std::endl;
-//}
+	for (int i = 0; i < 1000000; i++) {
+		test.insert(int_int_pair(i, i + 1));
+	}
+	std::cout << test.size() << std::endl;
+	test.erase(test.begin(), test.end());
+	std::cout << test.size() << std::endl;
+}
 
-//void map_erase_3()
-//{
-	//int_int_map test;
+void map_erase_3()
+{
+	int_int_map test;
 
-	//for (int i = 0; i < 30000; i++) {
-		//test.insert(int_int_pair(i, i + 1));
-	//}
-	//for (int i = 0; i < 30000; i++) {
-		//int x = rand() % 30000;
-		//test.erase(x);
-	//}
-//}
+	for (int i = 0; i < 1000000; i++) {
+		test.insert(int_int_pair(i, i + 1));
+	}
+	for (int i = 0; i < 1000000; i++) {
+		int x = rand() % 1000000;
+		test.erase(x);
+	}
+}
 
 void map_swap_1()
 {
@@ -351,9 +354,9 @@ void map_modifiers()
    /* map_insert_1();*/
 	//map_insert_2();
 	/*map_insert_3();*/
-	map_erase_1();
-	/*map_erase_2();*/
-	/*map_erase_3();*/
+   /* map_erase_1();*/
+   /* map_erase_2();*/
+	map_erase_3();
 	//map_swap_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.modifiers()");
