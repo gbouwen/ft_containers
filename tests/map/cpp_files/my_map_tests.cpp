@@ -282,10 +282,7 @@ void map_erase_1()
 		test.insert(int_int_pair(i, i + 1));
 	}
 	test.print_tree();
-	test.erase(0);
-	test.erase(2);
-   /* test.erase(8);*/
-	test.erase(9);
+	test.erase(8);
 	test.print_tree();
 }
 

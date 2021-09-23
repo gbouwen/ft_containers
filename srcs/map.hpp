@@ -250,12 +250,16 @@ namespace ft {
 
 			// erases element with key k
 			size_type erase(const key_type& k) {
+				key_compare comp = key_compare();
+
 				_erased = true;
 				remove_begin_end();
 				_root = erase_node(_root, k);
 				set_begin_end();
-				if (_erased)
+				if (_erased && !comp(k, _root->_data.first) && !comp(_root->_data.first, k)) {
+					_root = NULL;
 					return (1);
+				}
 				return (0);
 			}
 
@@ -442,6 +446,14 @@ namespace ft {
 				return (node);
 			}
 
+			void delete_node(node_pointer node) {
+				if (_size == 1 && node == _root)
+					std::cout << "A" << std::endl;
+				_allocator.destroy(node);
+				_allocator.deallocate(node, 1);
+				_size--;
+			}
+
 			node_pointer erase_node(node_pointer node, const key_type& k) {
 				key_compare comp = key_compare();
 
@@ -459,9 +471,7 @@ namespace ft {
 
 							node_pointer temp = node->_left;
 							temp->_parent = node->_parent;
-							_allocator.destroy(node);
-							_allocator.deallocate(node, 1);
-							_size--;
+							delete_node(node);
 							temp->_left = balance_after_erase(temp->_left);
 							return (temp->_left);
 						}
@@ -477,10 +487,9 @@ namespace ft {
 
 							node_pointer temp = node->_right;
 							temp->_parent = node->_parent;
-							_allocator.destroy(node);
-							_allocator.deallocate(node, 1);
-							_size--;
+							delete_node(node);
 							temp->_right = balance_after_erase(temp->_right);
+							std::cout << "H" << std::endl;
 							return (temp->_right);
 						}
 						else if (!node->_left && !node->_right) {
@@ -491,9 +500,7 @@ namespace ft {
 									node->_parent->_left = NULL;
 
 								node->_parent->_height = std::max(get_height(node->_parent->_left), get_height(node->_parent->_right)) + 1;
-								_allocator.destroy(node);
-								_allocator.deallocate(node, 1);
-								_size--;
+								delete_node(node);
 								return (NULL);
 							}
 						}
@@ -502,10 +509,10 @@ namespace ft {
 							temp = temp->_right;
 							while (temp->_left)
 								temp = temp->_left;
+							value_type val = temp->_data;
 							node->_right = erase_node(node->_right, temp->_data.first);
-							node_pointer new_node = create_new_node_erase(node, temp->_data);
-							_allocator.destroy(node);
-							_allocator.deallocate(node, 1);
+							node_pointer new_node = create_new_node_erase(node, val);
+							delete_node(node);
 							new_node = balance_after_erase(new_node);
 						}
 					}
