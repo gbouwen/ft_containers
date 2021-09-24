@@ -57,6 +57,22 @@ void map_constructor_2()
 	std::cout << std::endl;
 }
 
+void map_copy_constructor_1()
+{
+	int_int_map test;
+
+	if (true) {
+		int_int_map test_two;
+
+		for (int i = 0; i < 10; i++)
+			test_two.insert(int_int_pair(i, i));
+		test = test_two;
+	}
+	for (int_int_map::iterator it = test.begin(); it != test.end(); it++)
+		std::cout << it->first << " -> " << it->second << " ";
+	std::cout << std::endl;
+}
+
 void map_equals_overload_1()
 {
 	int_char_map test_one;
@@ -80,6 +96,7 @@ void map_constructors()
 	gettimeofday(&start, NULL);
 	map_constructor_1();
 	map_constructor_1();
+	map_copy_constructor_1();
 	map_equals_overload_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "std_map.constructor()");
@@ -474,11 +491,11 @@ void map_operations()
 void map_main(void)
 {
 	map_constructors();
-	map_iterators();
-	map_capacity();
-	map_element_access();
-	map_modifiers();
-	map_operations();
+	/*map_iterators();*/
+	//map_capacity();
+	//map_element_access();
+	//map_modifiers();
+	/*map_operations();*/
 }
 
 int main(void)

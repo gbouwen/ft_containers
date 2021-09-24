@@ -397,7 +397,7 @@ void vector_push_back_2()
 {
 	int_vector test;
 
-	for (int i = 0; i < 100000; i++)
+	for (int i = 0; i < 1000000; i++)
 		test.push_back(i);
 	std::cout << "test.size() = " << test.size() << std::endl;
 	std::cout << "test.capacity() = " << test.capacity() << std::endl;
@@ -407,7 +407,7 @@ void vector_push_back_3()
 {
 	string_vector test;
 
-	for (int i = 0; i < 100000; i++)
+	for (int i = 0; i < 1000000; i++)
 		test.push_back("hoi");
 	std::cout << "test.size() = " << test.size() << std::endl;
 	std::cout << "test.capacity() = " << test.capacity() << std::endl;
@@ -417,7 +417,7 @@ void vector_pop_back_1()
 {
 	string_vector test;
 
-	for (int i = 0; i < 100000; i++)
+	for (int i = 0; i < 1000000; i++)
 		test.push_back("hoi");
 	std::cout << "test.size() = " << test.size() << std::endl;
 	std::cout << "test.capacity() = " << test.capacity() << std::endl;
@@ -583,17 +583,17 @@ void vector_modifiers()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-   /* vector_assign_1();*/
-	//vector_assign_2();
-	//vector_push_back_1();
-	//vector_push_back_2();
-	/*vector_push_back_3();*/
-   /* vector_pop_back_1();*/
-   /* vector_insert_1();*/
-   /* vector_insert_2();*/
-	vector_insert_3();
-	vector_insert_4();
-   /* vector_erase_1();*/
+	/*vector_assign_1();*/
+	/*vector_assign_2();*/
+	vector_push_back_1();
+	vector_push_back_2();
+	vector_push_back_3();
+	/*vector_pop_back_1();*/
+	//vector_insert_1();
+	//vector_insert_2();
+	//vector_insert_3();
+	//vector_insert_4();
+	//vector_erase_1();
 	//vector_erase_2();
 	//vector_swap_1();
 	/*vector_clear_1();*/
@@ -660,12 +660,12 @@ void vector_relational_operators()
 
 void vector_main(void)
 {
-//	vector_constructors();
-//	vector_iterators();
-//	vector_capacity();
-//	vector_element_access();
+	/*vector_constructors();*/
+	//vector_iterators();
+	//vector_capacity();
+	/*vector_element_access();*/
 	vector_modifiers();
-//	vector_relational_operators();
+	/*vector_relational_operators();*/
 }
 
 int main(void)
