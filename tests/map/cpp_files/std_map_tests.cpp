@@ -365,6 +365,32 @@ void map_swap_1()
 	std::cout << it_two->first << std::endl;
 }
 
+void map_swap_2()
+{
+	int_int_map test;
+	int_int_map test_two;
+
+	for (int i = 0; i < 100; i++)
+		test.insert(int_int_pair(i, i + 1));
+	for (int i = 0; i < 100; i++)
+		test_two.insert(int_int_pair(100 - i, 100 - i + 1));
+	int_int_map::iterator it_one = test.begin();
+	for (int i = 0; i < 27; i++)
+		it_one++;
+	std::cout << it_one->first << std::endl;
+	int_int_map::iterator it_two = test_two.begin();
+	for (int i = 0; i < 40; i++)
+		it_two++;
+	std::cout << it_two->first << std::endl;
+	test.swap(test_two);
+	std::cout << it_one->first << std::endl;
+	std::cout << it_two->first << std::endl;
+	it_one++;
+	std::cout << it_one->first << std::endl;
+	it_two++;
+	std::cout << it_two->first << std::endl;
+}
+
 void map_clear_1()
 {
 	int_int_map test;
@@ -390,14 +416,15 @@ void map_modifiers()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	map_insert_1();
-	map_insert_2();
-	map_insert_3();
-	map_erase_1();
-	map_erase_2();
-	map_erase_3();
-	map_swap_1();
-	map_clear_1();
+	/*map_insert_1();*/
+	//map_insert_2();
+	//map_insert_3();
+	//map_erase_1();
+	//map_erase_2();
+	/*map_erase_3();*/
+	/*map_swap_1();*/
+	map_swap_2();
+	/*map_clear_1();*/
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "std_map.modifiers()");
 }
@@ -490,11 +517,11 @@ void map_operations()
 
 void map_main(void)
 {
-	map_constructors();
+	/*map_constructors();*/
 	/*map_iterators();*/
 	//map_capacity();
 	//map_element_access();
-	//map_modifiers();
+	map_modifiers();
 	/*map_operations();*/
 }
 
