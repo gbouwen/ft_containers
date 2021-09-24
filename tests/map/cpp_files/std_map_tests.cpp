@@ -473,11 +473,11 @@ void map_operations()
 
 void map_main(void)
 {
-	/*map_constructors();*/
+	map_constructors();
    /* map_iterators();*/
 	//map_capacity();
 	//map_element_access();
-	//map_modifiers();
+	/*map_modifiers();*/
 	/*map_operations();*/
 }
 

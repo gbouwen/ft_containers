@@ -15,7 +15,6 @@
 # include "utils/node.hpp"
 # include "utils/bidirectional_iterator.hpp"
 # include "utils/reverse_iterator.hpp"
-# include "utils/swap.hpp"
 
 namespace ft {
 
@@ -116,7 +115,6 @@ namespace ft {
 				, _latest()
 				, _erased(false)
 			{
-
 				value_type empty = value_type(0, 0);
 				_begin = _allocator.allocate(1);
 				_allocator.construct(_begin, empty);
@@ -130,7 +128,22 @@ namespace ft {
 
 			// copy constructor
 			map(const map& x) {
-				*this = x;
+				_allocator = x._allocator;
+				_comp = x._comp;
+				_size = 0;
+				_root = NULL;
+				value_type empty = value_type(0, 0);
+				_begin = _allocator.allocate(1);
+				_allocator.construct(_begin, empty);
+				_begin->_empty = true;
+				_end = _allocator.allocate(1);
+				_allocator.construct(_end, empty);
+				_end->_empty = true;
+				_allocator.construct(_end, empty);
+				_duplicate = false;
+				_latest = NULL;
+				_erased = false;
+				insert(x.begin(), x.end());
 			}
 
 			// destructor
@@ -147,7 +160,9 @@ namespace ft {
 
 			// operator overload=
 			map& operator=(const map& x) {
-				(void)x;
+				map temp(x);
+
+				swap(temp);
 				return (*this);
 			}
 
@@ -265,15 +280,15 @@ namespace ft {
 
 			// exchanges contents of map with the contents of x
 			void swap(map& x) {
-				ft::swap(_allocator, x._allocator);
-				ft::swap(_comp, x._comp);
-				ft::swap(_size, x._size);
-				ft::swap(_root, x._root);
-				ft::swap(_begin, x._begin);
-				ft::swap(_end, x._end);
-				ft::swap(_duplicate, x._duplicate);
-				ft::swap(_latest, x._latest);
-				ft::swap(_erased, x._erased);
+				std::swap(_allocator, x._allocator);
+				std::swap(_comp, x._comp);
+				std::swap(_size, x._size);
+				std::swap(_root, x._root);
+				std::swap(_begin, x._begin);
+				std::swap(_end, x._end);
+				std::swap(_duplicate, x._duplicate);
+				std::swap(_latest, x._latest);
+				std::swap(_erased, x._erased);
 			}
 
 			// deletes map content + deallocates

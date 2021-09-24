@@ -64,7 +64,8 @@ void map_equals_overload_1()
 	for (int i = 0; i < 10; i++)
 		test_one.insert(int_char_pair(i, 'a'));
 
-	int_char_map test_two = test_one;
+	int_char_map test_two;
+	test_two = test_one;
 	for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
@@ -476,11 +477,11 @@ void map_operations()
 
 void map_main(void)
 {
-	/*map_constructors();*/
+	map_constructors();
 	//map_iterators();
 	//map_capacity();
 	//map_element_access();
-	//map_modifiers();
+	/*map_modifiers();*/
 	//map_operations();
 }
 
