@@ -86,7 +86,7 @@ void vector_begin_1()
 
 void vector_end_1()
 {
-	int_vector				test;
+	int_vector test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -101,8 +101,12 @@ void vector_end_2()
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
-	for (int_vector::iterator it = test.end()--; it != test.begin(); it--)
-		std::cout << *it;
+	int_vector::iterator it = test.begin();
+	for (; it + 1 != test.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+	for (; it != test.begin(); it--)
+		std::cout << *it << " ";
 	std::cout << std::endl;
 }
 
@@ -123,8 +127,9 @@ void vector_rend_1()
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
-	for (int_vector::reverse_iterator it = test.rend()--; it != test.rbegin(); it--)
-		std::cout << *it;
+	int_vector::reverse_iterator it = test.rbegin();
+	for (; it != test.rend(); it++)
+		std::cout << *it << " ";
 	std::cout << std::endl;
 }
 
@@ -133,11 +138,11 @@ void vector_iterators()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	vector_begin_1();
-	vector_end_1();
-	vector_end_2();
-	vector_rbegin_1();
-	vector_rend_1();
+	/*vector_begin_1();*/
+	//vector_end_1();
+	//vector_end_2();
+	//vector_rbegin_1();
+	/*vector_rend_1();*/
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_vector.iterators()");
 }
@@ -498,7 +503,7 @@ void vector_insert_4()
 		std::cout << test_two.at(i);
 	std::cout << std::endl;
 	std::cout << "test_two.size() = " << test_two.size() << std::endl;
-	std::cout << "test_two.capacity() = " << test_two.capacity() << std::endl;
+	std::cout << "test_two.capacity() a = " << test_two.capacity() << std::endl;
 }
 
 void vector_erase_1()
@@ -595,20 +600,20 @@ void vector_modifiers()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	/*vector_assign_1();*/
-	//vector_assign_2();
-	//vector_push_back_1();
-	//vector_push_back_2();
-	//vector_push_back_3();
-	//vector_pop_back_1();
-	//vector_insert_1();
-	//vector_insert_2();
-	//vector_insert_3();
-	//vector_insert_4();
-	//vector_erase_1();
-	/*vector_erase_2();*/
+	vector_assign_1();
+	vector_assign_2();
+	vector_push_back_1();
+	vector_push_back_2();
+	vector_push_back_3();
+	vector_pop_back_1();
+	vector_insert_1();
+	vector_insert_2();
+	vector_insert_3();
+	vector_insert_4();
+	vector_erase_1();
+	vector_erase_2();
 	vector_swap_1();
-	/*vector_clear_1();*/
+	vector_clear_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_vector.modifiers()");
 }
@@ -672,16 +677,16 @@ void vector_relational_operators()
 
 void vector_main(void)
 {
-	vector_constructors();
-	/*vector_iterators();*/
-	//vector_capacity();
-	/*vector_element_access();*/
-	/*vector_modifiers();*/
+	/*vector_constructors();*/
+	vector_iterators();
+	/*vector_capacity();*/
+	//vector_element_access();
+	//vector_modifiers();
 	/*vector_relational_operators();*/
 }
 
 int main(void)
 {
-	vector_main();
+   /* vector_main();*/
 	return (0);
 }

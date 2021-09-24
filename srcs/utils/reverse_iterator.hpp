@@ -121,14 +121,12 @@ namespace ft {
 	}
 
 	template <class Iterator>
-	typename reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator>& lhs,
-																   const reverse_iterator<Iterator>& rhs) {
+	typename reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
 		return (rhs.base() - lhs.base());
 	}
 
 	template <class Iterator>
-	reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n,
-										 const reverse_iterator<Iterator>& rev_it) {
+	reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n, const reverse_iterator<Iterator>& rev_it) {
 		return (reverse_iterator<Iterator>(rev_it.base() - n));
 	}
 
