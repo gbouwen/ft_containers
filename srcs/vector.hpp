@@ -91,29 +91,15 @@ namespace ft {
 
 			// destroys and deallocates vector
 			~vector() {
-				for (size_type i = 0; i < _size; i++)
-					_allocator.destroy(&_array[i]);
+				clear();
 				_allocator.deallocate(_array, _capacity);
 			}
 
 			// assigns new contents to vector, replaces its current contents, and modifies its size
 			vector& operator=(const vector& x) {
-				if (x.size() > _capacity && _array) {
-					this->~vector();
-					_array = _allocator.allocate(x.capacity());
-					for (size_type i = 0; i < x.size(); i++)
-						_allocator.construct(&_array[i], x[i]);
-					_capacity = x.capacity();
-				}
-				else {
-					if (!_array) {
-						_array = _allocator.allocate(x.capacity());
-						_capacity = x.capacity();
-					}
-					for (size_type i = 0; i < x.size(); i++)
-						_allocator.construct(&_array[i], x[i]);
-				}
-				_size = x.size();
+				vector temp(x);
+
+				swap(temp);
 				return (*this);
 			}
 
@@ -323,10 +309,10 @@ namespace ft {
 
 			// exchanges contents of vector with the contents of x
 			void swap(vector& x) {
-				vector temp(*this);
-
-				*this = x;
-				x = temp;
+				std::swap(_array, x._array);
+				std::swap(_size, x._size);
+				std::swap(_capacity, x._capacity);
+				std::swap(_allocator, x._allocator);
 			}
 
 			// removes all elements from vector

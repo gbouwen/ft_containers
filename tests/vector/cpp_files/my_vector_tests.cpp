@@ -23,11 +23,14 @@ void calc_time_taken(struct timeval start, struct timeval end, std::string funct
 void vector_constructor_1()
 {
 	int_vector test_1;
-	int_vector test_2(5, 100);
+	int_vector test_2(5, 10);
 	int_vector test_3(test_2);
 
 	std::cout << "test_1.size() = " << test_1.size() << std::endl;
 	std::cout << "test_2.size() = " << test_2.size() << std::endl;
+	for (size_t i = 0 ; i < test_2.size(); i++)
+		std::cout << test_2.at(i) << " ";
+	std::cout << std::endl;
 	std::cout << "test_3.size() = " << test_3.size() << std::endl;
 }
 
@@ -37,9 +40,11 @@ void vector_constructor_2()
 	int_vector test_2(test_1.begin(), test_1.end());
 
 	for (size_t i = 0; i < test_1.size(); i++)
-		std::cout << test_1[i] << std::endl;
+		std::cout << test_1[i] << " ";
+	std::cout << std::endl;
 	for (size_t i = 0; i < test_2.size(); i++)
-		std::cout << test_2[i] << std::endl;
+		std::cout << test_2[i] << " ";
+	std::cout << std::endl;
 }
 
 void vector_equals_overload_1()
@@ -67,14 +72,21 @@ void vector_constructors()
 void vector_begin_1()
 {
 	string_vector test(5, "hoi");
+	string_vector test_two(5, "doei");
 
 	string_vector::iterator it = test.begin();
+	string_vector::iterator it_two = test_two.begin();
 	std::cout << *it << std::endl;
+	std::cout << *it_two << std::endl;
+	if (it == it_two)
+		std::cout << "EQUAL" << std::endl;
+	else if (it != it_two)
+		std::cout << "NOT EQUAL" << std::endl;
 }
 
 void vector_end_1()
 {
-	int_vector test;
+	int_vector				test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -540,20 +552,20 @@ void vector_swap_1()
 	int_vector test_two(5, 200);
 
 	for (size_t i = 0; i < test_one.size(); i++)
-		std::cout << test_one.at(i);
+		std::cout << test_one.at(i) << " ";
 	std::cout << std::endl;
 	std::cout << "test_one.size() = " << test_one.size() << std::endl;
 	for (size_t i = 0; i < test_two.size(); i++)
-		std::cout << test_two.at(i);
+		std::cout << test_two.at(i) << " ";
 	std::cout << std::endl;
 	std::cout << "test_two.size() = " << test_two.size() << std::endl;
 	test_one.swap(test_two);
 	for (size_t i = 0; i < test_one.size(); i++)
-		std::cout << test_one.at(i);
+		std::cout << test_one.at(i) << " ";
 	std::cout << std::endl;
 	std::cout << "test_one.size() = " << test_one.size() << std::endl;
 	for (size_t i = 0; i < test_two.size(); i++)
-		std::cout << test_two.at(i);
+		std::cout << test_two.at(i) << " ";
 	std::cout << std::endl;
 	std::cout << "test_two.size() = " << test_two.size() << std::endl;
 }
@@ -584,18 +596,18 @@ void vector_modifiers()
 
 	gettimeofday(&start, NULL);
 	/*vector_assign_1();*/
-	/*vector_assign_2();*/
-	vector_push_back_1();
-	vector_push_back_2();
-	vector_push_back_3();
-	/*vector_pop_back_1();*/
+	//vector_assign_2();
+	//vector_push_back_1();
+	//vector_push_back_2();
+	//vector_push_back_3();
+	//vector_pop_back_1();
 	//vector_insert_1();
 	//vector_insert_2();
 	//vector_insert_3();
 	//vector_insert_4();
 	//vector_erase_1();
-	//vector_erase_2();
-	//vector_swap_1();
+	/*vector_erase_2();*/
+	vector_swap_1();
 	/*vector_clear_1();*/
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_vector.modifiers()");
@@ -660,11 +672,11 @@ void vector_relational_operators()
 
 void vector_main(void)
 {
-	/*vector_constructors();*/
-	//vector_iterators();
+	vector_constructors();
+	/*vector_iterators();*/
 	//vector_capacity();
 	/*vector_element_access();*/
-	vector_modifiers();
+	/*vector_modifiers();*/
 	/*vector_relational_operators();*/
 }
 
