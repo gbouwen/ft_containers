@@ -72,10 +72,10 @@ void vector_constructors()
 void vector_begin_1()
 {
 	string_vector test(5, "hoi");
-	string_vector test_two(5, "doei");
+	const string_vector test_two(5, "doei");
 
 	string_vector::iterator it = test.begin();
-	string_vector::iterator it_two = test_two.begin();
+	const string_vector::const_iterator it_two = test_two.begin();
 	std::cout << *it << std::endl;
 	std::cout << *it_two << std::endl;
 	if (it == it_two)
@@ -138,11 +138,11 @@ void vector_iterators()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	/*vector_begin_1();*/
-	//vector_end_1();
-	//vector_end_2();
-	//vector_rbegin_1();
-	/*vector_rend_1();*/
+	vector_begin_1();
+	vector_end_1();
+	vector_end_2();
+	vector_rbegin_1();
+	vector_rend_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_vector.iterators()");
 }
@@ -600,20 +600,20 @@ void vector_modifiers()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	vector_assign_1();
-	vector_assign_2();
-	vector_push_back_1();
-	vector_push_back_2();
-	vector_push_back_3();
-	vector_pop_back_1();
-	vector_insert_1();
-	vector_insert_2();
-	vector_insert_3();
+	/*vector_assign_1();*/
+	/*vector_assign_2();*/
+	/*vector_push_back_1();*/
+	//vector_push_back_2();
+	//vector_push_back_3();
+	//vector_pop_back_1();
+	//vector_insert_1();
+	//vector_insert_2();
+	/*vector_insert_3();*/
 	vector_insert_4();
-	vector_erase_1();
-	vector_erase_2();
-	vector_swap_1();
-	vector_clear_1();
+	/*vector_erase_1();*/
+	//vector_erase_2();
+	//vector_swap_1();
+	/*vector_clear_1();*/
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_vector.modifiers()");
 }
@@ -678,15 +678,15 @@ void vector_relational_operators()
 void vector_main(void)
 {
 	/*vector_constructors();*/
-	vector_iterators();
-	/*vector_capacity();*/
-	//vector_element_access();
-	//vector_modifiers();
+	//vector_iterators();
+	//vector_capacity();
+	/*vector_element_access();*/
+	vector_modifiers();
 	/*vector_relational_operators();*/
 }
 
 int main(void)
 {
-   /* vector_main();*/
+	vector_main();
 	return (0);
 }
