@@ -7,21 +7,22 @@
 
 namespace ft {
 
-	template <typename Pair, typename Pointer, typename Reference>
+	template <typename Pair, typename Compare, typename Pointer, typename Reference>
 	class bidirectional_iterator {
 
 		public:
 
-			typedef std::bidirectional_iterator_tag							iterator_category;
-			typedef Pair													value_type;
-			typedef Pointer													pointer;
-			typedef Reference												reference;
-			typedef ptrdiff_t												difference_type;
-			typedef ft::node<Pair>											node;
-			typedef ft::node<Pair>*											node_pointer;
-			typedef ft::node<Pair>&											node_reference;
-			typedef bidirectional_iterator<Pair, Pointer, Reference>		iterator;
-			typedef bidirectional_iterator<Pair, const Pair*, const Pair&>	const_iterator;
+			typedef std::bidirectional_iterator_tag										iterator_category;
+			typedef Pair																value_type;
+			typedef Pointer																pointer;
+			typedef Reference															reference;
+			typedef ptrdiff_t															difference_type;
+			typedef Compare																key_compare;
+			typedef ft::node<Pair, Compare>												node;
+			typedef ft::node<Pair, Compare>*											node_pointer;
+			typedef ft::node<Pair, Compare>&											node_reference;
+			typedef bidirectional_iterator<Pair, Compare, Pointer, Reference>			iterator;
+			typedef bidirectional_iterator<Pair, Compare, const Pair*, const Pair&>		const_iterator;
 
 		private:
 

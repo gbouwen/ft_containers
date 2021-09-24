@@ -23,26 +23,26 @@ namespace ft {
 
 		public:
 
-		typedef Key																			key_type;
-		typedef T																			mapped_type;
-		typedef ft::pair<const key_type, mapped_type>										value_type;
-		typedef Compare																		key_compare;
-		typedef Alloc																		allocator_type;
-		typedef value_type&																	reference;
-		typedef const value_type&															const_reference;
-		typedef value_type*																	pointer;
-		typedef const value_type*															const_pointer;
-		typedef bidirectional_iterator<value_type, value_type*, value_type&>				iterator;
-		typedef bidirectional_iterator<value_type, const value_type*, const value_type&>	const_iterator;
-		typedef reverse_iterator<const_iterator>											const_reverse_iterator;
-		typedef reverse_iterator<iterator>													reverse_iterator;
-		typedef ptrdiff_t																	difference_type;
-		typedef size_t																		size_type;
+		typedef Key																						key_type;
+		typedef T																						mapped_type;
+		typedef ft::pair<const key_type, mapped_type>													value_type;
+		typedef Compare																					key_compare;
+		typedef Alloc																					allocator_type;
+		typedef value_type&																				reference;
+		typedef const value_type&																		const_reference;
+		typedef value_type*																				pointer;
+		typedef const value_type*																		const_pointer;
+		typedef bidirectional_iterator<value_type, key_compare, value_type*, value_type&>				iterator;
+		typedef bidirectional_iterator<value_type, key_compare, const value_type*, const value_type&>	const_iterator;
+		typedef reverse_iterator<const_iterator>														const_reverse_iterator;
+		typedef reverse_iterator<iterator>																reverse_iterator;
+		typedef ptrdiff_t																				difference_type;
+		typedef size_t																					size_type;
 
-		typedef ft::node<value_type>														node;
-		typedef ft::node<value_type>*														node_pointer;
+		typedef ft::node<value_type, key_compare>														node;
+		typedef ft::node<value_type, key_compare>*														node_pointer;
 
-		typedef typename Alloc::template rebind<node>::other								node_allocator;
+		typedef typename Alloc::template rebind<node>::other											node_allocator;
 
 		class value_compare: ft::binary_function<value_type, value_type, bool> {
 
@@ -68,7 +68,7 @@ namespace ft {
 		private:
 
 			node_allocator	_allocator;
-			Compare			_comp;
+			key_compare		_comp;
 			size_type		_size;
 			node_pointer	_root;
 			node_pointer	_begin;
@@ -405,16 +405,6 @@ namespace ft {
 				return (_allocator);
 			}
 
-
-			//REMOVE THIS REMOVE THIS REMOVE THIS
-			//REMOVE THIS REMOVE THIS REMOVE THIS
-			//REMOVE THIS REMOVE THIS REMOVE THIS
-			void print_tree() const {
-				std::cout << "-----" << std::endl;
-				print_tree(_root);
-				std::cout << "-----" << std::endl;
-			}
-
 		private:
 
 			void delete_node(node_pointer node) {
@@ -471,7 +461,7 @@ namespace ft {
 			}
 
 			node_pointer erase_node(node_pointer node, const key_type& k) {
-				key_compare comp = key_compare();
+				key_compare comp = key_comp();
 
 				if (node) {
 					if (!comp(k, node->_data.first) && !comp(node->_data.first, k)) { // equal
@@ -574,7 +564,7 @@ namespace ft {
 			}
 
 			node_pointer rotate_right(node_pointer node) {
-				key_compare		comp = key_compare();
+				key_compare		comp = key_comp();
 				node_pointer	temp = node->_left;
 
 				node->_left = temp->_right;
@@ -600,7 +590,7 @@ namespace ft {
 			}
 
 			node_pointer rotate_left(node_pointer node) {
-				key_compare		comp = key_compare();
+				key_compare		comp = key_comp();
 				node_pointer	temp = node->_right;
 
 				node->_right = temp->_left;
@@ -626,7 +616,7 @@ namespace ft {
 			}
 
 			node_pointer insert_node(node_pointer node, node_pointer parent, const value_type& val) {
-				key_compare compare = key_compare();
+				key_compare compare = key_comp();
 
 				if (!node)
 					return (create_new_node(parent, val));
@@ -683,31 +673,6 @@ namespace ft {
 				delete_tree(node->_right);
 				_allocator.destroy(node);
 				_allocator.deallocate(node, 1);
-			}
-
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			void	print_tree_utils(node_pointer root, int space) const
-			{
-			   int count = 5;
-				if (root == NULL)
-					return;
-				space += count;
-				print_tree_utils(root->_right, space);
-				std::cout << std::endl;
-				for (int i = count; i < space; i++)
-					std::cout << " ";
-				std::cout << root->_data.first << ",  = " << root->_height << std::endl;
-				print_tree_utils(root->_left, space);
-			}
-
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			// REMOVE THIS REMOVE THIS REMOVE THIS REMOVE THIS
-			void	print_tree(node_pointer root) const
-			{
-				print_tree_utils(root, 0);
 			}
 
 	}; // class map

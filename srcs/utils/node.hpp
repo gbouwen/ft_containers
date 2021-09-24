@@ -7,13 +7,14 @@
 
 namespace ft {
 
-	template <class Pair>
+	template <class Pair, class Compare>
 	class node {
 
 		public:
 
-			typedef Pair		value_type;
-			typedef node<Pair>*	node_pointer;
+			typedef Pair					value_type;
+			typedef node<Pair, Compare>*	node_pointer;
+			typedef Compare					key_compare;
 
 			node_pointer	_parent;
 			node_pointer	_left;
@@ -90,20 +91,22 @@ namespace ft {
 
 			// returns next element
 			node_pointer get_next_node(node_pointer node) {
-				node_pointer temp = node;
+				key_compare		comp = key_compare();
+				node_pointer	temp = node;
 
 				if (temp->_right && !temp->_right->is_empty())
 					return (get_first_element(temp->_right));
 				else if (temp->_right && temp->_right->is_empty())
 					return (temp->_right);
-				while (temp->_parent && temp->_parent->_data.first < node->_data.first)
+				while (temp->_parent && comp(temp->_parent->_data.first, node->_data.first)) // less
 					temp = temp->_parent;
 				return (temp->_parent);
 			}
 
 			// returns previous element
 			node_pointer get_previous_node(node_pointer node) {
-				node_pointer temp = node;
+				key_compare		comp = key_compare();
+				node_pointer	temp = node;
 
 				if (temp->is_empty())
 					return (temp->_parent);
@@ -111,7 +114,7 @@ namespace ft {
 					return (get_last_element(temp->_left));
 				else if (temp->_left && temp->_left->is_empty())
 					return (temp->_left);
-				while (temp->_parent->_data.first > node->_data.first)
+				while (comp(node->_data.first, temp->_parent->_data.first)) // greater
 					temp = temp->_parent;
 				return (temp->_parent);
 			}
