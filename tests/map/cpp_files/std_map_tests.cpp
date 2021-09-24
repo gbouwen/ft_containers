@@ -373,14 +373,14 @@ void map_modifiers()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	//map_insert_1();
-	//map_insert_2();
-	//map_insert_3();
-	//map_erase_1();
-	//map_erase_2();
-	//map_erase_3();
+	map_insert_1();
+	map_insert_2();
+	map_insert_3();
+	map_erase_1();
+	map_erase_2();
+	map_erase_3();
 	map_swap_1();
-	/*map_clear_1();*/
+	map_clear_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "std_map.modifiers()");
 }
@@ -474,11 +474,11 @@ void map_operations()
 void map_main(void)
 {
 	map_constructors();
-   /* map_iterators();*/
-	//map_capacity();
-	//map_element_access();
-	/*map_modifiers();*/
-	/*map_operations();*/
+	map_iterators();
+	map_capacity();
+	map_element_access();
+	map_modifiers();
+	map_operations();
 }
 
 int main(void)
