@@ -653,8 +653,8 @@ void vector_greater_1()
 	int_vector 		test_1;
 	int_vector		test_2;
 
-	test_1.push_back(10);
-	test_2.push_back(20);
+	test_1.push_back(20);
+	test_2.push_back(10);
 	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
 	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
 	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;

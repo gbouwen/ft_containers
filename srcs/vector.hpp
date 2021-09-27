@@ -273,9 +273,22 @@ namespace ft {
 			template <class InputIterator>
 			void insert(iterator position, InputIterator first, InputIterator last,
 						typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type* = NULL) {
-				while (first != last) {
-					position = insert(position, *first);
-					first++;
+				if (empty()) {
+					_array = _allocator.allocate(last - first);
+					_capacity = last - first;
+					int i = 0;
+					while (first != last) {
+						_allocator.construct(&_array[i], *first);
+						_size++;
+						first++;
+						i++;
+					}
+				}
+				else {
+					while (first != last) {
+						position = insert(position, *first);
+						first++;
+					}
 				}
 			}
 
