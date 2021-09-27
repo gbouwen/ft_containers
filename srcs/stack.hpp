@@ -18,25 +18,25 @@ namespace ft {
 
 		protected:
 
-			container_type	_container;
+			container_type	c;
 
 		public:
 
 		// --- MEMBER FUNCTIONS ---
 
-			explicit stack(const container_type& ctnr = container_type()): _container(ctnr) { }
+			explicit stack(const container_type& ctnr = container_type()): c(ctnr) { }
 
-			bool empty() const { return (_container.empty()); }
+			bool empty() const { return (c.empty()); }
 
-			size_type size() const { return (_container.size()); }
+			size_type size() const { return (c.size()); }
 
-			value_type& top() { return (_container.back()); }
+			value_type& top() { return (c.back()); }
 
-			const value_type& top() const { return (_container.back()); }
+			const value_type& top() const { return (c.back()); }
 
-			void push(const value_type& val) { _container.push_back(val); }
+			void push(const value_type& val) { c.push_back(val); }
 
-			void pop() { _container.pop_back(); }
+			void pop() { c.pop_back(); }
 
 		// -- OVERLOADS ---
 

@@ -1,91 +1,72 @@
 // map_tests.cpp
 
 #include <iostream>
-#include <sys/time.h>
-#include <iomanip>
-#include <cstdlib>
 
-#include "../../../srcs/map.hpp"
+#include "../../srcs/map.hpp"
 
-typedef ft::map<int, char>			int_char_map;
-typedef ft::map<int, int>			int_int_map;
-typedef ft::map<int, std::string>	int_string_map;
-typedef ft::pair<int, char>			int_char_pair;
-typedef ft::pair<int, int>			int_int_pair;
-typedef ft::pair<int, std::string>	int_string_pair;
-
-void calc_time_taken(struct timeval start, struct timeval end, std::string function_name)
-{
-	double time_taken;
-
-	time_taken = (end.tv_sec - start.tv_sec) * 1e6;
-	time_taken = (time_taken + (end.tv_usec - start.tv_usec)) * 1e-6;
-	std::cout << "--------------------" << std::endl;
-	std::cout << function_name << "-> time taken = " << std::fixed << time_taken << std::setprecision(6) << " sec" << std::endl;
-	std::cout << "--------------------" << std::endl;
-}
+#include "../time_function.hpp"
 
 void map_constructor_1()
 {
-	int_char_map test_one;
+	ft::map<int, char> test_one;
 
 	for (int i = 0; i < 10; i++)
-		test_one.insert(int_char_pair(i, 'a'));
+		test_one.insert(ft::pair<int, char>(i, 'a'));
 
-	int_char_map test_two(test_one);
-	for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)
+	ft::map<int, char> test_two(test_one);
+	for (ft::map<int, char>::iterator it = test_one.begin(); it != test_one.end(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
-	for (int_char_map::iterator it = test_two.begin(); it != test_two.end(); it++)
+	for (ft::map<int, char>::iterator it = test_two.begin(); it != test_two.end(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
 }
 
 void map_constructor_2()
 {
-	int_char_map test_one;
+	ft::map<int, char> test_one;
 
 	for (int i = 0; i < 10; i++)
-		test_one.insert(int_char_pair(i, 'a'));
+		test_one.insert(ft::pair<int, char>(i, 'a'));
 
-	int_char_map test_two(test_one.begin(), test_one.end());
-	for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)
+	ft::map<int, char> test_two(test_one.begin(), test_one.end());
+	for (ft::map<int, char>::iterator it = test_one.begin(); it != test_one.end(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
-	for (int_char_map::iterator it = test_two.begin(); it != test_two.end(); it++)
+	for (ft::map<int, char>::iterator it = test_two.begin(); it != test_two.end(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
 }
 
 void map_copy_constructor_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	if (true) {
-		int_int_map test_two;
+		ft::map<int, int> test_two;
 
 		for (int i = 0; i < 10; i++)
-			test_two.insert(int_int_pair(i, i));
+			test_two.insert(ft::pair<int, int>(i, i));
 		test = test_two;
 	}
-	for (int_int_map::iterator it = test.begin(); it != test.end(); it++)
+	for (ft::map<int, int>::iterator it = test.begin(); it != test.end(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
 }
 
 void map_equals_overload_1()
 {
-	int_char_map test_one;
+	ft::map<int, char> test_one;
 
 	for (int i = 0; i < 10; i++)
-		test_one.insert(int_char_pair(i, 'a'));
+		test_one.insert(ft::pair<int, char>(i, 'a'));
 
-	int_char_map test_two;
+	ft::map<int, char> test_two;
 	test_two = test_one;
-	for (int_char_map::iterator it = test_one.begin(); it != test_one.end(); it++)
+	for (ft::map<int, char>::iterator it = test_one.begin(); it != test_one.end(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
-	for (int_char_map::iterator it = test_two.begin(); it != test_two.end(); it++)
+	for (ft::map<int, char>::iterator it = test_two.begin(); it != test_two.end(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
 }
@@ -100,37 +81,37 @@ void map_constructors()
 	map_copy_constructor_1();
 	map_equals_overload_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_map.constructor()");
+	calc_time_taken(start, end, "ft_map.constructor()");
 }
 
 void map_begin_1()
 {
-	int_char_map test;
+	ft::map<int, char> test;
 
-	test.insert(int_char_pair(100, 'a'));
-	int_char_map::iterator it = test.begin();
+	test.insert(ft::pair<int, char>(100, 'a'));
+	ft::map<int, char>::iterator it = test.begin();
 	std::cout << it->first << std::endl;
 	std::cout << it->second << std::endl;
 }
 
 void map_end_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 10; i++)
-		test.insert(int_int_pair(i, i + 100));
-	for (int_int_map::iterator it = test.begin(); it != test.end(); it++)
+		test.insert(ft::pair<int, int>(i, i + 100));
+	for (ft::map<int, int>::iterator it = test.begin(); it != test.end(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
 }
 
 void map_end_2()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 10; i++)
-		test.insert(int_int_pair(i, i + 100));
-	int_int_map::iterator it = test.end();
+		test.insert(ft::pair<int, int>(i, i + 100));
+	ft::map<int, int>::iterator it = test.end();
 	it--;
 	for (; it != test.begin(); it--)
 		std::cout << it->first << " -> " << it->second << " ";
@@ -139,23 +120,23 @@ void map_end_2()
 
 void map_rbegin_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 10; i++)
-		test.insert(int_int_pair(i, i + 100));
-	int_int_map::reverse_iterator it = test.rbegin();
-	for (int_int_map::reverse_iterator it = test.rbegin(); it != test.rend(); it++)
+		test.insert(ft::pair<int, int>(i, i + 100));
+	ft::map<int, int>::reverse_iterator it = test.rbegin();
+	for (ft::map<int, int>::reverse_iterator it = test.rbegin(); it != test.rend(); it++)
 		std::cout << it->first << " -> " << it->second << " ";
 	std::cout << std::endl;
 }
 
 void map_rend_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 10; i++)
-		test.insert(int_int_pair(i, i + 100));
-	int_int_map::reverse_iterator it = test.rend();
+		test.insert(ft::pair<int, int>(i, i + 100));
+	ft::map<int, int>::reverse_iterator it = test.rend();
 	it--;
 	for (; it != test.rbegin(); it--)
 		std::cout << it->first << " -> " << it->second << " ";
@@ -174,32 +155,32 @@ void map_iterators()
 	map_rbegin_1();
 	map_rend_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_map.iterators()");
+	calc_time_taken(start, end, "ft_map.iterators()");
 }
 
 void map_empty_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	std::cout << "test.empty() = " << test.empty() << std::endl;
-	test.insert(int_int_pair(100, 100));
+	test.insert(ft::pair<int, int>(100, 100));
 	std::cout << "test.empty() = " << test.empty() << std::endl;
 }
 
 void map_size_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	std::cout << "test.size() = " << test.size() << std::endl;
 	for (int i = 0; i < 1000; i++)
-		test.insert(int_int_pair(i, 100));
+		test.insert(ft::pair<int, int>(i, 100));
 	std::cout << "test.size() = " << test.size() << std::endl;
 }
 
 void map_max_size_1()
 {
-	int_int_map		test_one;
-	int_char_map	test_two;
+	ft::map<int, int>	test_one;
+	ft::map<int, char>	test_two;
 
 	std::cout << "test_one.max_size() = " << test_one.max_size() << std::endl;
 	std::cout << "test_two.max_size() = " << test_two.max_size() << std::endl;
@@ -214,15 +195,15 @@ void map_capacity()
 	map_size_1();
 	map_max_size_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_map.capacity()");
+	calc_time_taken(start, end, "ft_map.capacity()");
 }
 
 void map_brackets_1()
 {
-	int_char_map test;
+	ft::map<int, char> test;
 
 	for (int i = 0 ; i < 100; i++)
-		test.insert(int_char_pair(i, 'a'));
+		test.insert(ft::pair<int, char>(i, 'a'));
 	std::cout << "test.size() = " << test.size() << std::endl;
 	std::cout << "test[5] = " << test[5] << std::endl;
 	std::cout << "test[50] = " << test[50] << std::endl;
@@ -237,20 +218,20 @@ void map_element_access()
 	gettimeofday(&start, NULL);
 	map_brackets_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_map.capacity()");
+	calc_time_taken(start, end, "ft_map.capacity()");
 }
 
 
 void map_insert_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 1000000; i++) {
-		test.insert(int_int_pair(i, i + 1));
+		test.insert(ft::pair<int, int>(i, i + 1));
 	}
-	ft::pair<int_int_map::iterator, bool> pair = test.insert(int_int_pair(10, 0));
+	ft::pair<ft::map<int, int>::iterator, bool> pair = test.insert(ft::pair<int, int>(10, 0));
 	std::cout << pair.first->first << " = " << pair.second << std::endl;
-	pair = test.insert(int_int_pair(123456789, 0));
+	pair = test.insert(ft::pair<int, int>(123456789, 0));
 	std::cout << pair.first->first << " = " << pair.second << std::endl;
 	std::cout << "map.size() = " << test.size() << std::endl;
 	std::cout << "test[1] = " << test[1] << std::endl;
@@ -260,10 +241,10 @@ void map_insert_1()
 
 void map_insert_2()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 1000000; i++) {
-		test.insert(int_int_pair(1000000 - i, i));
+		test.insert(ft::pair<int, int>(1000000 - i, i));
 	}
 	std::cout << "map.size() = " << test.size() << std::endl;
 	std::cout << "test[1] = " << test[1] << std::endl;
@@ -273,12 +254,12 @@ void map_insert_2()
 
 void map_insert_3()
 {
-	int_int_map test;
-	int_int_map test_two;
+	ft::map<int, int> test;
+	ft::map<int, int> test_two;
 
 	for (int i = 0; i < 1000000; i++) {
 		int x = rand() % 1000000;
-		test.insert(int_int_pair(x, i));
+		test.insert(ft::pair<int, int>(x, i));
 	}
 	std::cout << "test.size() = " << test.size() << std::endl;
 	std::cout << "test[1] = " << test[1] << std::endl;
@@ -293,10 +274,10 @@ void map_insert_3()
 
 void map_erase_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 1000000; i++) {
-		test.insert(int_int_pair(i, i + 1));
+		test.insert(ft::pair<int, int>(i, i + 1));
 	}
 	test.erase(1000);
 	test.erase(1000);
@@ -308,10 +289,10 @@ void map_erase_1()
 
 void map_erase_2()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 1000000; i++) {
-		test.insert(int_int_pair(i, i + 1));
+		test.insert(ft::pair<int, int>(i, i + 1));
 	}
 	std::cout << test.size() << std::endl;
 	test.erase(test.begin(), test.end());
@@ -320,18 +301,18 @@ void map_erase_2()
 
 void map_erase_3()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 1000000; i++) {
-		test.insert(int_int_pair(i, i + 1));
+		test.insert(ft::pair<int, int>(i, i + 1));
 	}
 	for (int i = 0; i < 1000000; i++) {
 		int x = rand() % 1000000;
 		test.erase(x);
 	}
-	int_int_map test_two;
+	ft::map<int, int> test_two;
 
-	test_two.insert(int_int_pair(1, 1));
+	test_two.insert(ft::pair<int, int>(1, 1));
 	std::cout << test_two.size() << std::endl;
 	test_two.erase(test_two.begin());
 	std::cout << test_two.size() << std::endl;
@@ -339,23 +320,23 @@ void map_erase_3()
 
 void map_swap_1()
 {
-	int_int_map test;
-	int_int_map	test_two;
+	ft::map<int, int>	test;
+	ft::map<int, int>	test_two;
 
 	for (int i = 0; i < 10; i++) {
-		test.insert(int_int_pair(i, i + 1));
+		test.insert(ft::pair<int, int>(i, i + 1));
 	}
 	for (int i = 0; i < 10; i++) {
-		test_two.insert(int_int_pair(i + 1, i + 1));
+		test_two.insert(ft::pair<int, int>(i + 1, i + 1));
 	}
-	int_int_map::iterator it_one = test.begin();
+	ft::map<int, int>::iterator it_one = test.begin();
 	for (; it_one != test.end(); it_one++) {
 		std::cout << it_one->first;
 	}
 	std::cout << std::endl;
 	it_one = test.begin();
 
-	int_int_map::iterator it_two = test_two.begin();
+	ft::map<int, int>::iterator it_two = test_two.begin();
 	for (; it_two != test_two.end(); it_two++) {
 		std::cout << it_two->first;
 	}
@@ -371,18 +352,18 @@ void map_swap_1()
 
 void map_swap_2()
 {
-	int_int_map test;
-	int_int_map test_two;
+	ft::map<int, int> test;
+	ft::map<int, int> test_two;
 
 	for (int i = 0; i < 100; i++)
-		test.insert(int_int_pair(i, i + 1));
+		test.insert(ft::pair<int, int>(i, i + 1));
 	for (int i = 0; i < 100; i++)
-		test_two.insert(int_int_pair(100 - i, 100 - i + 1));
-	int_int_map::iterator it_one = test.begin();
+		test_two.insert(ft::pair<int, int>(100 - i, 100 - i + 1));
+	ft::map<int, int>::iterator it_one = test.begin();
 	for (int i = 0; i < 27; i++)
 		it_one++;
 	std::cout << it_one->first << std::endl;
-	int_int_map::iterator it_two = test_two.begin();
+	ft::map<int, int>::iterator it_two = test_two.begin();
 	for (int i = 0; i < 40; i++)
 		it_two++;
 	std::cout << it_two->first << std::endl;
@@ -397,12 +378,12 @@ void map_swap_2()
 
 void map_clear_1()
 {
-	int_int_map test;
-	int_int_map test_two;
+	ft::map<int, int> test;
+	ft::map<int, int> test_two;
 
 	for (int i = 0; i < 1000000; i++) {
 		int x = rand() % 1000000;
-		test.insert(int_int_pair(x, i));
+		test.insert(ft::pair<int, int>(x, i));
 	}
 	std::cout << "test.size() = " << test.size() << std::endl;
 	std::cout << "test[1] = " << test[1] << std::endl;
@@ -430,17 +411,17 @@ void map_modifiers()
 	map_swap_2();
 	map_clear_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_map.modifiers()");
+	calc_time_taken(start, end, "ft_map.modifiers()");
 }
 
 void map_find_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 100; i++) {
-		test.insert(int_int_pair(i, i + 100));
+		test.insert(ft::pair<int, int>(i, i + 100));
 	}
-	int_int_map::iterator it = test.find(50);
+	ft::map<int, int>::iterator it = test.find(50);
 	std::cout << it->first << "->" << it->second << std::endl;
 	it = test.find(700);
 	if (it == test.end())
@@ -449,10 +430,10 @@ void map_find_1()
 
 void map_count_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 100; i++) {
-		test.insert(int_int_pair(i, i + 100));
+		test.insert(ft::pair<int, int>(i, i + 100));
 	}
 	size_t c = test.count(50);
 	std::cout << c << std::endl;
@@ -462,12 +443,12 @@ void map_count_1()
 
 void map_lower_bound_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 100; i++) {
-		test.insert(int_int_pair(i, i + 100));
+		test.insert(ft::pair<int, int>(i, i + 100));
 	}
-	int_int_map::iterator it = test.lower_bound(40);
+	ft::map<int, int>::iterator it = test.lower_bound(40);
 	std::cout << it->first << "->" << it->second << std::endl;
 	it = test.lower_bound(500);
 	if (it == test.end())
@@ -476,12 +457,12 @@ void map_lower_bound_1()
 
 void map_upper_bound_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 100; i++) {
-		test.insert(int_int_pair(i, i + 100));
+		test.insert(ft::pair<int, int>(i, i + 100));
 	}
-	int_int_map::iterator it = test.upper_bound(40);
+	ft::map<int, int>::iterator it = test.upper_bound(40);
 	std::cout << it->first << "->" << it->second << std::endl;
 	it = test.upper_bound(500);
 	if (it == test.end())
@@ -490,12 +471,12 @@ void map_upper_bound_1()
 
 void map_equal_range_1()
 {
-	int_int_map test;
+	ft::map<int, int> test;
 
 	for (int i = 0; i < 100; i++) {
-		test.insert(int_int_pair(i, i + 100));
+		test.insert(ft::pair<int, int>(i, i + 100));
 	}
-	ft::pair<int_int_map::iterator, int_int_map::iterator> it_pair = test.equal_range(5);
+	ft::pair<ft::map<int, int>::iterator, ft::map<int, int>::iterator> it_pair = test.equal_range(5);
 	std::cout << it_pair.first->first << "->" << it_pair.first->second << std::endl;
 	std::cout << it_pair.second->first << "->" << it_pair.second->second << std::endl;
 	it_pair = test.equal_range(1000);
@@ -516,7 +497,76 @@ void map_operations()
 	map_upper_bound_1();
 	map_equal_range_1();
 	gettimeofday(&end, NULL);
-	calc_time_taken(start, end, "my_map.operations()");
+	calc_time_taken(start, end, "ft_map.operations()");
+}
+
+void map_less_1()
+{
+	ft::map<int, int>	test_1;
+	ft::map<int, int>	test_2;
+
+	test_1.insert(ft::pair<int, int>(100, 100));
+	test_1.insert(ft::pair<int, int>(300, 300));
+	test_1.insert(ft::pair<int, int>(500, 500));
+	test_2.insert(ft::pair<int, int>(100, 100));
+	test_2.insert(ft::pair<int, int>(300, 300));
+	test_2.insert(ft::pair<int, int>(400, 400));
+	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
+	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
+	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;
+	std::cout << "test_1 <= test_2 : " << (test_1 <= test_2) << std::endl;
+	std::cout << "test_1 > test_2 : " << (test_1 > test_2) << std::endl;
+	std::cout << "test_1 >= test_2 : " << (test_1 >= test_2) << std::endl;
+}
+
+void map_equal_1()
+{
+	ft::map<int, int>	test_1;
+	ft::map<int, int>	test_2;
+
+	test_1.insert(ft::pair<int, int>(100, 100));
+	test_1.insert(ft::pair<int, int>(200, 200));
+	test_1.insert(ft::pair<int, int>(300, 300));
+	test_2.insert(ft::pair<int, int>(100, 100));
+	test_2.insert(ft::pair<int, int>(200, 200));
+	test_2.insert(ft::pair<int, int>(300, 300));
+	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
+	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
+	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;
+	std::cout << "test_1 <= test_2 : " << (test_1 <= test_2) << std::endl;
+	std::cout << "test_1 > test_2 : " << (test_1 > test_2) << std::endl;
+	std::cout << "test_1 >= test_2 : " << (test_1 >= test_2) << std::endl;
+}
+
+void map_greater_1()
+{
+	ft::map<int, int>	test_1;
+	ft::map<int, int>	test_2;
+
+	test_1.insert(ft::pair<int, int>(100, 100));
+	test_1.insert(ft::pair<int, int>(300, 300));
+	test_1.insert(ft::pair<int, int>(500, 500));
+	test_2.insert(ft::pair<int, int>(100, 100));
+	test_2.insert(ft::pair<int, int>(300, 300));
+	test_2.insert(ft::pair<int, int>(400, 400));
+	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
+	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
+	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;
+	std::cout << "test_1 <= test_2 : " << (test_1 <= test_2) << std::endl;
+	std::cout << "test_1 > test_2 : " << (test_1 > test_2) << std::endl;
+	std::cout << "test_1 >= test_2 : " << (test_1 >= test_2) << std::endl;
+}
+
+void map_relational_operators()
+{
+	struct timeval	start, end;
+
+	gettimeofday(&start, NULL);
+	map_less_1();
+	map_equal_1();
+	map_greater_1();
+	gettimeofday(&end, NULL);
+	calc_time_taken(start, end, "ft_map.relational_operators()");
 }
 
 void map_main(void)
@@ -527,10 +577,5 @@ void map_main(void)
 	map_element_access();
 	map_modifiers();
 	map_operations();
-}
-
-int main(void)
-{
-	map_main();
-	return (0);
+	map_relational_operators();
 }

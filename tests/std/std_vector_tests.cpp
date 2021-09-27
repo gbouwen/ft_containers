@@ -1,30 +1,16 @@
 // vector_tests.cpp
 
 #include <iostream>
-#include <sys/time.h>
-#include <iomanip>
 
 #include <vector>
 
-typedef std::vector<int>			int_vector;
-typedef std::vector<std::string>	string_vector;
-
-void calc_time_taken(struct timeval start, struct timeval end, std::string function_name)
-{
-	double time_taken;
-
-	time_taken = (end.tv_sec - start.tv_sec) * 1e6;
-	time_taken = (time_taken + (end.tv_usec - start.tv_usec)) * 1e-6;
-	std::cout << "--------------------" << std::endl;
-	std::cout << function_name << "-> time taken = " << std::fixed << time_taken << std::setprecision(6) << " sec" << std::endl;
-	std::cout << "--------------------" << std::endl;
-}
+#include "../time_function.hpp"
 
 void vector_constructor_1()
 {
-	int_vector test_1;
-	int_vector test_2(5, 10);
-	int_vector test_3(test_2);
+	std::vector<int> test_1;
+	std::vector<int> test_2(5, 10);
+	std::vector<int> test_3(test_2);
 
 	std::cout << "test_1.size() = " << test_1.size() << std::endl;
 	std::cout << "test_2.size() = " << test_2.size() << std::endl;
@@ -36,8 +22,8 @@ void vector_constructor_1()
 
 void vector_constructor_2()
 {
-	int_vector test_1(10, 100);
-	int_vector test_2(test_1.begin(), test_1.end());
+	std::vector<int> test_1(10, 100);
+	std::vector<int> test_2(test_1.begin(), test_1.end());
 
 	for (size_t i = 0; i < test_1.size(); i++)
 		std::cout << test_1[i] << " ";
@@ -49,8 +35,8 @@ void vector_constructor_2()
 
 void vector_equals_overload_1()
 {
-	int_vector test_1;
-	int_vector test_2(5, 100);
+	std::vector<int> test_1;
+	std::vector<int> test_2(5, 100);
 
 	test_1 = test_2;
 	std::cout << "test_1.size() = " << test_1.size() << std::endl;
@@ -71,11 +57,11 @@ void vector_constructors()
 
 void vector_begin_1()
 {
-	string_vector test(5, "hoi");
-	const string_vector test_two(5, "doei");
+	std::vector<std::string>		test(5, "hoi");
+	const std::vector<std::string>	test_two(5, "doei");
 
-	string_vector::iterator it = test.begin();
-	const string_vector::const_iterator it_two = test_two.begin();
+	std::vector<std::string>::iterator it = test.begin();
+	const std::vector<std::string>::const_iterator it_two = test_two.begin();
 	std::cout << *it << std::endl;
 	std::cout << *it_two << std::endl;
 	if (it == it_two)
@@ -86,22 +72,22 @@ void vector_begin_1()
 
 void vector_end_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
-	for (int_vector::iterator it = test.begin(); it != test.end(); it++)
+	for (std::vector<int>::iterator it = test.begin(); it != test.end(); it++)
 		std::cout << *it;
 	std::cout << std::endl;
 }
 
 void vector_end_2()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
-	int_vector::iterator it = test.begin();
+	std::vector<int>::iterator it = test.begin();
 	for (; it + 1 != test.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl;
@@ -112,22 +98,22 @@ void vector_end_2()
 
 void vector_rbegin_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
-	for (int_vector::reverse_iterator it = test.rbegin(); it != test.rend(); it++)
+	for (std::vector<int>::reverse_iterator it = test.rbegin(); it != test.rend(); it++)
 		std::cout << *it;
 	std::cout << std::endl;
 }
 
 void vector_rend_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
-	int_vector::reverse_iterator it = test.rbegin();
+	std::vector<int>::reverse_iterator it = test.rbegin();
 	for (; it != test.rend(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl;
@@ -149,7 +135,7 @@ void vector_iterators()
 
 void vector_size_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	std::cout << "test.size() = " << test.size() << std::endl;
 	for (int i = 0; i < 1000; i++)
@@ -159,7 +145,7 @@ void vector_size_1()
 
 void vector_size_2()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	std::cout << "test.size() = " << test.size() << std::endl;
 	for (int i = 0; i < 1000; i++)
@@ -172,8 +158,8 @@ void vector_size_2()
 
 void vector_max_size_1()
 {
-	int_vector		test_1;
-	string_vector	test_2;
+	std::vector<int>			test_1;
+	std::vector<std::string>	test_2;
 
 	std::cout << "test_1.max_size() = " << test_1.max_size() << std::endl;
 	std::cout << "test_2.max_size() = " << test_2.max_size() << std::endl;
@@ -181,7 +167,7 @@ void vector_max_size_1()
 
 void vector_resize_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -192,7 +178,7 @@ void vector_resize_1()
 
 void vector_resize_2()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 5; i++)
 		test.push_back(i);
@@ -209,7 +195,7 @@ void vector_resize_2()
 
 void vector_resize_3()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 5; i++)
 		test.push_back(i);
@@ -228,7 +214,7 @@ void vector_resize_3()
 
 void vector_capacity_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	std::cout << "test.capacity() = " << test.capacity() << std::endl;
 	for (int i = 0; i < 5; i++)
@@ -242,7 +228,7 @@ void vector_capacity_1()
 
 void vector_empty_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	std::cout << "test.empty() = " << test.empty() << std::endl;
 	for (int i = 0; i < 5; i++)
@@ -252,7 +238,7 @@ void vector_empty_1()
 
 void vector_reserve_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	std::cout << "test.size() = " << test.size() << std::endl;
 	std::cout << "test.capacity() = " << test.capacity() << std::endl;
@@ -292,7 +278,7 @@ void vector_capacity()
 
 void vector_brackets_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -303,7 +289,7 @@ void vector_brackets_1()
 
 void vector_at_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -319,7 +305,7 @@ void vector_at_1()
 
 void vector_front_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -328,7 +314,7 @@ void vector_front_1()
 
 void vector_back_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -350,7 +336,7 @@ void vector_element_access()
 
 void vector_assign_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	test.assign(3, 100);
 	for (size_t i = 0; i < test.size(); i++)
@@ -368,8 +354,8 @@ void vector_assign_1()
 
 void vector_assign_2()
 {
-	int_vector test_one;
-	int_vector test_two;
+	std::vector<int> test_one;
+	std::vector<int> test_two;
 
 	test_one.assign(15, 200);
 	std::cout << "test_one.size() = " << test_one.size() << std::endl;
@@ -399,7 +385,7 @@ void vector_assign_2()
 
 void vector_push_back_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	test.push_back(100);
 	std::cout << "test.size() = " << test.size() << std::endl;
@@ -412,7 +398,7 @@ void vector_push_back_1()
 
 void vector_push_back_2()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 1000000; i++)
 		test.push_back(i);
@@ -422,7 +408,7 @@ void vector_push_back_2()
 
 void vector_push_back_3()
 {
-	string_vector test;
+	std::vector<std::string> test;
 
 	for (int i = 0; i < 1000000; i++)
 		test.push_back("hoi");
@@ -432,7 +418,7 @@ void vector_push_back_3()
 
 void vector_pop_back_1()
 {
-	string_vector test;
+	std::vector<std::string> test;
 
 	for (int i = 0; i < 1000000; i++)
 		test.push_back("hoi");
@@ -448,7 +434,7 @@ void vector_pop_back_1()
 
 void vector_insert_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -462,7 +448,7 @@ void vector_insert_1()
 
 void vector_insert_2()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -476,7 +462,7 @@ void vector_insert_2()
 
 void vector_insert_3()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -490,11 +476,13 @@ void vector_insert_3()
 
 void vector_insert_4()
 {
-	int_vector test_one(5, 100);
-	int_vector test_two;
+	std::vector<int> test_one;
+	std::vector<int> test_two;
 
-	for (size_t i = 0; i < test_one.size(); i++)
+	for (int i = 0; i < 10; i++) {
+		test_one.push_back(i);
 		std::cout << test_one.at(i);
+	}
 	std::cout << std::endl;
 	std::cout << "test_one.size() = " << test_one.size() << std::endl;
 	std::cout << "test_one.capacity() = " << test_one.capacity() << std::endl;
@@ -508,7 +496,7 @@ void vector_insert_4()
 
 void vector_erase_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -517,7 +505,7 @@ void vector_erase_1()
 	std::cout << std::endl;
 	std::cout << "test.size() = " << test.size() << std::endl;
 	std::cout << "test.capacity() = " << test.capacity() << std::endl;
-	int_vector::iterator it = test.begin();
+	std::vector<int>::iterator it = test.begin();
 	while (*it != 5) {
 		it++;
 	}
@@ -531,7 +519,7 @@ void vector_erase_1()
 
 void vector_erase_2()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -540,7 +528,7 @@ void vector_erase_2()
 	std::cout << std::endl;
 	std::cout << "test.size() = " << test.size() << std::endl;
 	std::cout << "test.capacity() = " << test.capacity() << std::endl;
-	int_vector::iterator it = test.begin();
+	std::vector<int>::iterator it = test.begin();
 	while (*it != 5)
 		it++;
 	test.erase(test.begin(), it);
@@ -553,8 +541,8 @@ void vector_erase_2()
 
 void vector_swap_1()
 {
-	int_vector test_one(3, 100);
-	int_vector test_two(5, 200);
+	std::vector<int> test_one(3, 100);
+	std::vector<int> test_two(5, 200);
 
 	for (size_t i = 0; i < test_one.size(); i++)
 		std::cout << test_one.at(i) << " ";
@@ -577,7 +565,7 @@ void vector_swap_1()
 
 void vector_clear_1()
 {
-	int_vector test;
+	std::vector<int> test;
 
 	for (int i = 0; i < 10; i++)
 		test.push_back(i);
@@ -600,28 +588,28 @@ void vector_modifiers()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-	/*vector_assign_1();*/
-	//vector_assign_2();
-	//vector_push_back_1();
-	//vector_push_back_2();
-	//vector_push_back_3();
-	//vector_pop_back_1();
-	//vector_insert_1();
-	//vector_insert_2();
-	/*vector_insert_3();*/
+	vector_assign_1();
+	vector_assign_2();
+	vector_push_back_1();
+	vector_push_back_2();
+	vector_push_back_3();
+	vector_pop_back_1();
+	vector_insert_1();
+	vector_insert_2();
+	vector_insert_3();
 	vector_insert_4();
-	/*vector_erase_1();*/
-	//vector_erase_2();
-	//vector_swap_1();
-	/*vector_clear_1();*/
+	vector_erase_1();
+	vector_erase_2();
+	vector_swap_1();
+	vector_clear_1();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "std_vector.modifiers()");
 }
 
 void vector_less_1()
 {
-	int_vector 		test_1;
-	int_vector		test_2;
+	std::vector<int>	test_1;
+	std::vector<int>	test_2;
 
 	test_1.push_back(10);
 	test_2.push_back(20);
@@ -635,8 +623,8 @@ void vector_less_1()
 
 void vector_equal_1()
 {
-	int_vector 		test_1;
-	int_vector		test_2;
+	std::vector<int> 	test_1;
+	std::vector<int>	test_2;
 
 	test_1.push_back(10);
 	test_2.push_back(10);
@@ -650,11 +638,11 @@ void vector_equal_1()
 
 void vector_greater_1()
 {
-	int_vector 		test_1;
-	int_vector		test_2;
+	std::vector<int>	test_1;
+	std::vector<int>	test_2;
 
-	test_1.push_back(10);
-	test_2.push_back(20);
+	test_1.push_back(20);
+	test_2.push_back(10);
 	std::cout << "test_1 == test_2 : " << (test_1 == test_2) << std::endl;
 	std::cout << "test_1 != test_2 : " << (test_1 != test_2) << std::endl;
 	std::cout << "test_1 < test_2 : " << (test_1 < test_2) << std::endl;
@@ -677,16 +665,10 @@ void vector_relational_operators()
 
 void vector_main(void)
 {
-	/*vector_constructors();*/
-	//vector_iterators();
-	//vector_capacity();
-	/*vector_element_access();*/
+	vector_constructors();
+	vector_iterators();
+	vector_capacity();
+	vector_element_access();
 	vector_modifiers();
-	/*vector_relational_operators();*/
-}
-
-int main(void)
-{
-	vector_main();
-	return (0);
+	vector_relational_operators();
 }
